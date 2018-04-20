@@ -1,9 +1,9 @@
 import datetime
 import os
 import shutil
+import subprocess
 
 import git
-import subprocess
 
 from . import utils
 
@@ -12,10 +12,10 @@ __copyright__ = 'Copyright 2018, Helium Edu'
 __version__ = '1.1.0'
 
 
-class UpdateHeadersAction:
+class PrepCodeAction:
     def __init__(self):
-        self.name = "update-headers"
-        self.help = "Update header copyright and version information"
+        self.name = "prep-code"
+        self.help = "Prepare code for release build, updating version and copyright information in project files"
 
         self.__project_name = utils.get_project_name()
         self.__current_year = str(datetime.date.today().year)

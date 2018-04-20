@@ -14,7 +14,7 @@ class DeployBuildAction:
 
     def setup(self, subparsers):
         parser = subparsers.add_parser(self.name, help=self.help)
-        parser.add_argument("version", help="The tag version to be deployed")
+        parser.add_argument("version", help="The build version to be deployed")
         parser.add_argument("env", help="The environment to deploy to")
         parser.add_argument('--hosts', action='store', type=str, nargs='*', help="Limit the hosts to be deployed")
         parser.add_argument("--migrate", action="store_true", help="Install code dependencies and run migrations")

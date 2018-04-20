@@ -47,7 +47,7 @@ class BuildReleaseAction:
         self._update_version_file(version,
                                   os.path.join(config["versionInfo"]["project"], config["versionInfo"]["path"]))
 
-        subprocess.call([os.path.join(root_dir, "bin", "helium-cli"), "--silent", "update-headers"])
+        subprocess.call([os.path.join(root_dir, "bin", "helium-cli"), "--silent", "prep-code"])
 
         print("Committing changes and creating release tags ...")
 

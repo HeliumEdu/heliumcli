@@ -3,12 +3,13 @@
 import argparse
 import sys
 
-from .lib import utils
-from .lib.buildrelease import BuildReleaseAction
-from .lib.deploybuild import DeployBuildAction
-from .lib.pullcode import PullCodeAction
-from .lib.startservers import StartServersAction
-from .lib.updateheaders import UpdateHeadersAction
+from .actions import utils
+from .actions.buildrelease import BuildReleaseAction
+from .actions.deploybuild import DeployBuildAction
+from .actions.prepcode import PrepCodeAction
+from .actions.pullcode import PullCodeAction
+from .actions.startservers import StartServersAction
+from .actions.update import UpdateAction
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
@@ -17,9 +18,10 @@ __version__ = utils.VERSION
 
 def main(argv):
     actions = {
+        UpdateAction(),
         PullCodeAction(),
         StartServersAction(),
-        UpdateHeadersAction(),
+        PrepCodeAction(),
         BuildReleaseAction(),
         DeployBuildAction(),
     }
