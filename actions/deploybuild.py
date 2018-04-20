@@ -10,11 +10,11 @@ __version__ = '1.1.0'
 class DeployBuildAction:
     def __init__(self):
         self.name = "deploy-build"
-        self.help = "Deploy the specified build"
+        self.help = "Deploy the specified build, which may be a versioned release or a branch"
 
     def setup(self, subparsers):
         parser = subparsers.add_parser(self.name, help=self.help)
-        parser.add_argument("version", help="The build version to be deployed")
+        parser.add_argument("version", help="The build version to be deployed, which may be a version or a branch")
         parser.add_argument("env", help="The environment to deploy to")
         parser.add_argument('--hosts', action='store', type=str, nargs='*', help="Limit the hosts to be deployed")
         parser.add_argument("--migrate", action="store_true", help="Install code dependencies and run migrations")

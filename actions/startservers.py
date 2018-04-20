@@ -13,7 +13,7 @@ child_processes = []
 class StartServersAction:
     def __init__(self):
         self.name = "start-servers"
-        self.help = "Launch servers to run locally"
+        self.help = "Launch known project servers to run locally"
 
     def setup(self, subparsers):
         parser = subparsers.add_parser(self.name, help=self.help)
@@ -23,18 +23,13 @@ class StartServersAction:
         config = utils.get_config()
         root_dir = utils.get_deploy_root_dir()
 
-        # Ensure prerequisites installed
-        for project in config["projects"]:
-            subprocess.call(["make", "install", "-C", os.path.join(root_dir, "projects", project)])
-
         # Identify dev servers (if present) and launch them
+        processes = []
         for project in config["projects"]:
-            # Check if Django project
-            if os.path.exists(os.path.join(root_dir, "projects", project, "manage.py")):
-                subprocess.Popen(os.path.join(root_dir, "projects", project, ".venv", "bin", "python") + " " +
-                                 os.path.join(root_dir, "projects", project, "manage.py") + " runserver",
-                                 shell=True)
-            # Check if NPM project
-            elif os.path.exists(os.path.join(root_dir, "projects", project, "package.json")):
-                subprocess.Popen("npm run start --prefix " + os.path.join(root_dir, "projects", project),
-                                 shell=True).wait()
+            runserver_bin = os.path.join(root_dir, "projects", project, "bin", "runserver")
+
+            if os.path.exists(runserver_bin):
+                processes.append(subprocess.Popen(runserver_bin, shell=True))
+
+        if len(processes) > 0:
+            processes[-1].wait()

@@ -1,6 +1,8 @@
 import os
 import subprocess
 
+import git
+
 from . import utils
 
 __author__ = 'Alex Laird'
@@ -18,5 +20,8 @@ class UpdateAction:
         parser.set_defaults(action=self)
 
     def run(self, args):
-        subprocess.call(["git", "-C", utils.get_heliumcli_dir(), "pull"])
+        repo = git.Repo(utils.get_heliumcli_dir())
+
+        print(repo.git.pull() + "\n")
+
         subprocess.call(["pip", "install", "-r", os.path.join(utils.get_heliumcli_dir(), "requirements.txt")])

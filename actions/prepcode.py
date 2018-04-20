@@ -43,9 +43,8 @@ class PrepCodeAction:
         for project in config["projects"]:
             project_dir = os.path.join(projects_dir, project)
 
-            repo = git.cmd.Git(project_dir)
-            repo.fetch(tags=True, prune=True)
             repo = git.Repo(project_dir)
+            repo.git.fetch(tags=True, prune=True)
 
             versions_list = repo.tags
             versions_list.sort(key=lambda v: list(map(int, v.tag.tag.lstrip("v").split("."))))
@@ -94,6 +93,7 @@ class PrepCodeAction:
                 line, count, updated = self._process_js_or_css_line(count, updated, file_path, line)
             elif filename == "package.json":
                 line, count, updated = self._process_package_json(count, updated, file_path, line)
+            # TODO: implement other known types
 
             new_file.write(line)
 

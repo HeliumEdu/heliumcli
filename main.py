@@ -7,9 +7,10 @@ from .actions import utils
 from .actions.buildrelease import BuildReleaseAction
 from .actions.deploybuild import DeployBuildAction
 from .actions.prepcode import PrepCodeAction
-from .actions.pullcode import PullCodeAction
+from .actions.setbuild import SetBuildAction
 from .actions.startservers import StartServersAction
 from .actions.update import UpdateAction
+from .actions.updateprojects import UpdateProjectsAction
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
@@ -19,7 +20,8 @@ __version__ = utils.VERSION
 def main(argv):
     actions = {
         UpdateAction(),
-        PullCodeAction(),
+        UpdateProjectsAction(),
+        SetBuildAction(),
         StartServersAction(),
         PrepCodeAction(),
         BuildReleaseAction(),

@@ -90,6 +90,7 @@ class BuildReleaseAction:
             elif version_file.name == "package.json":
                 if line.strip().startswith("\"version\":"):
                     line = "  \"version\": \"{}\",\n".format(version)
+            # TODO: implement other known types
             else:
                 print("WARN: helium-cli does not know how to process this type of file for version file: {}".format(
                     config["versionInfo"]["path"]))
