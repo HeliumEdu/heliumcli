@@ -1,0 +1,4 @@
+configparser==3.5.0
+GitPython==2.1.8
+python-dotenv==0.8.2
+PyYAML==3.11
