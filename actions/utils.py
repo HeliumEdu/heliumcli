@@ -74,10 +74,6 @@ def get_projects_dir():
     return os.path.abspath(os.path.join(get_heliumcli_dir(), get_config()["projectsRelativeDir"]))
 
 
-def get_deploy_root_dir():
-    return os.path.abspath(os.path.join(get_heliumcli_dir(), get_config()["deployRootRelative"]))
-
-
 def parse_hosts_file(env, hosts_filename):
     config = ConfigParser()
     config.read(os.path.join(get_ansible_dir(), hosts_filename))
