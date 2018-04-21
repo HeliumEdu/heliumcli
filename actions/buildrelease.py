@@ -23,13 +23,12 @@ class BuildReleaseAction:
 
     def run(self, args):
         config = utils.get_config()
-        root_dir = utils.get_deploy_root_dir()
-        projects_dir = os.path.join(root_dir, "projects")
+        projects_dir = utils.get_projects_dir()
 
         # First ensure all repos are in a clean state with all changes committed
         dirty_repos = []
         for project in config["projects"]:
-            repo = git.Repo(os.path.join(root_dir, "projects", project))
+            repo = git.Repo(os.path.join(projects_dir, project))
 
             if repo.untracked_files or repo.is_dirty():
                 dirty_repos.append(project)
@@ -47,7 +46,7 @@ class BuildReleaseAction:
         self._update_version_file(version,
                                   os.path.join(config["versionInfo"]["project"], config["versionInfo"]["path"]))
 
-        subprocess.call([os.path.join(root_dir, "bin", "helium-cli"), "--silent", "prep-code"])
+        subprocess.call([os.path.join(utils.get_heliumcli_dir(), "bin", "helium-cli"), "--silent", "prep-code"])
 
         print("Committing changes and creating release tags ...")
 
@@ -55,8 +54,10 @@ class BuildReleaseAction:
             print(project)
             self._commit_and_tag(os.path.join(projects_dir, project), version)
 
-        print(os.path.basename(root_dir))
-        self._commit_and_tag(root_dir, version)
+        root_dir = os.path.abspath(os.path.join(projects_dir, ".."))
+        if os.path.exists(os.path.join(root_dir, ".git")):
+            print(utils.get_repo_name(root_dir))
+            self._commit_and_tag(root_dir, version)
 
         print("... release version {} built.".format(version))
 
@@ -75,10 +76,8 @@ class BuildReleaseAction:
 
     def _update_version_file(self, version, path):
         config = utils.get_config()
-        root_dir = utils.get_deploy_root_dir()
-        projects_dir = os.path.join(root_dir, "projects")
 
-        version_file_path = os.path.join(projects_dir, path)
+        version_file_path = os.path.join(utils.get_projects_dir(), path)
 
         version_file = open(version_file_path, "r")
         new_version_file = open(version_file_path + ".tmp", "w")

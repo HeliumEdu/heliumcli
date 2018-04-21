@@ -1,7 +1,7 @@
-import git
+import os
 import subprocess
 
-import os
+import git
 
 from . import utils
 
@@ -21,14 +21,15 @@ class UpdateProjectsAction:
 
     def run(self, args):
         config = utils.get_config()
-        root_dir = utils.get_deploy_root_dir()
-        projects_dir = os.path.join(root_dir, "projects")
+        projects_dir = utils.get_projects_dir()
 
-        repo = git.Repo(root_dir)
+        root_dir = os.path.abspath(os.path.join(projects_dir, ".."))
+        if os.path.exists(os.path.join(root_dir, ".git")):
+            repo = git.Repo(root_dir)
 
-        print(os.path.basename(root_dir))
-        repo.git.fetch(tags=True, prune=True)
-        print(repo.git.pull() + "\n")
+            print(utils.get_repo_name(root_dir))
+            repo.git.fetch(tags=True, prune=True)
+            print(repo.git.pull() + "\n")
 
         if not os.path.exists(projects_dir):
             os.mkdir(projects_dir)
@@ -46,6 +47,6 @@ class UpdateProjectsAction:
                 repo.git.fetch(tags=True, prune=True)
                 print(repo.git.pull())
 
-            subprocess.call(["make", "install", "-C", os.path.join(root_dir, "projects", project)])
+            subprocess.call(["make", "install", "-C", os.path.join(projects_dir, project)])
 
             print("")

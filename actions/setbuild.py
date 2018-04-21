@@ -22,8 +22,7 @@ class SetBuildAction:
 
     def run(self, args):
         config = utils.get_config()
-        root_dir = utils.get_deploy_root_dir()
-        projects_dir = os.path.join(root_dir, "projects")
+        projects_dir = utils.get_projects_dir()
 
         for project in config["projects"]:
             print(project)
@@ -31,6 +30,6 @@ class SetBuildAction:
             repo = git.Repo(os.path.join(projects_dir, project))
             repo.git.checkout(args.version)
 
-            subprocess.call(["make", "install", "-C", os.path.join(root_dir, "projects", project)])
+            subprocess.call(["make", "install", "-C", os.path.join(projects_dir, project)])
 
             print("")

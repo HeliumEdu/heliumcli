@@ -1,5 +1,6 @@
 import json
 import os
+import subprocess
 from configparser import ConfigParser
 
 import yaml
@@ -31,7 +32,11 @@ def _create_default_config(config_path):
     data = {
         "gitProject": os.environ.get("HELIUMCLI_GIT_PROJECT", "git@github.com:HeliumEdu"),
         "projects": json.loads(os.environ.get("HELIUMCLI_PROJECTS", '["platform", "frontend"]')),
-        "deployRootRelative": "../../..",
+        "projectsRelativeDir": os.environ.get("HELIUMCLI_PROJECTS_RELATIVE_DIR", "../../../projects"),
+        "serverBinFilename": os.environ.get("HELIUMCLI_SERVER_BIN_FILENAME", "bin/runserver"),
+        "ansibleRelativeDir": os.environ.get("HELIUMCLI_ANSIBLE_RELATIVE_DIR", "../../../ansible"),
+        "ansibleHostsFilename": os.environ.get("HELIUMCLI_ANSIBLE_HOSTS_FILENAME", "hosts"),
+        "ansibleCopyrightNameVar": os.environ.get("HELIUMCLI_ANSIBLE_COPYRIGHT_NAME_VAR", "project_developer"),
         "versionInfo": {
             "project": os.environ.get("HELIUMCLI_VERSION_INFO_PROJECT", "platform"),
             "path": os.environ.get("HELIUMCLI_VERSION_INFO_PATH", "conf/configs/common.py"),
@@ -61,13 +66,21 @@ def get_heliumcli_dir():
     return os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), ".."))
 
 
+def get_ansible_dir():
+    return os.path.abspath(os.path.join(get_heliumcli_dir(), get_config()["ansibleRelativeDir"]))
+
+
+def get_projects_dir():
+    return os.path.abspath(os.path.join(get_heliumcli_dir(), get_config()["projectsRelativeDir"]))
+
+
 def get_deploy_root_dir():
     return os.path.abspath(os.path.join(get_heliumcli_dir(), get_config()["deployRootRelative"]))
 
 
-def parse_hosts_file(env):
+def parse_hosts_file(env, hosts_filename):
     config = ConfigParser()
-    config.read(os.path.join(get_deploy_root_dir(), 'ansible/hosts'))
+    config.read(os.path.join(get_ansible_dir(), hosts_filename))
 
     hosts = []
     for section in config.sections():
@@ -96,7 +109,12 @@ def should_updated(line, verification, start_needle, end_needle=""):
     return needs_update
 
 
-def get_project_name():
-    with open(os.path.join(get_deploy_root_dir(), "ansible", "group_vars", "all.yml"), 'r') as lines:
+def get_copyright_name():
+    with open(os.path.join(get_ansible_dir(), "group_vars", "all.yml"), 'r') as lines:
         data = yaml.load(lines)
-        return data["project_developer"]
+        return data[get_config()["ansibleCopyrightNameVar"]]
+
+
+def get_repo_name(repo_dir):
+    remote_url = subprocess.Popen(["git", "config", "--get", "remote.origin.url"], cwd=repo_dir, stdout=subprocess.PIPE)
+    return os.path.basename(remote_url.stdout.read().strip().decode("utf-8")).rstrip(".git")

@@ -17,9 +17,9 @@ class PrepCodeAction:
         self.name = "prep-code"
         self.help = "Prepare code for release build, updating version and copyright information in project files"
 
-        self.__project_name = utils.get_project_name()
-        self.__current_year = str(datetime.date.today().year)
-        self.__current_version = None
+        self._copyright_name = utils.get_copyright_name()
+        self._current_year = str(datetime.date.today().year)
+        self._current_version = None
 
     def setup(self, subparsers):
         parser = subparsers.add_parser(self.name, help=self.help)
@@ -27,14 +27,13 @@ class PrepCodeAction:
 
     def run(self, args):
         config = utils.get_config()
-        root_dir = utils.get_deploy_root_dir()
-        projects_dir = os.path.join(root_dir, "projects")
+        projects_dir = utils.get_projects_dir()
 
         for line in open(os.path.join(projects_dir, config["versionInfo"]["project"], config["versionInfo"]["path"])):
             if config["versionInfo"]["path"].endswith(".py") and line.startswith("__version__ = "):
-                self.__current_version = line.strip().split("__version__ = '")[1].rstrip("'")
+                self._current_version = line.strip().split("__version__ = '")[1].rstrip("'")
 
-        if not self.__current_version:
+        if not self._current_version:
             print("WARN: helium-cli does not know how to process this type of file for version information: {}".format(
                 config["versionInfo"]["path"]))
 
@@ -107,45 +106,45 @@ class PrepCodeAction:
         return count
 
     def _process_python_line(self, count, updated, file_path, line):
-        if utils.should_updated(line, "__version__ = '{}'".format(self.__current_version), "__version__ ="):
+        if utils.should_updated(line, "__version__ = '{}'".format(self._current_version), "__version__ ="):
             print("Updating " + file_path)
 
-            line = "__version__ = '{}'\n".format(self.__current_version)
+            line = "__version__ = '{}'\n".format(self._current_version)
             count += 1
             updated = True
         elif utils.should_updated(line,
-                                  "__copyright__ = 'Copyright {}, {}'".format(self.__current_year, self.__project_name),
-                                  "__copyright__ = ", "{}'".format(self.__project_name)):
+                                  "__copyright__ = 'Copyright {}, {}'".format(self._current_year, self._copyright_name),
+                                  "__copyright__ = ", "{}'".format(self._copyright_name)):
             print("Updating " + file_path)
 
-            line = "__copyright__ = 'Copyright {}, {}'\n".format(self.__current_year, self.__project_name)
+            line = "__copyright__ = 'Copyright {}, {}'\n".format(self._current_year, self._copyright_name)
             count += 1
             updated = True
 
         return line, count, updated
 
     def _process_js_or_css_line(self, count, updated, file_path, line):
-        if utils.should_updated(line, "* @version " + self.__current_version, "* @version"):
+        if utils.should_updated(line, "* @version " + self._current_version, "* @version"):
             print("Updating " + file_path)
 
-            line = " * @version {}\n".format(self.__current_version)
+            line = " * @version {}\n".format(self._current_version)
             count += 1
             updated = True
-        elif utils.should_updated(line, "* Copyright (c) {} {}.".format(self.__current_year, self.__project_name),
-                                  "* Copyright (c)", "{}.".format(self.__project_name)):
+        elif utils.should_updated(line, "* Copyright (c) {} {}.".format(self._current_year, self._copyright_name),
+                                  "* Copyright (c)", "{}.".format(self._copyright_name)):
             print("Updating " + file_path)
 
-            line = " * Copyright (c) {} {}.\n".format(self.__current_year, self.__project_name)
+            line = " * Copyright (c) {} {}.\n".format(self._current_year, self._copyright_name)
             count += 1
             updated = True
 
         return line, count, updated
 
     def _process_package_json(self, count, updated, file_path, line):
-        if utils.should_updated(line, "\"version\": \"{}\",".format(self.__current_version), "\"version\": \""):
+        if utils.should_updated(line, "\"version\": \"{}\",".format(self._current_version), "\"version\": \""):
             print("Updating version in " + file_path)
 
-            line = "  \"version\": \"{}\",\n".format(self.__current_version)
+            line = "  \"version\": \"{}\",\n".format(self._current_version)
             count += 1
             updated = True
 

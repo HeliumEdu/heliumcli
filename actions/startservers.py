@@ -21,12 +21,12 @@ class StartServersAction:
 
     def run(self, args):
         config = utils.get_config()
-        root_dir = utils.get_deploy_root_dir()
+        projects_dir = utils.get_projects_dir()
 
         # Identify dev servers (if present) and launch them
         processes = []
         for project in config["projects"]:
-            runserver_bin = os.path.join(root_dir, "projects", project, "bin", "runserver")
+            runserver_bin = os.path.join(projects_dir, project, config["serverBinFilename"])
 
             if os.path.exists(runserver_bin):
                 processes.append(subprocess.Popen(runserver_bin, shell=True))
