@@ -6,3 +6,4 @@
 .venv
 htmlcov
 config.yml
+tests/_build

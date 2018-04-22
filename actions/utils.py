@@ -50,7 +50,7 @@ def _create_default_config(config_path):
 def get_config():
     global _config_cache
 
-    config_path = os.path.join(get_heliumcli_dir(), "config.yml")
+    config_path = os.path.join(get_heliumcli_dir(), os.environ.get("HELIUMCLI_CONFIG_FILENAME", "config.yml"))
 
     if not _config_cache:
         if not os.path.exists(config_path):

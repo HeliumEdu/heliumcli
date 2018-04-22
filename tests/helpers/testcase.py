@@ -1,10 +1,23 @@
+import os
 from unittest import TestCase
 
+import shutil
 from mock import mock
+
+from ...actions import utils
 
 
 class HeliumCLITestCase(TestCase):
     def setUp(self):
+        self.build_dir = os.path.join(utils.get_heliumcli_dir(), "tests", "_build")
+        if os.path.exists(self.build_dir):
+            shutil.rmtree(self.build_dir)
+        os.mkdir(self.build_dir)
+
+        os.environ["HELIUMCLI_CONFIG_FILENAME"] = os.path.join(self.build_dir, "config.test.yml")
+        os.environ["HELIUMCLI_PROJECTS_RELATIVE_DIR"] = os.path.join("tests", "_build", "projects")
+        os.environ["HELIUMCLI_ANSIBLE_RELATIVE_DIR"] = os.path.join("tests", "_build", "ansible")
+
         self.utils_get_copyright_name = mock.patch("heliumcli.actions.utils.get_copyright_name",
                                                    return_value="Helium Edu")
         self.addCleanup(self.utils_get_copyright_name.stop)
@@ -33,3 +46,6 @@ class HeliumCLITestCase(TestCase):
         self.subprocess_popen = mock.patch("subprocess.Popen")
         self.addCleanup(self.subprocess_popen.stop)
         self.mock_subprocess_popen = self.subprocess_popen.start()
+
+    def tearDown(self):
+        shutil.rmtree(self.build_dir)

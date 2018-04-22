@@ -19,7 +19,8 @@ class TestActionsTestCase(HeliumCLITestCase):
         self.mock_subprocess_call.assert_called_once_with(
             ['pip', 'install', '-r', os.path.join(utils.get_heliumcli_dir(), "requirements.txt")])
 
-    def test_update_clone_projects(self):
+    @mock.patch('os.path.exists', return_value=False)
+    def test_update_clone_projects(self, mock_path_exists):
         main(['main.py', 'update-projects'])
 
         self.assertEqual(self.mock_git_repo.clone_from.call_count, 2)
