@@ -1,5 +1,8 @@
 .idea/
 *.iml
 *.pyc
+.coverage
+*.log
 .venv
+htmlcov
 config.yml

@@ -15,3 +15,9 @@ install: env virtualenv
 		source .venv/bin/activate; \
 		python -m pip install -r requirements.txt; \
 	)
+
+test: virtualenv
+	@( \
+		source .venv/bin/activate; \
+		nosetests --with-coverage --cover-erase --cover-package=. --cover-html --cover-html-dir=htmlcov; \
+	)
