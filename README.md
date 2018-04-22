@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/HeliumEdu/heliumcli.svg?branch=master)](https://travis-ci.org/HeliumEdu/heliumcli)
+
+
 # Helium CLI
 
 ## Prerequisites
