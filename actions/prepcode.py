@@ -106,13 +106,13 @@ class PrepCodeAction:
         return count
 
     def _process_python_line(self, count, updated, file_path, line):
-        if utils.should_updated(line, "__version__ = '{}'".format(self._current_version), "__version__ ="):
+        if utils.should_update(line, "__version__ = '{}'".format(self._current_version), "__version__ ="):
             print("Updating " + file_path)
 
             line = "__version__ = '{}'\n".format(self._current_version)
             count += 1
             updated = True
-        elif utils.should_updated(line,
+        elif utils.should_update(line,
                                   "__copyright__ = 'Copyright {}, {}'".format(self._current_year, self._copyright_name),
                                   "__copyright__ = ", "{}'".format(self._copyright_name)):
             print("Updating " + file_path)
@@ -124,13 +124,13 @@ class PrepCodeAction:
         return line, count, updated
 
     def _process_js_or_css_line(self, count, updated, file_path, line):
-        if utils.should_updated(line, "* @version " + self._current_version, "* @version"):
+        if utils.should_update(line, "* @version " + self._current_version, "* @version"):
             print("Updating " + file_path)
 
             line = " * @version {}\n".format(self._current_version)
             count += 1
             updated = True
-        elif utils.should_updated(line, "* Copyright (c) {} {}.".format(self._current_year, self._copyright_name),
+        elif utils.should_update(line, "* Copyright (c) {} {}.".format(self._current_year, self._copyright_name),
                                   "* Copyright (c)", "{}.".format(self._copyright_name)):
             print("Updating " + file_path)
 
@@ -141,7 +141,7 @@ class PrepCodeAction:
         return line, count, updated
 
     def _process_package_json(self, count, updated, file_path, line):
-        if utils.should_updated(line, "\"version\": \"{}\",".format(self._current_version), "\"version\": \""):
+        if utils.should_update(line, "\"version\": \"{}\",".format(self._current_version), "\"version\": \""):
             print("Updating version in " + file_path)
 
             line = "  \"version\": \"{}\",\n".format(self._current_version)

@@ -95,7 +95,7 @@ def parse_hosts_file(env, hosts_filename):
     return hosts
 
 
-def should_updated(line, verification, start_needle, end_needle=""):
+def should_update(line, verification, start_needle, end_needle=""):
     needs_update = False
 
     if line.strip().startswith(start_needle) and line.strip().endswith(end_needle):
