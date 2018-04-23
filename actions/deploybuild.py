@@ -32,8 +32,6 @@ class DeployBuildAction:
         version = args.version.lstrip("v")
         hosts = utils.parse_hosts_file(args.env)
 
-        subprocess.call('ansible-galaxy install Datadog.datadog', shell=True)
-
         for host in hosts:
             subprocess.call(["ssh", "-t", "{}@{}".format(host[0], host[1]),
                              "sudo apt-get update && sudo apt-get install -y python && sudo apt-get -y autoremove"])
