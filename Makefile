@@ -19,5 +19,5 @@ install: env virtualenv
 test: virtualenv
 	@( \
 		source .venv/bin/activate; \
-		nosetests --with-coverage --cover-erase --cover-package=. --cover-html --cover-html-dir=htmlcov; \
+		python `which nosetests` --with-coverage --cover-erase --cover-package=. --cover-html --cover-html-dir=htmlcov; \
 	)
