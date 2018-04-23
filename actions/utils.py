@@ -74,9 +74,9 @@ def get_projects_dir():
     return os.path.abspath(os.path.join(get_heliumcli_dir(), get_config()["projectsRelativeDir"]))
 
 
-def parse_hosts_file(env, hosts_filename):
+def parse_hosts_file(env):
     config = ConfigParser()
-    config.read(os.path.join(get_ansible_dir(), hosts_filename))
+    config.read(os.path.join(get_ansible_dir(), get_config()["ansibleHostsFilename"]))
 
     hosts = []
     for section in config.sections():

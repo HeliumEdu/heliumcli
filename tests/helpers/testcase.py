@@ -68,10 +68,3 @@ class HeliumCLITestCase(TestCase):
         self.utils_get_repo_name = mock.patch("heliumcli.actions.utils.get_repo_name", return_value="deploy")
         self.addCleanup(self.utils_get_repo_name.stop)
         self.mock_get_repo_name = self.utils_get_repo_name.start()
-
-        self.config_parser = mock.patch("configparser.ConfigParser")
-        self.addCleanup(self.config_parser.stop)
-        self.mock_config_parser = self.config_parser.start()
-        config_parser_instance = self.mock_config_parser.return_value
-        config_parser_instance.read = mock.MagicMock(
-            return_value="[devbox]\nheliumedu.test ansible_user=vagrant ip_address=10.1.0.10")

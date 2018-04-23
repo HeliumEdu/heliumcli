@@ -28,9 +28,9 @@ class DeployBuildAction:
 
     def run(self, args):
         ansible_dir = utils.get_ansible_dir()
-        hosts_filename = utils.get_config()["ansibleHostsFilename"]
+        config = utils.get_config()
         version = args.version.lstrip("v")
-        hosts = utils.parse_hosts_file(args.env, hosts_filename)
+        hosts = utils.parse_hosts_file(args.env)
 
         subprocess.call('ansible-galaxy install Datadog.datadog', shell=True)
 
@@ -39,7 +39,7 @@ class DeployBuildAction:
                              "sudo apt-get update && sudo apt-get install -y python && sudo apt-get -y autoremove"])
 
         ansible_command = 'ansible-playbook --inventory-file={}/{} -v {}/{}.yml --extra-vars ' \
-                          '"build_version={}"'.format(ansible_dir, hosts_filename, ansible_dir, args.env, version)
+                          '"build_version={}"'.format(ansible_dir, config["ansibleHostsFilename"], ansible_dir, args.env, version)
 
         if args.migrate or args.code or args.envvars or args.conf or args.ssl:
             tags = []

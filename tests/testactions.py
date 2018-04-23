@@ -69,3 +69,48 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         # THEN
         self.mock_subprocess_popen.assert_called_once_with(
             os.path.join(utils.get_projects_dir(), "platform", utils.get_config()["serverBinFilename"]), shell=True)
+
+    def test_deploy_build(self):
+        # WHEN
+        main(["main.py", "deploy-build", "1.2.3", "devbox"])
+
+        # THEN
+        self.mock_subprocess_call.assert_any_call(
+            'ansible-playbook --inventory-file={}/{} -v {}/{}.yml --extra-vars "build_version={}"'.format(
+                utils.get_ansible_dir(),
+                utils.get_config()["ansibleHostsFilename"],
+                utils.get_ansible_dir(),
+                "devbox",
+                "1.2.3"), shell=True)
+
+    def test_deploy_build_code_limit_hosts(self):
+        # WHEN
+        main(["main.py", "deploy-build", "1.2.3", "devbox", "--code", "--hosts", "host1,host2"])
+
+        # THEN
+        self.mock_subprocess_call.assert_any_call(
+            'ansible-playbook --inventory-file={}/{} -v {}/{}.yml --extra-vars "build_version={}" --tags "{}" --limit "{}"'.format(
+                utils.get_ansible_dir(),
+                utils.get_config()["ansibleHostsFilename"],
+                utils.get_ansible_dir(),
+                "devbox",
+                "1.2.3",
+                "code",
+                "host1,host2"), shell=True)
+
+    def test_deploy_build_all_tags(self):
+        # GIVEN
+        commonhelper.given_hosts_file_exists()
+
+        # WHEN
+        main(["main.py", "deploy-build", "1.2.3", "devbox", "--code", "--migrate", "--envvars", "--conf", "--ssl"])
+
+        # THEN
+        self.mock_subprocess_call.assert_any_call(
+            'ansible-playbook --inventory-file={}/{} -v {}/{}.yml --extra-vars "build_version={}" --tags "{}"'.format(
+                utils.get_ansible_dir(),
+                utils.get_config()["ansibleHostsFilename"],
+                utils.get_ansible_dir(),
+                "devbox",
+                "1.2.3",
+                "code,migrate,envvars,conf,ssl"), shell=True)
