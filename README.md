@@ -13,5 +13,4 @@
 The Helium CLI can easily be included in a compatible project by simply cloning the repo into your project's `lib`
 folder and creating a symlink to the `helium-cli` executable in `bin`.
 
-More detailed installation and customization instructions, including how to ensure you have a compatible project,
-check out the the [Helium CLI Wiki](https://github.com/HeliumEdu/heliumcli/wiki).
+More details pertaining to project compatability, installation, and configuration can be found in the [Helium CLI Wiki](https://github.com/HeliumEdu/heliumcli/wiki).
