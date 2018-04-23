@@ -36,7 +36,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
     @mock.patch("os.path.exists", return_value=True)
     def test_update_projects(self, mock_path_exists):
         # GIVEN
-        utils._create_default_config(os.environ.get("HELIUMCLI_CONFIG_FILENAME"))
+        utils._save_config(os.environ.get("HELIUMCLI_CONFIG_FILENAME"), utils._get_config_defaults())
 
         # WHEN
         main(["main.py", "update-projects"])
@@ -71,10 +71,14 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
             os.path.join(utils.get_projects_dir(), "platform", utils.get_config()["serverBinFilename"]), shell=True)
 
     def test_deploy_build(self):
+        # GIVEN
+        commonhelper.given_hosts_file_exists()
+
         # WHEN
         main(["main.py", "deploy-build", "1.2.3", "devbox"])
 
         # THEN
+        self.mock_subprocess_call.assert_any_call(["ssh", "-t", "vagrant@heliumedu.test", utils.get_config()["hostProvisionCommand"]])
         self.mock_subprocess_call.assert_any_call(
             'ansible-playbook --inventory-file={}/{} -v {}/{}.yml --extra-vars "build_version={}"'.format(
                 utils.get_ansible_dir(),
@@ -88,7 +92,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         main(["main.py", "deploy-build", "1.2.3", "devbox", "--code", "--hosts", "host1,host2"])
 
         # THEN
-        self.mock_subprocess_call.assert_any_call(
+        self.mock_subprocess_call.assert_called_once_with(
             'ansible-playbook --inventory-file={}/{} -v {}/{}.yml --extra-vars "build_version={}" --tags "{}" --limit "{}"'.format(
                 utils.get_ansible_dir(),
                 utils.get_config()["ansibleHostsFilename"],
@@ -106,6 +110,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         main(["main.py", "deploy-build", "1.2.3", "devbox", "--code", "--migrate", "--envvars", "--conf", "--ssl"])
 
         # THEN
+        self.assertEqual(self.mock_subprocess_call.call_count, 2)
         self.mock_subprocess_call.assert_any_call(
             'ansible-playbook --inventory-file={}/{} -v {}/{}.yml --extra-vars "build_version={}" --tags "{}"'.format(
                 utils.get_ansible_dir(),

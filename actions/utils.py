@@ -28,8 +28,13 @@ def get_title():
 """.format(VERSION)
 
 
-def _create_default_config(config_path):
-    data = {
+def _save_config(config_path, config):
+    with open(config_path, "w") as config_file:
+        yaml.dump(config, config_file)
+
+
+def _get_config_defaults():
+    return {
         "gitProject": os.environ.get("HELIUMCLI_GIT_PROJECT", "git@github.com:HeliumEdu"),
         "projects": json.loads(os.environ.get("HELIUMCLI_PROJECTS", '["platform", "frontend"]')),
         "projectsRelativeDir": os.environ.get("HELIUMCLI_PROJECTS_RELATIVE_DIR", "../../../projects"),
@@ -37,14 +42,13 @@ def _create_default_config(config_path):
         "ansibleRelativeDir": os.environ.get("HELIUMCLI_ANSIBLE_RELATIVE_DIR", "../../../ansible"),
         "ansibleHostsFilename": os.environ.get("HELIUMCLI_ANSIBLE_HOSTS_FILENAME", "hosts"),
         "ansibleCopyrightNameVar": os.environ.get("HELIUMCLI_ANSIBLE_COPYRIGHT_NAME_VAR", "project_developer"),
+        "hostProvisionCommand": os.environ.get("HELIUMCLI_HOST_PROVISION_COMMAND",
+                                               "sudo apt-get update && sudo apt-get install -y python && sudo apt-get -y autoremove"),
         "versionInfo": {
             "project": os.environ.get("HELIUMCLI_VERSION_INFO_PROJECT", "platform"),
             "path": os.environ.get("HELIUMCLI_VERSION_INFO_PATH", "conf/configs/common.py"),
         },
     }
-
-    with open(config_path, "w") as config_file:
-        yaml.dump(data, config_file)
 
 
 def get_config():
@@ -54,10 +58,21 @@ def get_config():
 
     if not _config_cache:
         if not os.path.exists(config_path):
-            _create_default_config(config_path)
+            _save_config(config_path, _get_config_defaults())
 
         with open(config_path, "r") as lines:
             _config_cache = yaml.load(lines)
+    else:
+        # Ensure cache is up to date
+        updated = False
+        for key in _get_config_defaults().keys():
+            if key not in _config_cache:
+                _config_cache[key] = _get_config_defaults()[key]
+
+                updated = True
+
+        if updated:
+            _save_config(config_path, _config_cache)
 
     return _config_cache
 

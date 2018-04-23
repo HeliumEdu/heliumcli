@@ -24,7 +24,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
     @mock.patch("os.path.exists", return_value=True)
     def test_config_already_exists(self, mock_path_exists):
         # GIVEN
-        utils._create_default_config(os.environ.get("HELIUMCLI_CONFIG_FILENAME"))
+        utils._save_config(os.environ.get("HELIUMCLI_CONFIG_FILENAME"), utils._get_config_defaults())
         utils.get_config()
         mock_path_exists.reset_mock()
 
@@ -46,6 +46,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         os.environ["HELIUMCLI_ANSIBLE_COPYRIGHT_NAME_VAR"] = "my_dev_name"
         os.environ["HELIUMCLI_VERSION_INFO_PROJECT"] = "proj2"
         os.environ["HELIUMCLI_VERSION_INFO_PATH"] = "some/path/project/version"
+        os.environ["HELIUMCLI_HOST_PROVISION_COMMAND"] = "sudo yum install python"
 
         # WHEN
         config = utils.get_config()
@@ -57,6 +58,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
             "ansibleHostsFilename": "myhosts",
             "ansibleRelativeDir": "some/dir/ansible",
             "gitProject": "git@example.com:SomeProject",
+            "hostProvisionCommand": "sudo yum install python",
             "projects": ["proj1", "proj2", "project3"],
             "projectsRelativeDir": "some/dir/projects",
             "serverBinFilename": "some/bin/server",

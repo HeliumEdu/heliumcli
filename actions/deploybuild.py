@@ -34,7 +34,7 @@ class DeployBuildAction:
 
         for host in hosts:
             subprocess.call(["ssh", "-t", "{}@{}".format(host[0], host[1]),
-                             "sudo apt-get update && sudo apt-get install -y python && sudo apt-get -y autoremove"])
+                             utils.get_config()["hostProvisionCommand"]])
 
         ansible_command = 'ansible-playbook --inventory-file={}/{} -v {}/{}.yml --extra-vars ' \
                           '"build_version={}"'.format(ansible_dir, config["ansibleHostsFilename"], ansible_dir, args.env, version)
