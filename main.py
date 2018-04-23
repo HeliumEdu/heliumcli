@@ -39,14 +39,14 @@ def main(argv):
     for action in actions:
         action.setup(subparsers)
 
-    if len(argv) == 1:
+    if len(argv) == 1:  # pragma: no cover
         parser.print_help()
 
         return
 
     args = parser.parse_args(argv[1:])
 
-    if not hasattr(args, 'action'):
+    if not hasattr(args, 'action'):  # pragma: no cover
         parser.print_help()
 
         return

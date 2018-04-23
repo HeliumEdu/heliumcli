@@ -105,12 +105,12 @@ def should_update(line, verification, start_needle, end_needle=""):
     return needs_update
 
 
-def get_copyright_name():
+def get_copyright_name():  # pragma: no cover
     with open(os.path.join(get_ansible_dir(), "group_vars", "all.yml"), 'r') as lines:
         data = yaml.load(lines)
         return data[get_config()["ansibleCopyrightNameVar"]]
 
 
-def get_repo_name(repo_dir):
+def get_repo_name(repo_dir):  # pragma: no cover
     remote_url = subprocess.Popen(["git", "config", "--get", "remote.origin.url"], cwd=repo_dir, stdout=subprocess.PIPE)
     return os.path.basename(remote_url.stdout.read().strip().decode("utf-8")).rstrip(".git")
