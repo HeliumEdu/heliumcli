@@ -8,7 +8,7 @@ from . import utils
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.0'
+__version__ = '1.1.2'
 
 
 class BuildReleaseAction:
@@ -33,6 +33,7 @@ class BuildReleaseAction:
             if repo.untracked_files or repo.is_dirty():
                 dirty_repos.append(project)
             else:
+                repo.git.fetch(tags=True, prune=True)
                 repo.git.checkout("master")
 
         if len(dirty_repos) > 0:

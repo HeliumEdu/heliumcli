@@ -7,7 +7,7 @@ from . import utils
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.0'
+__version__ = '1.1.2'
 
 
 class SetBuildAction:
@@ -24,10 +24,21 @@ class SetBuildAction:
         config = utils.get_config()
         projects_dir = utils.get_projects_dir()
 
+        root_dir = os.path.abspath(os.path.join(projects_dir, ".."))
+        if os.path.exists(os.path.join(root_dir, ".git")):
+            print(utils.get_repo_name(root_dir))
+
+            repo = git.Repo(root_dir)
+            repo.git.fetch(tags=True, prune=True)
+            repo.git.checkout(args.version)
+
+            print("")
+
         for project in config["projects"]:
             print(project)
 
             repo = git.Repo(os.path.join(projects_dir, project))
+            repo.git.fetch(tags=True, prune=True)
             repo.git.checkout(args.version)
 
             subprocess.call(["make", "install", "-C", os.path.join(projects_dir, project)])

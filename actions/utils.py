@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.1'
+__version__ = '1.1.2'
 
 VERSION = __version__
 

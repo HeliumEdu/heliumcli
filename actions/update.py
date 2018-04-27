@@ -7,7 +7,7 @@ from . import utils
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.0'
+__version__ = '1.1.2'
 
 
 class UpdateAction:
@@ -22,6 +22,7 @@ class UpdateAction:
     def run(self, args):
         repo = git.Repo(utils.get_heliumcli_dir())
 
+        repo.git.fetch(tags=True, prune=True)
         print(repo.git.pull() + "\n")
 
         subprocess.call(["pip", "install", "-r", os.path.join(utils.get_heliumcli_dir(), "requirements.txt")])

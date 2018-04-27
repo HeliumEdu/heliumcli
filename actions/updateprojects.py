@@ -7,7 +7,7 @@ from . import utils
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.0'
+__version__ = '1.1.2'
 
 
 class UpdateProjectsAction:
@@ -25,9 +25,9 @@ class UpdateProjectsAction:
 
         root_dir = os.path.abspath(os.path.join(projects_dir, ".."))
         if os.path.exists(os.path.join(root_dir, ".git")):
-            repo = git.Repo(root_dir)
-
             print(utils.get_repo_name(root_dir))
+
+            repo = git.Repo(root_dir)
             repo.git.fetch(tags=True, prune=True)
             print(repo.git.pull() + "\n")
 

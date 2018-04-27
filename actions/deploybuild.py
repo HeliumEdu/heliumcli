@@ -1,10 +1,14 @@
 import subprocess
 
+import os
+
+import git
+
 from . import utils
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.0'
+__version__ = '1.1.2'
 
 
 class DeployBuildAction:
@@ -28,6 +32,13 @@ class DeployBuildAction:
 
     def run(self, args):
         ansible_dir = utils.get_ansible_dir()
+
+        root_dir = os.path.abspath(os.path.join(ansible_dir, ".."))
+        if os.path.exists(os.path.join(root_dir, ".git")):
+            repo = git.Repo(root_dir)
+            repo.git.fetch(tags=True, prune=True)
+            repo.git.checkout(args.version)
+
         config = utils.get_config()
         version = args.version.lstrip("v")
         hosts = utils.parse_hosts_file(args.env)
