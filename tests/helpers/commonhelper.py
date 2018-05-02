@@ -130,7 +130,6 @@ def verify_versioned_file_updated(test_case, versioned_file_path, version):
     current_version_found = False
     current_year_found = False
     for line in open(versioned_file_path, 'r'):
-        print(line, end='')
         if versioned_file_path.endswith('.py'):
             if "__version__ = '{}'".format(version) in line:
                 current_version_found = True
