@@ -1,14 +1,15 @@
+import datetime
 import os
 import shutil
-import subprocess
 
 import git
 
 from . import utils
+from .prepcode import PrepCodeAction
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.2'
+__version__ = '1.1.3'
 
 
 class BuildReleaseAction:
@@ -47,7 +48,7 @@ class BuildReleaseAction:
         self._update_version_file(version,
                                   os.path.join(config["versionInfo"]["project"], config["versionInfo"]["path"]))
 
-        subprocess.call([os.path.join(utils.get_heliumcli_dir(), "bin", "helium-cli"), "--silent", "prep-code"])
+        PrepCodeAction().run([])
 
         print("Committing changes and creating release tags ...")
 
@@ -87,6 +88,9 @@ class BuildReleaseAction:
             if version_file_path.endswith(".py"):
                 if line.strip().startswith("__version__ ="):
                     line = "__version__ = '{}'\n".format(version)
+                elif line.strip().startswith("__copyright__ = "):
+                    line = "__copyright__ = 'Copyright {}, {}'\n".format(str(datetime.date.today().year),
+                                                                         utils.get_copyright_name())
             elif version_file.name == "package.json":
                 if line.strip().startswith("\"version\":"):
                     line = "  \"version\": \"{}\",\n".format(version)

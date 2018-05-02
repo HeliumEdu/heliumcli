@@ -9,7 +9,7 @@ from ...actions import utils
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.1'
+__version__ = '1.1.3'
 
 
 class HeliumCLITestCase(TestCase):
@@ -37,9 +37,10 @@ class HeliumCLITestCase(TestCase):
     def _setup_git_mocks(self):
         self.git_repo = mock.patch("git.Repo")
         self.addCleanup(self.git_repo.stop)
+
         self.mock_git_repo = self.git_repo.start()
         repo_instance = self.mock_git_repo.return_value
-        repo_instance.create_tag = mock.MagicMock(return_value=TagReference("repo", "refs/tags/1.2.3"))
+
         repo_instance.git.pull = mock.MagicMock("git.cmd.Git", return_value="Already up to date.")
         repo_instance.git.fetch = mock.MagicMock("git.cmd.Git")
         repo_instance.git.add = mock.MagicMock("git.cmd.Git")
@@ -49,6 +50,18 @@ class HeliumCLITestCase(TestCase):
         repo_instance.git.commit = mock.MagicMock("git.cmd.Git")
         repo_instance.git.commit = mock.MagicMock("git.cmd.Git")
         repo_instance.remotes["origin"].push = mock.MagicMock("git.cmd.Git")
+
+        repo_instance.create_tag = mock.MagicMock(return_value=TagReference(repo_instance, "refs/tags/1.2.3"))
+        tag1 = mock.MagicMock('git.tag.TagReference')
+        tag1.tag = mock.MagicMock('git.tag.TagObject')
+        tag1.tag.tag = "1.2.0"
+        tag2 = mock.MagicMock('git.tag.TagReference')
+        tag2.tag = mock.MagicMock('git.tag.TagObject')
+        tag2.tag.tag = "1.2.1"
+        tag3 = mock.MagicMock('git.tag.TagReference')
+        tag3.tag = mock.MagicMock('git.tag.TagObject')
+        tag3.tag.tag = "1.2.2"
+        repo_instance.tags = [tag1, tag2, tag3]
 
     def _setup_subprocess_mocks(self):
         self.subprocess_call = mock.patch("subprocess.call")

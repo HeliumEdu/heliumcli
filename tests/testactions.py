@@ -8,7 +8,7 @@ from ..main import main
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.1'
+__version__ = '1.1.3'
 
 
 class TestActionsTestCase(testcase.HeliumCLITestCase):
@@ -78,7 +78,8 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         main(["main.py", "deploy-build", "1.2.3", "devbox"])
 
         # THEN
-        self.mock_subprocess_call.assert_any_call(["ssh", "-t", "vagrant@heliumedu.test", utils.get_config()["hostProvisionCommand"]])
+        self.mock_subprocess_call.assert_any_call(
+            ["ssh", "-t", "vagrant@heliumedu.test", utils.get_config()["hostProvisionCommand"]])
         self.mock_subprocess_call.assert_any_call(
             'ansible-playbook --inventory-file={}/{} -v {}/{}.yml --extra-vars "build_version={}"'.format(
                 utils.get_ansible_dir(),
@@ -119,3 +120,60 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
                 "devbox",
                 "1.2.3",
                 "code,migrate,envvars,conf,ssl"), shell=True)
+
+    def test_prep_code(self):
+        # GIVEN
+        commonhelper.given_python_version_file_exists("1.2.3")
+        versioned_file1_path = commonhelper.given_project_python_versioned_file_exists("platform")
+        versioned_file2_path = commonhelper.given_project_js_versioned_file_exists("frontend")
+        repo_instance = self.mock_git_repo.return_value
+        latest_tag = repo_instance.tags[-1]
+        latest_tag.commit = mock.MagicMock('git.commit.Commit')
+        diff1 = mock.MagicMock('git.diff.Diff')
+        diff1.b_rawpath = versioned_file1_path.encode('utf-8')
+        diff2 = mock.MagicMock('git.diff.Diff')
+        diff2.b_rawpath = versioned_file2_path.encode('utf-8')
+        latest_tag.commit.diff = mock.Mock(side_effect=[[diff1], [diff2]])
+
+        # WHEN
+        main(["main.py", "prep-code"])
+
+        # THEN
+        commonhelper.verify_versioned_file_updated(self, versioned_file1_path, "1.2.3")
+        commonhelper.verify_versioned_file_updated(self, versioned_file2_path, "1.2.3")
+
+    def test_build_release(self):
+        # GIVEN
+        version_file_path = commonhelper.given_python_version_file_exists()
+        package_file_path = commonhelper.given_project_package_json_exists("frontend")
+        versioned_file_path = commonhelper.given_project_python_versioned_file_exists("platform")
+        repo_instance = self.mock_git_repo.return_value
+        repo_instance.untracked_files = []
+        repo_instance.is_dirty = mock.Mock(side_effect=[False, False, True, True])
+        latest_tag = repo_instance.tags[-1]
+        latest_tag.commit = mock.MagicMock('git.commit.Commit')
+        diff1 = mock.MagicMock('git.diff.Diff')
+        diff1.b_rawpath = versioned_file_path.encode('utf-8')
+        latest_tag.commit.diff = mock.Mock(side_effect=[[diff1], []])
+
+        # WHEN
+        main(["main.py", "build-release", "1.2.3"])
+
+        # THEN
+        self.assertEqual(self.mock_git_repo.return_value.create_tag.call_count, 2)
+        self.assertEqual(self.mock_git_repo.return_value.git.commit.call_count, 2)
+        commonhelper.verify_versioned_file_updated(self, version_file_path, "1.2.3")
+        commonhelper.verify_versioned_file_updated(self, package_file_path, "1.2.3")
+        commonhelper.verify_versioned_file_updated(self, versioned_file_path, "1.2.3")
+
+    def test_build_release_fails_when_dirty(self):
+        # GIVEN
+        repo_instance = self.mock_git_repo.return_value
+        repo_instance.is_dirty = mock.MagicMock(return_value=True)
+
+        # WHEN
+        main(["main.py", "build-release", "1.2.3"])
+
+        # THEN
+        self.mock_git_repo.return_value.create_tag.assert_not_called()
+        self.mock_git_repo.return_value.git.commit.assert_not_called()
