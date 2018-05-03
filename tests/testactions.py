@@ -48,7 +48,11 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         self.mock_subprocess_call.assert_any_call(
             ["make", "install", "-C", os.path.join(utils.get_projects_dir(), "frontend")])
 
-    def test_set_build(self):
+    @mock.patch("os.path.exists", return_value=True)
+    def test_set_build(self, mock_path_exists):
+        # GIVEN
+        utils._save_config(os.environ.get("HELIUMCLI_CONFIG_FILENAME"), utils._get_config_defaults())
+
         # WHEN
         main(["main.py", "set-build", "1.2.3"])
 
