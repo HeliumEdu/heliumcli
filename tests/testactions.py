@@ -89,7 +89,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
             ["ansible-playbook",
              '--inventory-file={}/{}'.format(utils.get_ansible_dir(), utils.get_config()["ansibleHostsFilename"]), '-v',
              '--extra-vars',
-             '"build_version=1.2.3"',
+             'build_version=1.2.3',
              '{}/{}.yml'.format(utils.get_ansible_dir(), "devbox")])
 
     def test_deploy_build_code_limit_hosts(self):
@@ -101,9 +101,9 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
             ["ansible-playbook",
              '--inventory-file={}/{}'.format(utils.get_ansible_dir(), utils.get_config()["ansibleHostsFilename"]), '-v',
              '--extra-vars',
-             '"build_version=1.2.3"',
-             '--tags', '"code"',
-             '--limit', '"host1,host2"',
+             'build_version=1.2.3',
+             '--tags', 'code',
+             '--limit', 'host1,host2',
              '{}/{}.yml'.format(utils.get_ansible_dir(), "devbox")])
 
     def test_deploy_build_all_tags(self):
@@ -115,8 +115,8 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
             ["ansible-playbook",
              '--inventory-file={}/{}'.format(utils.get_ansible_dir(), utils.get_config()["ansibleHostsFilename"]), '-v',
              '--extra-vars',
-             '"build_version=1.2.3"',
-             '--tags', '"code,migrate,envvars,conf,ssl"',
+             'build_version=1.2.3',
+             '--tags', 'code,migrate,envvars,conf,ssl',
              '{}/{}.yml'.format(utils.get_ansible_dir(), "devbox")])
 
     def test_prep_code(self):

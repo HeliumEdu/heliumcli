@@ -47,7 +47,7 @@ class DeployBuildAction:
                              utils.get_config()["hostProvisionCommand"]])
 
         playbook_options = ['--inventory-file={}/{}'.format(ansible_dir, config["ansibleHostsFilename"]), '-v',
-                            '--extra-vars', '"build_version={}"'.format(version)]
+                            '--extra-vars', 'build_version={}'.format(version)]
 
         if args.migrate or args.code or args.envvars or args.conf or args.ssl:
             tags = []
@@ -61,11 +61,11 @@ class DeployBuildAction:
                 tags.append("conf")
             if args.ssl:
                 tags.append("ssl")
-            playbook_options.append('--tags')
-            playbook_options.append('"{}"'.format(",".join(tags)))
+            playbook_options.append("--tags")
+            playbook_options.append(",".join(tags))
 
         if args.hosts:
-            playbook_options.append('--limit')
-            playbook_options.append('"{}"'.format(",".join(args.hosts)))
+            playbook_options.append("--limit")
+            playbook_options.append(",".join(args.hosts))
 
         subprocess.call(["ansible-playbook"] + playbook_options + ['{}/{}.yml'.format(ansible_dir, args.env)])
