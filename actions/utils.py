@@ -30,7 +30,7 @@ def get_title():
 
 def _save_config(config_path, config):
     with open(config_path, "w") as config_file:
-        yaml.dump(config, config_file)
+        yaml.safe_dump(config, config_file)
 
 
 def _get_config_defaults():
