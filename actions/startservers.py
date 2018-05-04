@@ -29,7 +29,7 @@ class StartServersAction:
             runserver_bin = os.path.join(projects_dir, project, config["serverBinFilename"])
 
             if os.path.exists(runserver_bin):
-                processes.append(subprocess.Popen(runserver_bin, shell=True))
+                processes.append(subprocess.Popen(runserver_bin))
 
         if len(processes) > 0:
             processes[-1].wait()

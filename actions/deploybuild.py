@@ -1,6 +1,5 @@
-import subprocess
-
 import os
+import subprocess
 
 import git
 
@@ -47,8 +46,8 @@ class DeployBuildAction:
             subprocess.call(["ssh", "-t", "{}@{}".format(host[0], host[1]),
                              utils.get_config()["hostProvisionCommand"]])
 
-        ansible_command = 'ansible-playbook --inventory-file={}/{} -v {}/{}.yml --extra-vars ' \
-                          '"build_version={}"'.format(ansible_dir, config["ansibleHostsFilename"], ansible_dir, args.env, version)
+        playbook_options = ['--inventory-file={}/{}'.format(ansible_dir, config["ansibleHostsFilename"]), '-v',
+                            '--extra-vars', '"build_version={}"'.format(version)]
 
         if args.migrate or args.code or args.envvars or args.conf or args.ssl:
             tags = []
@@ -62,9 +61,11 @@ class DeployBuildAction:
                 tags.append("conf")
             if args.ssl:
                 tags.append("ssl")
-            ansible_command += ' --tags "{}"'.format(",".join(tags))
+            playbook_options.append('--tags')
+            playbook_options.append('"{}"'.format(",".join(tags)))
 
         if args.hosts:
-            ansible_command += ' --limit "{}"'.format(",".join(args.hosts))
+            playbook_options.append('--limit')
+            playbook_options.append('"{}"'.format(",".join(args.hosts)))
 
-        subprocess.call(ansible_command, shell=True)
+        subprocess.call(["ansible-playbook"] + playbook_options + ['{}/{}.yml'.format(ansible_dir, args.env)])

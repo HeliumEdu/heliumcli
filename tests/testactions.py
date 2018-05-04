@@ -72,7 +72,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
 
         # THEN
         self.mock_subprocess_popen.assert_called_once_with(
-            os.path.join(utils.get_projects_dir(), "platform", utils.get_config()["serverBinFilename"]), shell=True)
+            os.path.join(utils.get_projects_dir(), "platform", utils.get_config()["serverBinFilename"]))
 
     def test_deploy_build(self):
         # GIVEN
@@ -82,15 +82,15 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         main(["main.py", "deploy-build", "1.2.3", "devbox"])
 
         # THEN
+        self.assertEqual(self.mock_subprocess_call.call_count, 2)
         self.mock_subprocess_call.assert_any_call(
             ["ssh", "-t", "vagrant@heliumedu.test", utils.get_config()["hostProvisionCommand"]])
         self.mock_subprocess_call.assert_any_call(
-            'ansible-playbook --inventory-file={}/{} -v {}/{}.yml --extra-vars "build_version={}"'.format(
-                utils.get_ansible_dir(),
-                utils.get_config()["ansibleHostsFilename"],
-                utils.get_ansible_dir(),
-                "devbox",
-                "1.2.3"), shell=True)
+            ["ansible-playbook",
+             '--inventory-file={}/{}'.format(utils.get_ansible_dir(), utils.get_config()["ansibleHostsFilename"]), '-v',
+             '--extra-vars',
+             '"build_version=1.2.3"',
+             '{}/{}.yml'.format(utils.get_ansible_dir(), "devbox")])
 
     def test_deploy_build_code_limit_hosts(self):
         # WHEN
@@ -98,32 +98,26 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
 
         # THEN
         self.mock_subprocess_call.assert_called_once_with(
-            'ansible-playbook --inventory-file={}/{} -v {}/{}.yml --extra-vars "build_version={}" --tags "{}" --limit "{}"'.format(
-                utils.get_ansible_dir(),
-                utils.get_config()["ansibleHostsFilename"],
-                utils.get_ansible_dir(),
-                "devbox",
-                "1.2.3",
-                "code",
-                "host1,host2"), shell=True)
+            ["ansible-playbook",
+             '--inventory-file={}/{}'.format(utils.get_ansible_dir(), utils.get_config()["ansibleHostsFilename"]), '-v',
+             '--extra-vars',
+             '"build_version=1.2.3"',
+             '--tags', '"code"',
+             '--limit', '"host1,host2"',
+             '{}/{}.yml'.format(utils.get_ansible_dir(), "devbox")])
 
     def test_deploy_build_all_tags(self):
-        # GIVEN
-        commonhelper.given_hosts_file_exists()
-
         # WHEN
         main(["main.py", "deploy-build", "1.2.3", "devbox", "--code", "--migrate", "--envvars", "--conf", "--ssl"])
 
         # THEN
-        self.assertEqual(self.mock_subprocess_call.call_count, 2)
-        self.mock_subprocess_call.assert_any_call(
-            'ansible-playbook --inventory-file={}/{} -v {}/{}.yml --extra-vars "build_version={}" --tags "{}"'.format(
-                utils.get_ansible_dir(),
-                utils.get_config()["ansibleHostsFilename"],
-                utils.get_ansible_dir(),
-                "devbox",
-                "1.2.3",
-                "code,migrate,envvars,conf,ssl"), shell=True)
+        self.mock_subprocess_call.assert_called_once_with(
+            ["ansible-playbook",
+             '--inventory-file={}/{}'.format(utils.get_ansible_dir(), utils.get_config()["ansibleHostsFilename"]), '-v',
+             '--extra-vars',
+             '"build_version=1.2.3"',
+             '--tags', '"code,migrate,envvars,conf,ssl"',
+             '{}/{}.yml'.format(utils.get_ansible_dir(), "devbox")])
 
     def test_prep_code(self):
         # GIVEN

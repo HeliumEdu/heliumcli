@@ -61,7 +61,7 @@ def get_config():
             _save_config(config_path, _get_config_defaults())
 
         with open(config_path, "r") as lines:
-            _config_cache = yaml.load(lines)
+            _config_cache = yaml.safe_load(lines)
     else:
         # Ensure cache is up to date
         updated = False
@@ -122,7 +122,7 @@ def should_update(line, verification, start_needle, end_needle=""):
 
 def get_copyright_name():  # pragma: no cover
     with open(os.path.join(get_ansible_dir(), "group_vars", "all.yml"), 'r') as lines:
-        data = yaml.load(lines)
+        data = yaml.safe_load(lines)
         return data[get_config()["ansibleCopyrightNameVar"]]
 
 
