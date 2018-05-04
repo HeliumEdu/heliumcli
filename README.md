@@ -1,3 +1,4 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/23e53d86252140578d4ef90a8bc4ab5b)](https://app.codacy.com/app/alexdlaird/heliumcli?utm_source=github.com&utm_medium=referral&utm_content=HeliumEdu/heliumcli&utm_campaign=badger)
 [![Build Status](https://travis-ci.org/HeliumEdu/heliumcli.svg?branch=master)](https://travis-ci.org/HeliumEdu/heliumcli)
 [![codecov](https://codecov.io/gh/HeliumEdu/heliumcli/branch/master/graph/badge.svg)](https://codecov.io/gh/HeliumEdu/heliumcli)
 
