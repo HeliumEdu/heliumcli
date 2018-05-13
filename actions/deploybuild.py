@@ -7,7 +7,7 @@ from . import utils
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.2'
+__version__ = '1.1.4'
 
 
 class DeployBuildAction:
@@ -36,7 +36,10 @@ class DeployBuildAction:
         if os.path.exists(os.path.join(root_dir, ".git")):
             repo = git.Repo(root_dir)
             repo.git.fetch(tags=True, prune=True)
-            repo.git.checkout(args.version)
+            if len(repo.git.diff(args.version, 'master')) > 0:
+                repo.git.checkout(args.version)
+            else:
+                repo.git.checkout('master')
 
         config = utils.get_config()
         version = args.version.lstrip("v")
