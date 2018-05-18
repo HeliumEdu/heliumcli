@@ -7,7 +7,7 @@ from . import utils
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.4'
+__version__ = '1.1.5'
 
 
 class DeployBuildAction:
@@ -35,21 +35,26 @@ class DeployBuildAction:
         root_dir = os.path.abspath(os.path.join(ansible_dir, ".."))
         if os.path.exists(os.path.join(root_dir, ".git")):
             repo = git.Repo(root_dir)
-            repo.git.fetch(tags=True, prune=True)
+            try:
+                repo.git.fetch(tags=True, prune=True)
+            except git.GitCommandError as ex:
+                if ex.status == 128:
+                    print("WARN: if you want to get the latest code updates, verify your network connection")
+                else:
+                    raise ex
+
             if len(repo.git.diff(args.version, 'master')) > 0:
                 repo.git.checkout(args.version)
             else:
                 repo.git.checkout('master')
 
-        config = utils.get_config()
         version = args.version.lstrip("v")
         hosts = utils.parse_hosts_file(args.env)
-
         for host in hosts:
             subprocess.call(["ssh", "-t", "{}@{}".format(host[0], host[1]),
                              utils.get_config()["hostProvisionCommand"]])
 
-        playbook_options = ['--inventory-file={}/{}'.format(ansible_dir, config["ansibleHostsFilename"]), '-v',
+        playbook_options = ['--inventory-file={}/hosts/{}'.format(ansible_dir, args.env), '-v',
                             '--extra-vars', 'build_version={}'.format(version)]
 
         if args.migrate or args.code or args.envvars or args.conf or args.ssl:

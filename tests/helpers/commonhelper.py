@@ -5,7 +5,7 @@ from ...actions import utils
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.4'
+__version__ = '1.1.5'
 
 
 def given_runserver_exists(project):
@@ -17,10 +17,10 @@ def given_runserver_exists(project):
 
 
 def given_hosts_file_exists():
-    if not os.path.exists(utils.get_ansible_dir()):
-        os.mkdir(utils.get_ansible_dir())
+    if not os.path.exists(os.path.join(utils.get_ansible_dir(), 'hosts')):
+        os.makedirs(os.path.join(utils.get_ansible_dir(), 'hosts'))
 
-    hosts_file = open(os.path.join(utils.get_ansible_dir(), utils.get_config()["ansibleHostsFilename"]), "w")
+    hosts_file = open(os.path.join(utils.get_ansible_dir(), 'hosts', 'devbox'), "w")
     hosts_file.write("[devbox]\nheliumedu.test ansible_user=vagrant ip_address=10.1.0.10")
     hosts_file.close()
 

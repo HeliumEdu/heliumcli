@@ -8,7 +8,7 @@ from ..main import main
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.3'
+__version__ = '1.1.5'
 
 
 class TestActionsTestCase(testcase.HeliumCLITestCase):
@@ -75,6 +75,8 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
             os.path.join(utils.get_projects_dir(), "platform", utils.get_config()["serverBinFilename"]))
 
     def test_deploy_build(self):
+        self.subprocess_popen.stop()
+
         # GIVEN
         commonhelper.given_hosts_file_exists()
 
@@ -87,10 +89,14 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
             ["ssh", "-t", "vagrant@heliumedu.test", utils.get_config()["hostProvisionCommand"]])
         self.mock_subprocess_call.assert_any_call(
             ["ansible-playbook",
-             '--inventory-file={}/{}'.format(utils.get_ansible_dir(), utils.get_config()["ansibleHostsFilename"]), '-v',
+             '--inventory-file={}/hosts/devbox'.format(utils.get_ansible_dir()), '-v',
              '--extra-vars',
              'build_version=1.2.3',
              '{}/{}.yml'.format(utils.get_ansible_dir(), "devbox")])
+
+        self.subprocess_popen.start()
+
+
 
     def test_deploy_build_code_limit_hosts(self):
         # WHEN
@@ -99,7 +105,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         # THEN
         self.mock_subprocess_call.assert_called_once_with(
             ["ansible-playbook",
-             '--inventory-file={}/{}'.format(utils.get_ansible_dir(), utils.get_config()["ansibleHostsFilename"]), '-v',
+             '--inventory-file={}/hosts/devbox'.format(utils.get_ansible_dir()), '-v',
              '--extra-vars',
              'build_version=1.2.3',
              '--tags', 'code',
@@ -113,7 +119,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         # THEN
         self.mock_subprocess_call.assert_called_once_with(
             ["ansible-playbook",
-             '--inventory-file={}/{}'.format(utils.get_ansible_dir(), utils.get_config()["ansibleHostsFilename"]), '-v',
+             '--inventory-file={}/hosts/devbox'.format(utils.get_ansible_dir()), '-v',
              '--extra-vars',
              'build_version=1.2.3',
              '--tags', 'code,migrate,envvars,conf,ssl',
@@ -131,7 +137,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         diff1.b_rawpath = versioned_file1_path.encode('utf-8')
         diff2 = mock.MagicMock('git.diff.Diff')
         diff2.b_rawpath = versioned_file2_path.encode('utf-8')
-        latest_tag.commit.diff = mock.Mock(side_effect=[[diff1], [diff2]])
+        latest_tag.commit.diff = mock.MagicMock(side_effect=[[diff1], [diff2]])
 
         # WHEN
         main(["main.py", "prep-code"])
@@ -147,12 +153,12 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         versioned_file_path = commonhelper.given_project_python_versioned_file_exists("platform")
         repo_instance = self.mock_git_repo.return_value
         repo_instance.untracked_files = []
-        repo_instance.is_dirty = mock.Mock(side_effect=[False, False, True, True])
+        repo_instance.is_dirty = mock.MagicMock(side_effect=[False, False, True, True])
         latest_tag = repo_instance.tags[-1]
         latest_tag.commit = mock.MagicMock('git.commit.Commit')
         diff1 = mock.MagicMock('git.diff.Diff')
         diff1.b_rawpath = versioned_file_path.encode('utf-8')
-        latest_tag.commit.diff = mock.Mock(side_effect=[[diff1], []])
+        latest_tag.commit.diff = mock.MagicMock(side_effect=[[diff1], []])
 
         # WHEN
         main(["main.py", "build-release", "1.2.3"])

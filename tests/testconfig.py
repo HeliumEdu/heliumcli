@@ -55,7 +55,6 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         self.assertTrue(os.environ.get("HELIUMCLI_CONFIG_FILENAME"))
         self.assertEqual(config, {
             "ansibleCopyrightNameVar": "my_dev_name",
-            "ansibleHostsFilename": "myhosts",
             "ansibleRelativeDir": "some/dir/ansible",
             "gitProject": "git@example.com:SomeProject",
             "hostProvisionCommand": "sudo yum install python",

@@ -1,14 +1,13 @@
 import json
 import os
 import subprocess
-from configparser import ConfigParser
 
 import yaml
 from dotenv import load_dotenv
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.4'
+__version__ = '1.1.5'
 
 VERSION = __version__
 
@@ -40,7 +39,6 @@ def _get_config_defaults():
         "projectsRelativeDir": os.environ.get("HELIUMCLI_PROJECTS_RELATIVE_DIR", "../../../projects"),
         "serverBinFilename": os.environ.get("HELIUMCLI_SERVER_BIN_FILENAME", "bin/runserver"),
         "ansibleRelativeDir": os.environ.get("HELIUMCLI_ANSIBLE_RELATIVE_DIR", "../../../ansible"),
-        "ansibleHostsFilename": os.environ.get("HELIUMCLI_ANSIBLE_HOSTS_FILENAME", "hosts"),
         "ansibleCopyrightNameVar": os.environ.get("HELIUMCLI_ANSIBLE_COPYRIGHT_NAME_VAR", "project_developer"),
         "hostProvisionCommand": os.environ.get("HELIUMCLI_HOST_PROVISION_COMMAND",
                                                "sudo apt-get update && sudo apt-get install -y python && sudo apt-get -y autoremove"),
@@ -90,22 +88,14 @@ def get_projects_dir():
 
 
 def parse_hosts_file(env):
-    config = ConfigParser()
-    config.read(os.path.join(get_ansible_dir(), get_config()["ansibleHostsFilename"]))
+    hosts_str = subprocess.Popen(['ansible', 'all', '-i', os.path.join('hosts', env), '--list-hosts'],
+                                 cwd=get_ansible_dir(), stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                                 bufsize=1).stdout.read().decode('utf-8')
 
     hosts = []
-    for section in config.sections():
-        if section.startswith(env):
-            for item, section_vars in config.items(section):
-                host = item.split(' ')[0]
-                section_vars = '{}={}'.format(item.split(' ')[1], section_vars)
-
-                user = 'ubuntu'
-                for var in section_vars.split(' '):
-                    split = var.split('=')
-                    if split[0] == 'ansible_user':
-                        user = split[1]
-                hosts.append([user, host])
+    for line in hosts_str.split('\n')[1:]:
+        if line.strip() != '':
+            hosts.append(['ubuntu' if env != 'devbox' else 'vagrant', line.strip()])
 
     return hosts
 
@@ -127,5 +117,7 @@ def get_copyright_name():  # pragma: no cover
 
 
 def get_repo_name(repo_dir):  # pragma: no cover
-    remote_url = subprocess.Popen(["git", "config", "--get", "remote.origin.url"], cwd=repo_dir, stdout=subprocess.PIPE)
-    return os.path.basename(remote_url.stdout.read().strip().decode("utf-8")).rstrip(".git")
+    remote_url_str = subprocess.Popen(["git", "config", "--get", "remote.origin.url"], cwd=repo_dir,
+                                      stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                                      bufsize=1).stdout.read().decode('utf-8')
+    return os.path.basename(remote_url_str.strip()).rstrip(".git")
