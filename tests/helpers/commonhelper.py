@@ -5,7 +5,7 @@ from ...actions import utils
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.3'
+__version__ = '1.1.4'
 
 
 def given_runserver_exists(project):
