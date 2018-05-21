@@ -7,7 +7,7 @@ from . import utils
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.5'
+__version__ = '1.1.6'
 
 
 class DeployBuildAction:
@@ -19,7 +19,8 @@ class DeployBuildAction:
         parser = subparsers.add_parser(self.name, help=self.help)
         parser.add_argument("version", help="The build version to be deployed, which may be a version or a branch")
         parser.add_argument("env", help="The environment to deploy to")
-        parser.add_argument('--hosts', action='store', type=str, nargs='*', help="Limit the hosts to be deployed")
+        parser.add_argument('--roles', action='store', type=str, nargs='*',
+                            help="Limit the project roles to be deployed")
         parser.add_argument("--migrate", action="store_true", help="Install code dependencies and run migrations")
         parser.add_argument("--code", action="store_true", help="Only deploy code")
         parser.add_argument("--envvars", action="store_true", help="Only deploy environment variables")
@@ -72,8 +73,8 @@ class DeployBuildAction:
             playbook_options.append("--tags")
             playbook_options.append(",".join(tags))
 
-        if args.hosts:
+        if args.roles:
             playbook_options.append("--limit")
-            playbook_options.append(",".join(args.hosts))
+            playbook_options.append(",".join(args.roles))
 
         subprocess.call(["ansible-playbook"] + playbook_options + ['{}/{}.yml'.format(ansible_dir, args.env)])

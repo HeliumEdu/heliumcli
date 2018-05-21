@@ -9,7 +9,7 @@ from . import utils
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.3'
+__version__ = '1.1.6'
 
 
 class PrepCodeAction:
@@ -23,6 +23,8 @@ class PrepCodeAction:
 
     def setup(self, subparsers):
         parser = subparsers.add_parser(self.name, help=self.help)
+        parser.add_argument('--roles', action='store', type=str, nargs='*',
+                            help="Limit the project roles to be prepped")
         parser.set_defaults(action=self)
 
     def run(self, args):
@@ -41,6 +43,9 @@ class PrepCodeAction:
             return
 
         for project in config["projects"]:
+            if args.roles and project not in args.roles:
+                continue
+
             project_dir = os.path.join(projects_dir, project)
 
             repo = git.Repo(project_dir)

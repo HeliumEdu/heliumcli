@@ -9,7 +9,7 @@ from .prepcode import PrepCodeAction
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.3'
+__version__ = '1.1.6'
 
 
 class BuildReleaseAction:
@@ -20,6 +20,8 @@ class BuildReleaseAction:
     def setup(self, subparsers):
         parser = subparsers.add_parser(self.name, help=self.help)
         parser.add_argument("version", help="The version number to be tagged")
+        parser.add_argument('--roles', action='store', type=str, nargs='*',
+                            help="Limit the project roles to be built/tagged")
         parser.set_defaults(action=self)
 
     def run(self, args):
@@ -29,6 +31,9 @@ class BuildReleaseAction:
         # First ensure all repos are in a clean state with all changes committed
         dirty_repos = []
         for project in config["projects"]:
+            if args.roles and project not in args.roles:
+                continue
+
             repo = git.Repo(os.path.join(projects_dir, project))
 
             if repo.untracked_files or repo.is_dirty():
@@ -48,7 +53,7 @@ class BuildReleaseAction:
         self._update_version_file(version,
                                   os.path.join(config["versionInfo"]["project"], config["versionInfo"]["path"]))
 
-        PrepCodeAction().run([])
+        PrepCodeAction().run(args)
 
         print("Committing changes and creating release tags ...")
 

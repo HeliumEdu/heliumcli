@@ -96,11 +96,9 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
 
         self.subprocess_popen.start()
 
-
-
     def test_deploy_build_code_limit_hosts(self):
         # WHEN
-        main(["main.py", "deploy-build", "1.2.3", "devbox", "--code", "--hosts", "host1,host2"])
+        main(["main.py", "deploy-build", "1.2.3", "devbox", "--code", "--roles", "host1,host2"])
 
         # THEN
         self.mock_subprocess_call.assert_called_once_with(
