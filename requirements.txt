@@ -5,3 +5,4 @@ mock==2.0.0
 GitPython==2.1.9
 PyYAML==3.12
 ansible==2.5.2
+future==0.16.0
