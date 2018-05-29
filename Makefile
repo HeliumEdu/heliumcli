@@ -24,7 +24,6 @@ test: virtualenv
 
 local:
 	@( \
-		source .venv/bin/activate; \
 		python setup.py sdist; \
 		pip install dist/helium*.tar.gz; \
 	)
