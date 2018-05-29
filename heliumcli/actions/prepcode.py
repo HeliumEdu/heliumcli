@@ -9,7 +9,7 @@ from .. import utils
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.9'
+__version__ = '1.1.10'
 
 
 class PrepCodeAction:
@@ -17,11 +17,14 @@ class PrepCodeAction:
         self.name = "prep-code"
         self.help = "Prepare code for release build, updating version and copyright information in project files"
 
+    def init(self):
         self._copyright_name = utils.get_copyright_name()
         self._current_year = str(datetime.date.today().year)
         self._current_version = None
 
     def setup(self, subparsers):
+        self.init()
+
         parser = subparsers.add_parser(self.name, help=self.help)
         parser.add_argument('--roles', action='store', type=str, nargs='*',
                             help="Limit the project roles to be prepped")

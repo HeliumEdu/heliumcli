@@ -6,11 +6,11 @@ from builtins import input
 
 import yaml
 
+from .version import VERSION
+
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.9'
-
-VERSION = __version__
+__version__ = '1.1.10'
 
 _config_cache = None
 
@@ -56,7 +56,7 @@ def get_config(init=False):
     if not _config_cache:
         if not os.path.exists(config_path):
             if not init:
-                response = input('\nNo config file found; initialize a new project [Y/n]? ')
+                response = input('No config file found; initialize a new project [Y/n]? ')
                 if response.lower() not in ['y', 'yes', '']:
                     print('\nThis tool cannot be used without a config file.\n')
 

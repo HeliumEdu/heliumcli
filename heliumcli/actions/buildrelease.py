@@ -9,7 +9,7 @@ from .prepcode import PrepCodeAction
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.9'
+__version__ = '1.1.10'
 
 
 class BuildReleaseAction:
@@ -53,7 +53,9 @@ class BuildReleaseAction:
         self._update_version_file(version,
                                   os.path.join(config["versionInfo"]["project"], config["versionInfo"]["path"]))
 
-        PrepCodeAction().run(args)
+        prepcodeaction = PrepCodeAction()
+        prepcodeaction.init()
+        prepcodeaction.run(args)
 
         print("Committing changes and creating release tags ...")
 

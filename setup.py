@@ -1,8 +1,8 @@
 from distutils.core import setup
 
-from heliumcli import utils
+from heliumcli import version
 
-version = utils.VERSION
+version = version.VERSION
 description = 'CLI tool that provides a useful set of tools for maintaining, building, and deploying code in ' \
               'compatible projects'
 
