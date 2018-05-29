@@ -31,7 +31,7 @@ class DeployBuildAction:
         parser.set_defaults(action=self)
 
     def run(self, args):
-        config = utils.get_config('init' in args)
+        config = utils.get_config()
         ansible_dir = utils.get_ansible_dir()
 
         root_dir = os.path.abspath(os.path.join(ansible_dir, ".."))

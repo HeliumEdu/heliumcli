@@ -21,7 +21,7 @@ class SetBuildAction:
         parser.set_defaults(action=self)
 
     def run(self, args):
-        config = utils.get_config('init' in args)
+        config = utils.get_config()
         projects_dir = utils.get_projects_dir()
 
         root_dir = os.path.abspath(os.path.join(projects_dir, ".."))

@@ -6,6 +6,7 @@
 .venv
 htmlcov
 dist/
+build/
 tests/_build
 MANIFEST
 .heliumcli.yml

@@ -38,6 +38,9 @@ def main(argv):
     if not silent:
         print(utils.get_title())
 
+    if '--init' in argv:
+        utils.get_config(True)
+
     for action in actions:
         action.setup(subparsers)
 

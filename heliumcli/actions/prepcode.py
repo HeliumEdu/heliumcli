@@ -28,7 +28,7 @@ class PrepCodeAction:
         parser.set_defaults(action=self)
 
     def run(self, args):
-        config = utils.get_config('init' in args)
+        config = utils.get_config()
         projects_dir = utils.get_projects_dir()
 
         for line in open(os.path.join(projects_dir, config["versionInfo"]["project"], config["versionInfo"]["path"]),

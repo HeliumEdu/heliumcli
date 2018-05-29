@@ -25,7 +25,7 @@ class BuildReleaseAction:
         parser.set_defaults(action=self)
 
     def run(self, args):
-        config = utils.get_config('init' in args)
+        config = utils.get_config()
         projects_dir = utils.get_projects_dir()
 
         # First ensure all repos are in a clean state with all changes committed

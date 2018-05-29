@@ -14,7 +14,7 @@ __version__ = '1.1.7'
 class TestActionsTestCase(testcase.HeliumCLITestCase):
     def test_update(self):
         # WHEN
-        main(["main.py", "update"])
+        main(["main.py", "--init", "update"])
 
         # THEN
         self.mock_subprocess_call.assert_called_once_with(["pip", "install", "--upgrade", "heliumcli"])
@@ -37,7 +37,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         utils._save_config(os.environ.get("HELIUMCLI_CONFIG_PATH"), utils._get_config_defaults())
 
         # WHEN
-        main(["main.py", "update-projects"])
+        main(["main.py", "--init", "update-projects"])
 
         # THEN
         self.assertEqual(self.mock_git_repo.return_value.git.pull.call_count, 3)
@@ -52,7 +52,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         utils._save_config(os.environ.get("HELIUMCLI_CONFIG_PATH"), utils._get_config_defaults())
 
         # WHEN
-        main(["main.py", "set-build", "1.2.3"])
+        main(["main.py", "--init", "set-build", "1.2.3"])
 
         # THEN
         self.mock_git_repo.return_value.git.checkout.assert_has_calls([mock.call("1.2.3"), mock.call("1.2.3")])
@@ -66,7 +66,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         commonhelper.given_runserver_exists("platform")
 
         # WHEN
-        main(["main.py", "start-servers"])
+        main(["main.py", "--init", "start-servers"])
 
         # THEN
         self.mock_subprocess_popen.assert_called_once_with(
@@ -79,7 +79,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         commonhelper.given_hosts_file_exists()
 
         # WHEN
-        main(["main.py", "deploy-build", "1.2.3", "devbox"])
+        main(["main.py", "--init", "deploy-build", "1.2.3", "devbox"])
 
         # THEN
         self.assertEqual(self.mock_subprocess_call.call_count, 2)
@@ -96,7 +96,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
 
     def test_deploy_build_code_limit_hosts(self):
         # WHEN
-        main(["main.py", "deploy-build", "1.2.3", "devbox", "--code", "--roles", "host1,host2"])
+        main(["main.py", "--init", "deploy-build", "1.2.3", "devbox", "--code", "--roles", "host1,host2"])
 
         # THEN
         self.mock_subprocess_call.assert_called_once_with(
@@ -110,7 +110,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
 
     def test_deploy_build_all_tags(self):
         # WHEN
-        main(["main.py", "deploy-build", "1.2.3", "devbox", "--code", "--migrate", "--envvars", "--conf", "--ssl"])
+        main(["main.py", "--init", "deploy-build", "1.2.3", "devbox", "--code", "--migrate", "--envvars", "--conf", "--ssl"])
 
         # THEN
         self.mock_subprocess_call.assert_called_once_with(
@@ -136,7 +136,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         latest_tag.commit.diff = mock.MagicMock(side_effect=[[diff1], [diff2]])
 
         # WHEN
-        main(["main.py", "prep-code"])
+        main(["main.py", "--init", "prep-code"])
 
         # THEN
         commonhelper.verify_versioned_file_updated(self, versioned_file1_path, "1.2.3")
@@ -172,7 +172,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         repo_instance.is_dirty = mock.MagicMock(return_value=True)
 
         # WHEN
-        main(["main.py", "build-release", "1.2.3"])
+        main(["main.py", "--init", "build-release", "1.2.3"])
 
         # THEN
         self.mock_git_repo.return_value.create_tag.assert_not_called()

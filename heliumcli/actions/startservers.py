@@ -20,7 +20,7 @@ class StartServersAction:
         parser.set_defaults(action=self)
 
     def run(self, args):
-        config = utils.get_config('init' in args)
+        config = utils.get_config()
         projects_dir = utils.get_projects_dir()
 
         # Identify dev servers (if present) and launch them
