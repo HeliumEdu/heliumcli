@@ -1,13 +1,8 @@
-import os
 import subprocess
-
-import git
-
-from . import utils
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.2'
+__version__ = '1.1.7'
 
 
 class UpdateAction:
@@ -20,9 +15,4 @@ class UpdateAction:
         parser.set_defaults(action=self)
 
     def run(self, args):
-        repo = git.Repo(utils.get_heliumcli_dir())
-
-        repo.git.fetch(tags=True, prune=True)
-        print(repo.git.pull() + "\n")
-
-        subprocess.call(["pip", "install", "-r", os.path.join(utils.get_heliumcli_dir(), "requirements.txt")])
+        subprocess.call(["pip", "install", "--upgrade", "heliumcli"])

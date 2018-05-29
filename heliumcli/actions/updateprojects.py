@@ -3,11 +3,11 @@ import subprocess
 
 import git
 
-from . import utils
+from .. import utils
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.2'
+__version__ = '1.1.7'
 
 
 class UpdateProjectsAction:

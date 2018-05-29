@@ -1,19 +1,18 @@
 import json
 import os
 import subprocess
+from builtins import input
 
+import sys
 import yaml
-from dotenv import load_dotenv
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.6'
+__version__ = '1.1.7'
 
 VERSION = __version__
 
 _config_cache = None
-
-load_dotenv()
 
 
 def get_title():
@@ -36,9 +35,9 @@ def _get_config_defaults():
     return {
         "gitProject": os.environ.get("HELIUMCLI_GIT_PROJECT", "git@github.com:HeliumEdu"),
         "projects": json.loads(os.environ.get("HELIUMCLI_PROJECTS", '["platform", "frontend"]')),
-        "projectsRelativeDir": os.environ.get("HELIUMCLI_PROJECTS_RELATIVE_DIR", "../../../projects"),
+        "projectsRelativeDir": os.environ.get("HELIUMCLI_PROJECTS_RELATIVE_DIR", "projects"),
         "serverBinFilename": os.environ.get("HELIUMCLI_SERVER_BIN_FILENAME", "bin/runserver"),
-        "ansibleRelativeDir": os.environ.get("HELIUMCLI_ANSIBLE_RELATIVE_DIR", "../../../ansible"),
+        "ansibleRelativeDir": os.environ.get("HELIUMCLI_ANSIBLE_RELATIVE_DIR", "ansible"),
         "ansibleCopyrightNameVar": os.environ.get("HELIUMCLI_ANSIBLE_COPYRIGHT_NAME_VAR", "project_developer"),
         "hostProvisionCommand": os.environ.get("HELIUMCLI_HOST_PROVISION_COMMAND",
                                                "sudo apt-get update && sudo apt-get install -y python && sudo apt-get -y autoremove"),
@@ -52,10 +51,18 @@ def _get_config_defaults():
 def get_config():
     global _config_cache
 
-    config_path = os.path.join(get_heliumcli_dir(), os.environ.get("HELIUMCLI_CONFIG_FILENAME", "config.yml"))
+    config_path = os.path.abspath(os.environ.get("HELIUMCLI_CONFIG_PATH", ".heliumcli.yml"))
 
     if not _config_cache:
         if not os.path.exists(config_path):
+            response = input('\nNo config file found; initialize a new project [Y/n]? ')
+            if response.lower() not in ['y', 'yes', '']:
+                print('\nThis tool cannot be used without a config file.\n')
+
+                sys.exit(1)
+            else:
+                print()
+
             _save_config(config_path, _get_config_defaults())
 
         with open(config_path, "r") as lines:
@@ -75,16 +82,12 @@ def get_config():
     return _config_cache
 
 
-def get_heliumcli_dir():
-    return os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), ".."))
-
-
 def get_ansible_dir():
-    return os.path.abspath(os.path.join(get_heliumcli_dir(), get_config()["ansibleRelativeDir"]))
+    return os.path.abspath(get_config()["ansibleRelativeDir"])
 
 
 def get_projects_dir():
-    return os.path.abspath(os.path.join(get_heliumcli_dir(), get_config()["projectsRelativeDir"]))
+    return os.path.abspath(get_config()["projectsRelativeDir"])
 
 
 def parse_hosts_file(env):

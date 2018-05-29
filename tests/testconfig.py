@@ -2,29 +2,29 @@ import os
 
 from mock import mock
 
+from heliumcli import utils
 from .helpers import testcase
-from ..actions import utils
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.1'
+__version__ = '1.1.7'
 
 
 class TestActionsTestCase(testcase.HeliumCLITestCase):
     def test_default_config_created(self):
         # GIVEN
-        self.assertFalse(os.path.exists(os.environ.get("HELIUMCLI_CONFIG_FILENAME")))
+        self.assertFalse(os.path.exists(os.environ.get("HELIUMCLI_CONFIG_PATH")))
 
         # WHEN
         utils.get_config()
 
         # THEN
-        self.assertTrue(os.environ.get("HELIUMCLI_CONFIG_FILENAME"))
+        self.assertTrue(os.environ.get("HELIUMCLI_CONFIG_PATH"))
 
     @mock.patch("os.path.exists", return_value=True)
     def test_config_already_exists(self, mock_path_exists):
         # GIVEN
-        utils._save_config(os.environ.get("HELIUMCLI_CONFIG_FILENAME"), utils._get_config_defaults())
+        utils._save_config(os.environ.get("HELIUMCLI_CONFIG_PATH"), utils._get_config_defaults())
         utils.get_config()
         mock_path_exists.reset_mock()
 
@@ -36,7 +36,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
 
     def test_custom_config_created(self):
         # GIVEN
-        self.assertFalse(os.path.exists(os.environ.get("HELIUMCLI_CONFIG_FILENAME")))
+        self.assertFalse(os.path.exists(os.environ.get("HELIUMCLI_CONFIG_PATH")))
         os.environ["HELIUMCLI_GIT_PROJECT"] = "git@example.com:SomeProject"
         os.environ["HELIUMCLI_PROJECTS"] = '["proj1", "proj2", "project3"]'
         os.environ["HELIUMCLI_PROJECTS_RELATIVE_DIR"] = "some/dir/projects"
@@ -52,7 +52,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         config = utils.get_config()
 
         # THEN
-        self.assertTrue(os.environ.get("HELIUMCLI_CONFIG_FILENAME"))
+        self.assertTrue(os.environ.get("HELIUMCLI_CONFIG_PATH"))
         self.assertEqual(config, {
             "ansibleCopyrightNameVar": "my_dev_name",
             "ansibleRelativeDir": "some/dir/ansible",

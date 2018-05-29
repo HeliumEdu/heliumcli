@@ -2,13 +2,13 @@ import os
 
 from mock import mock
 
+from heliumcli import utils
+from heliumcli.main import main
 from .helpers import testcase, commonhelper
-from ..actions import utils
-from ..main import main
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.5'
+__version__ = '1.1.7'
 
 
 class TestActionsTestCase(testcase.HeliumCLITestCase):
@@ -17,9 +17,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         main(["main.py", "update"])
 
         # THEN
-        self.mock_git_repo.return_value.git.pull.assert_called_once()
-        self.mock_subprocess_call.assert_called_once_with(
-            ["pip", "install", "-r", os.path.join(utils.get_heliumcli_dir(), "requirements.txt")])
+        self.mock_subprocess_call.assert_called_once_with(["pip", "install", "--upgrade", "heliumcli"])
 
     @mock.patch("os.path.exists", return_value=False)
     def test_update_clone_projects(self, mock_path_exists):
@@ -36,7 +34,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
     @mock.patch("os.path.exists", return_value=True)
     def test_update_projects(self, mock_path_exists):
         # GIVEN
-        utils._save_config(os.environ.get("HELIUMCLI_CONFIG_FILENAME"), utils._get_config_defaults())
+        utils._save_config(os.environ.get("HELIUMCLI_CONFIG_PATH"), utils._get_config_defaults())
 
         # WHEN
         main(["main.py", "update-projects"])
@@ -51,7 +49,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
     @mock.patch("os.path.exists", return_value=True)
     def test_set_build(self, mock_path_exists):
         # GIVEN
-        utils._save_config(os.environ.get("HELIUMCLI_CONFIG_FILENAME"), utils._get_config_defaults())
+        utils._save_config(os.environ.get("HELIUMCLI_CONFIG_PATH"), utils._get_config_defaults())
 
         # WHEN
         main(["main.py", "set-build", "1.2.3"])

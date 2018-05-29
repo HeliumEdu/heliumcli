@@ -5,22 +5,22 @@ from unittest import TestCase
 from git import TagReference
 from mock import mock
 
-from ...actions import utils
+from heliumcli import utils
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.5'
+__version__ = '1.1.7'
 
 
 class HeliumCLITestCase(TestCase):
     def setUp(self):
-        self.build_dir = os.path.join(utils.get_heliumcli_dir(), "tests", "_build")
+        self.build_dir = os.path.join("tests", "_build")
         if os.path.exists(self.build_dir):
             shutil.rmtree(self.build_dir)
             utils._config_cache = None
         os.mkdir(self.build_dir)
 
-        os.environ["HELIUMCLI_CONFIG_FILENAME"] = os.path.join(self.build_dir, "config.test.yml")
+        os.environ["HELIUMCLI_CONFIG_PATH"] = os.path.join(self.build_dir, ".heliumcli.test.yml")
         os.environ["HELIUMCLI_PROJECTS_RELATIVE_DIR"] = os.path.join("tests", "_build", "projects")
         os.environ["HELIUMCLI_ANSIBLE_RELATIVE_DIR"] = os.path.join("tests", "_build", "ansible")
 
@@ -73,11 +73,11 @@ class HeliumCLITestCase(TestCase):
         self.mock_subprocess_popen = self.subprocess_popen.start()
 
     def _setup_util_mocks(self):
-        self.utils_get_copyright_name = mock.patch("heliumcli.actions.utils.get_copyright_name",
+        self.utils_get_copyright_name = mock.patch("heliumcli.utils.get_copyright_name",
                                                    return_value="Helium Edu")
         self.addCleanup(self.utils_get_copyright_name.stop)
         self.mock_get_copyright_name = self.utils_get_copyright_name.start()
 
-        self.utils_get_repo_name = mock.patch("heliumcli.actions.utils.get_repo_name", return_value="deploy")
+        self.utils_get_repo_name = mock.patch("heliumcli.utils.get_repo_name", return_value="deploy")
         self.addCleanup(self.utils_get_repo_name.stop)
         self.mock_get_repo_name = self.utils_get_repo_name.start()

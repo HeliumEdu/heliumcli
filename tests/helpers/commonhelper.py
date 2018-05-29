@@ -1,11 +1,11 @@
 import datetime
 import os
 
-from ...actions import utils
+from heliumcli import utils
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.5'
+__version__ = '1.1.7'
 
 
 def given_runserver_exists(project):
