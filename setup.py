@@ -1,8 +1,8 @@
 from distutils.core import setup
 
-from heliumcli import version
+from heliumcli import settings
 
-version = version.VERSION
+version = settings.VERSION
 description = 'CLI tool that provides a useful set of tools for maintaining, building, and deploying code in ' \
               'compatible projects'
 
@@ -16,7 +16,7 @@ setup(
     install_requires=[
         'GitPython >= 2.1.9',
         'PyYAML >=3.12',
-        'ansible >= 2.5.2'
+        'ansible >= 2.5'
     ],
     scripts=['bin/helium-cli'],
     description=description,

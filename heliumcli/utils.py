@@ -1,16 +1,15 @@
-import json
 import os
 import subprocess
 import sys
-from builtins import input
 
 import yaml
+from builtins import input
 
-from .version import VERSION
+from .settings import VERSION, get_default_settings
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.10'
+__version__ = '1.1.11'
 
 _config_cache = None
 
@@ -31,23 +30,6 @@ def _save_config(config_path, config):
         yaml.safe_dump(config, config_file)
 
 
-def _get_config_defaults():
-    return {
-        "gitProject": os.environ.get("HELIUMCLI_GIT_PROJECT", "git@github.com:HeliumEdu"),
-        "projects": json.loads(os.environ.get("HELIUMCLI_PROJECTS", '["platform", "frontend"]')),
-        "projectsRelativeDir": os.environ.get("HELIUMCLI_PROJECTS_RELATIVE_DIR", "projects"),
-        "serverBinFilename": os.environ.get("HELIUMCLI_SERVER_BIN_FILENAME", "bin/runserver"),
-        "ansibleRelativeDir": os.environ.get("HELIUMCLI_ANSIBLE_RELATIVE_DIR", "ansible"),
-        "ansibleCopyrightNameVar": os.environ.get("HELIUMCLI_ANSIBLE_COPYRIGHT_NAME_VAR", "project_developer"),
-        "hostProvisionCommand": os.environ.get("HELIUMCLI_HOST_PROVISION_COMMAND",
-                                               "sudo apt-get update && sudo apt-get install -y python && sudo apt-get -y autoremove"),
-        "versionInfo": {
-            "project": os.environ.get("HELIUMCLI_VERSION_INFO_PROJECT", "platform"),
-            "path": os.environ.get("HELIUMCLI_VERSION_INFO_PATH", "conf/configs/common.py"),
-        },
-    }
-
-
 def get_config(init=False):
     global _config_cache
 
@@ -64,16 +46,16 @@ def get_config(init=False):
                 else:
                     print("")
 
-            _save_config(config_path, _get_config_defaults())
+            _save_config(config_path, get_default_settings())
 
         with open(config_path, "r") as lines:
             _config_cache = yaml.safe_load(lines)
     else:
         # Ensure cache is up to date
         updated = False
-        for key in _get_config_defaults().keys():
+        for key in get_default_settings().keys():
             if key not in _config_cache:
-                _config_cache[key] = _get_config_defaults()[key]
+                _config_cache[key] = get_default_settings()[key]
 
                 updated = True
 

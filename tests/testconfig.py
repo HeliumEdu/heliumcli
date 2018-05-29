@@ -2,12 +2,12 @@ import os
 
 from mock import mock
 
-from heliumcli import utils
+from heliumcli import utils, settings
 from .helpers import testcase
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.7'
+__version__ = '1.1.11'
 
 
 class TestActionsTestCase(testcase.HeliumCLITestCase):
@@ -24,7 +24,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
     @mock.patch("os.path.exists", return_value=True)
     def test_config_already_exists(self, mock_path_exists):
         # GIVEN
-        utils._save_config(os.environ.get("HELIUMCLI_CONFIG_PATH"), utils._get_config_defaults())
+        utils._save_config(os.environ.get("HELIUMCLI_CONFIG_PATH"), settings.get_default_settings())
         utils.get_config(True)
         mock_path_exists.reset_mock()
 
