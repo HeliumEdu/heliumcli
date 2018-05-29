@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/HeliumEdu/heliumcli.svg?branch=master)](https://travis-ci.org/HeliumEdu/heliumcli)
 [![codecov](https://codecov.io/gh/HeliumEdu/heliumcli/branch/master/graph/badge.svg)](https://codecov.io/gh/HeliumEdu/heliumcli)
+[![PyPI version](https://badge.fury.io/py/heliumcli.svg)](https://badge.fury.io/py/heliumcli)
 
 
 # Helium CLI
