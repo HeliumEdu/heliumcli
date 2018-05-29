@@ -2,6 +2,8 @@
 
 import argparse
 
+import sys
+
 from . import utils
 from .actions.buildrelease import BuildReleaseAction
 from .actions.deploybuild import DeployBuildAction
@@ -13,7 +15,7 @@ from .actions.updateprojects import UpdateProjectsAction
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = utils.VERSION
+__version__ = '1.1.8'
 
 
 def main(argv):
@@ -54,3 +56,7 @@ def main(argv):
     args.action.run(args)
 
     print("")
+
+
+if __name__ == "__main__":
+    main(sys.argv)

@@ -1,14 +1,14 @@
 import json
 import os
 import subprocess
+import sys
 from builtins import input
 
-import sys
 import yaml
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.7'
+__version__ = '1.1.8'
 
 VERSION = __version__
 
@@ -62,7 +62,7 @@ def get_config(init=False):
 
                     sys.exit(1)
                 else:
-                    print()
+                    print("")
 
             _save_config(config_path, _get_config_defaults())
 

@@ -8,3 +8,4 @@ htmlcov
 dist/
 tests/_build
 MANIFEST
+.heliumcli.yml
