@@ -16,20 +16,20 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         self.assertFalse(os.path.exists(os.environ.get("HELIUMCLI_CONFIG_PATH")))
 
         # WHEN
-        utils.get_config()
+        utils.get_config(True)
 
         # THEN
-        self.assertTrue(os.environ.get("HELIUMCLI_CONFIG_PATH"))
+        self.assertTrue(os.path.exists(os.environ.get("HELIUMCLI_CONFIG_PATH")))
 
     @mock.patch("os.path.exists", return_value=True)
     def test_config_already_exists(self, mock_path_exists):
         # GIVEN
         utils._save_config(os.environ.get("HELIUMCLI_CONFIG_PATH"), utils._get_config_defaults())
-        utils.get_config()
+        utils.get_config(True)
         mock_path_exists.reset_mock()
 
         # WHEN
-        utils.get_config()
+        utils.get_config(True)
 
         # THEN
         mock_path_exists.assert_not_called()
@@ -49,7 +49,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         os.environ["HELIUMCLI_HOST_PROVISION_COMMAND"] = "sudo yum install python"
 
         # WHEN
-        config = utils.get_config()
+        config = utils.get_config(True)
 
         # THEN
         self.assertTrue(os.environ.get("HELIUMCLI_CONFIG_PATH"))

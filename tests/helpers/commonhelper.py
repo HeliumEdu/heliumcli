@@ -9,14 +9,19 @@ __version__ = '1.1.7'
 
 
 def given_runserver_exists(project):
+    config = utils.get_config(True)
+
     if not os.path.exists(os.path.join(utils.get_projects_dir(), project)):
         os.makedirs(os.path.join(utils.get_projects_dir(), project))
 
-    os.mkdir(os.path.join(utils.get_projects_dir(), project, os.path.dirname(utils.get_config()["serverBinFilename"])))
-    open(os.path.join(utils.get_projects_dir(), project, utils.get_config()["serverBinFilename"]), "wb").close()
+    os.mkdir(
+        os.path.join(utils.get_projects_dir(), project, os.path.dirname(config["serverBinFilename"])))
+    open(os.path.join(utils.get_projects_dir(), project, config["serverBinFilename"]), "wb").close()
 
 
 def given_hosts_file_exists():
+    utils.get_config(True)
+
     if not os.path.exists(os.path.join(utils.get_ansible_dir(), 'hosts')):
         os.makedirs(os.path.join(utils.get_ansible_dir(), 'hosts'))
 
@@ -26,8 +31,10 @@ def given_hosts_file_exists():
 
 
 def given_python_version_file_exists(version='1.2.2'):
-    version_file_path = os.path.join(utils.get_projects_dir(), utils.get_config()["versionInfo"]["project"],
-                                     utils.get_config()["versionInfo"]["path"])
+    config = utils.get_config(True)
+
+    version_file_path = os.path.join(utils.get_projects_dir(), config["versionInfo"]["project"],
+                                     config["versionInfo"]["path"])
     if not os.path.exists(os.path.dirname(version_file_path)):
         os.makedirs(os.path.dirname(version_file_path))
 
@@ -57,6 +64,8 @@ MORE_SETTINGS = 'more_settings_after_this'
 
 
 def given_project_package_json_exists(project, version='1.2.2'):
+    utils.get_config(True)
+
     versioned_file_path = os.path.join(utils.get_projects_dir(), project, 'package.json')
     if not os.path.exists(os.path.dirname(versioned_file_path)):
         os.makedirs(os.path.dirname(versioned_file_path))
@@ -78,6 +87,8 @@ def given_project_package_json_exists(project, version='1.2.2'):
 
 
 def given_project_python_versioned_file_exists(project, filename='maths.py'):
+    utils.get_config(True)
+
     versioned_file_path = os.path.join(utils.get_projects_dir(), project, filename)
     if not os.path.exists(os.path.dirname(versioned_file_path)):
         os.makedirs(os.path.dirname(versioned_file_path))
@@ -100,6 +111,8 @@ def sum(a, b):
 
 
 def given_project_js_versioned_file_exists(project, filename="maths.js"):
+    utils.get_config(True)
+
     versioned_file_path = os.path.join(utils.get_projects_dir(), project, filename)
     if not os.path.exists(os.path.dirname(versioned_file_path)):
         os.makedirs(os.path.dirname(versioned_file_path))

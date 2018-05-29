@@ -24,8 +24,6 @@ class HeliumCLITestCase(TestCase):
         os.environ["HELIUMCLI_PROJECTS_RELATIVE_DIR"] = os.path.join("tests", "_build", "projects")
         os.environ["HELIUMCLI_ANSIBLE_RELATIVE_DIR"] = os.path.join("tests", "_build", "ansible")
 
-        utils._save_config(os.environ["HELIUMCLI_CONFIG_PATH"], utils._get_config_defaults())
-
         self._setup_git_mocks()
 
         self._setup_subprocess_mocks()

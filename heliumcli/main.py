@@ -28,6 +28,7 @@ def main(argv):
     }
 
     parser = argparse.ArgumentParser(prog="helium-cli")
+    parser.add_argument("--init", action="store_true", help="Initialize the project without prompt")
     parser.add_argument("--silent", action="store_true", help="Run more quietly, not displaying decorations")
     subparsers = parser.add_subparsers(title="subcommands")
 

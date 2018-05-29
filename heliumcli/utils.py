@@ -48,20 +48,21 @@ def _get_config_defaults():
     }
 
 
-def get_config():
+def get_config(init=False):
     global _config_cache
 
     config_path = os.path.abspath(os.environ.get("HELIUMCLI_CONFIG_PATH", ".heliumcli.yml"))
 
     if not _config_cache:
         if not os.path.exists(config_path):
-            response = input('\nNo config file found; initialize a new project [Y/n]? ')
-            if response.lower() not in ['y', 'yes', '']:
-                print('\nThis tool cannot be used without a config file.\n')
+            if not init:
+                response = input('\nNo config file found; initialize a new project [Y/n]? ')
+                if response.lower() not in ['y', 'yes', '']:
+                    print('\nThis tool cannot be used without a config file.\n')
 
-                sys.exit(1)
-            else:
-                print()
+                    sys.exit(1)
+                else:
+                    print()
 
             _save_config(config_path, _get_config_defaults())
 

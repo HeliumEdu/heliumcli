@@ -31,6 +31,7 @@ class DeployBuildAction:
         parser.set_defaults(action=self)
 
     def run(self, args):
+        config = utils.get_config('init' in args)
         ansible_dir = utils.get_ansible_dir()
 
         root_dir = os.path.abspath(os.path.join(ansible_dir, ".."))
@@ -53,7 +54,7 @@ class DeployBuildAction:
         hosts = utils.parse_hosts_file(args.env)
         for host in hosts:
             subprocess.call(["ssh", "-t", "{}@{}".format(host[0], host[1]),
-                             utils.get_config()["hostProvisionCommand"]])
+                             config["hostProvisionCommand"]])
 
         playbook_options = ['--inventory-file={}/hosts/{}'.format(ansible_dir, args.env), '-v',
                             '--extra-vars', 'build_version={}'.format(version)]

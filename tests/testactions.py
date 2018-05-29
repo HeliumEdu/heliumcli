@@ -22,7 +22,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
     @mock.patch("os.path.exists", return_value=False)
     def test_update_clone_projects(self, mock_path_exists):
         # WHEN
-        main(["main.py", "update-projects"])
+        main(["main.py", "--init", "update-projects"])
 
         # THEN
         self.assertEqual(self.mock_git_repo.clone_from.call_count, 2)
@@ -70,7 +70,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
 
         # THEN
         self.mock_subprocess_popen.assert_called_once_with(
-            os.path.join(utils.get_projects_dir(), "platform", utils.get_config()["serverBinFilename"]))
+            os.path.join(utils.get_projects_dir(), "platform", utils.get_config(True)["serverBinFilename"]))
 
     def test_deploy_build(self):
         self.subprocess_popen.stop()
@@ -84,7 +84,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         # THEN
         self.assertEqual(self.mock_subprocess_call.call_count, 2)
         self.mock_subprocess_call.assert_any_call(
-            ["ssh", "-t", "vagrant@heliumedu.test", utils.get_config()["hostProvisionCommand"]])
+            ["ssh", "-t", "vagrant@heliumedu.test", utils.get_config(True)["hostProvisionCommand"]])
         self.mock_subprocess_call.assert_any_call(
             ["ansible-playbook",
              '--inventory-file={}/hosts/devbox'.format(utils.get_ansible_dir()), '-v',
@@ -157,7 +157,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         latest_tag.commit.diff = mock.MagicMock(side_effect=[[diff1], []])
 
         # WHEN
-        main(["main.py", "build-release", "1.2.3"])
+        main(["main.py", "--init", "build-release", "1.2.3"])
 
         # THEN
         self.assertEqual(self.mock_git_repo.return_value.create_tag.call_count, 2)
