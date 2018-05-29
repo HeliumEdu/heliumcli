@@ -55,7 +55,7 @@ def get_config(init=False):
 
     if not _config_cache:
         if not os.path.exists(config_path):
-            if not init:
+            if not init:  # pragma: no cover
                 response = input('No config file found; initialize a new project [Y/n]? ')
                 if response.lower() not in ['y', 'yes', '']:
                     print('\nThis tool cannot be used without a config file.\n')

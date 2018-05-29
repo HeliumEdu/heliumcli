@@ -1,7 +1,9 @@
 [run]
 omit =
     .venv/**
+    bin/**
     */tests/**
+    setup.py
 
 [report]
 precision = 2
