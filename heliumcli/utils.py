@@ -8,7 +8,7 @@ import yaml
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.8'
+__version__ = '1.1.9'
 
 VERSION = __version__
 

@@ -7,7 +7,7 @@ from .. import utils
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.7'
+__version__ = '1.1.9'
 
 
 class SetBuildAction:

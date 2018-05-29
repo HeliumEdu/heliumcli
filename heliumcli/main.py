@@ -15,7 +15,7 @@ from .actions.updateprojects import UpdateProjectsAction
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.8'
+__version__ = '1.1.9'
 
 
 def main(argv):
