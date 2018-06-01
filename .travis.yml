@@ -8,6 +8,7 @@ install:
 - python -m virtualenv .venv
 - source .venv/bin/activate
 - python -m pip install -r requirements.txt
+- pip install setuptools twine --upgrade
 script:
 - make test
 after_success:
@@ -20,5 +21,3 @@ deploy:
   on:
     tags: true
     python: 3.6
-  edge:
-    branch: twine-user-install
