@@ -8,9 +8,12 @@ install:
 - python -m virtualenv .venv
 - source .venv/bin/activate
 - python -m pip install -r requirements.txt
-script: make test
+script:
+- make test
 after_success:
 - codecov
+before_deploy:
+- pip install twine
 deploy:
   provider: pypi
   user: alexdlaird
