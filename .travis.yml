@@ -1,8 +1,8 @@
 language: python
 python:
-  - "2.7"
-  - "3.5"
-  - "3.6"
+  - '2.7'
+  - '3.5'
+  - '3.6'
 install:
   - python -m pip install virtualenv
   - python -m virtualenv .venv
@@ -11,3 +11,10 @@ install:
 script: make test
 after_success:
   - codecov
+deploy:
+  provider: pypi
+  user: alexdlaird
+  password:
+    secure: M83XGxLjZt5dwse5G2IipSblp6eYykwQzt00Z9u7VYno9LuT4E7ZM9sXRxAsUwIZHW5XWYzFApqcphkHTTlVwPK/I0AtTpo3iQeMgnhuEfVmArivBopg6Cfipab5ajMdXDcZfLOiJm+bnQrETGj1n6+jLWSPp1cq2vtQ7n4SZ0MeAmlDUV9AqAFwS72sWb4AZfsl17bumnh2WVAW9mCYekkxEO95UdlaVj0QK6JfO+pS6QmJcMutnTCpmmjYBBZ7veV7hgixkQIWNUqy7Rt7WXe/DkDozTao8Yfr5lM7cMkZXAPJ/eC089v4XreImJAhZaAwEjhd4PXwV008ySwoNJSUPEFa8MQ/Y9NzQs/HG6hlM8Gyex5gJo2nJu6i+Px8OQvnwu8ypZdShC9AIFSkndD1Qp3W9akKBr+lak8DldNX6jFfr2oxeqvY/TH9OBygce5iYHXE7HAwJ4VLSjrGDRAFcuWXK1RA+l3u/YvoedeRSNefMO0f0R0HorRIfrMu4u+12WWqyRlIf12J/7Yw0JEkej2FHqoAmcdT6Vx76yv+ODwkGTHxLRMTg5inhbE/rPYO2BGTcUL7RIZEq/CHkc0OHA6j2sr2/NyZk3ElGexd1C1tuBrkwLhFOJADyMhNmyD27EOsS3SiGM2g+/1dVdXE8UK6uHc/trppYK083tQ=
+  on:
+    tags: true
