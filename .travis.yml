@@ -12,8 +12,6 @@ script:
 - make test
 after_success:
 - codecov
-before_deploy:
-- pip install twine
 deploy:
   provider: pypi
   user: alexdlaird
@@ -22,3 +20,5 @@ deploy:
   on:
     tags: true
     python: 3.6
+  edge:
+    branch: twine-user-install
