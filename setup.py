@@ -1,15 +1,17 @@
-from distutils.core import setup
+from setuptools import setup
 
 from heliumcli import settings
 
 version = settings.VERSION
-description = 'CLI tool that provides a useful set of tools for maintaining, building, and deploying code in ' \
-              'compatible projects'
+
+with open('README.md') as f:
+    long_description = f.read()
 
 setup(
     name='heliumcli',
     packages=[
-        'heliumcli', 'heliumcli.actions'
+        'heliumcli',
+        'heliumcli.actions'
     ],
     version=version,
     python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*",
@@ -19,8 +21,10 @@ setup(
         'ansible >= 2.5'
     ],
     scripts=['bin/helium-cli'],
-    description=description,
-    long_description=description,
+    description='CLI tool that provides a useful set of tools for maintaining, building, and deploying code in ' \
+                'compatible projects',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     author='Alex Laird',
     author_email='contact@alexlaird.com',
     url='https://github.com/HeliumEdu/heliumcli',
