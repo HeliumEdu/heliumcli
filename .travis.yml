@@ -22,3 +22,5 @@ deploy:
   on:
     tags: true
     python: 3.6
+  edge:
+    branch: twine-user-install
