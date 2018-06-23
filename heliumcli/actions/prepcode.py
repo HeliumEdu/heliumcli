@@ -9,7 +9,7 @@ from .. import utils
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.10'
+__version__ = '1.2.0'
 
 
 class PrepCodeAction:
@@ -45,13 +45,16 @@ class PrepCodeAction:
 
             return
 
-        for project in config["projects"]:
+        for project in utils.get_projects(config):
             if args.roles and project not in args.roles:
                 continue
 
-            project_dir = os.path.join(projects_dir, project)
+            if config["projectsRelativeDir"] != ".":
+                project_path = os.path.join(projects_dir, project)
+            else:
+                project_path = os.path.join(projects_dir)
 
-            repo = git.Repo(project_dir)
+            repo = git.Repo(project_path)
             repo.git.fetch(tags=True, prune=True)
 
             versions_list = repo.tags
@@ -71,7 +74,7 @@ class PrepCodeAction:
 
             count = 0
             for change in changes:
-                file_path = os.path.join(project_dir, change.b_rawpath.decode("utf-8"))
+                file_path = os.path.join(project_path, change.b_rawpath.decode("utf-8"))
 
                 if os.path.exists(file_path) and not os.path.isdir(file_path) and os.path.splitext(file_path)[1] in \
                         [".py", ".js", ".jsx", ".css", ".scss"]:
@@ -82,11 +85,11 @@ class PrepCodeAction:
             print("Updated " + str(count) + " file(s).")
             print("")
 
-            if os.path.exists(os.path.join(project_dir, "package.json")):
-                self._process_file(os.path.join(project_dir, "package.json"))
+            if os.path.exists(os.path.join(project_path, "package.json")):
+                self._process_file(os.path.join(project_path, "package.json"))
 
                 # This is to ensure the lock file also gets updated
-                subprocess.call(['npm', '--prefix', project_dir, 'install'])
+                subprocess.call(['npm', '--prefix', project_path, 'install'])
 
     def _process_file(self, file_path):
         filename = os.path.basename(file_path)

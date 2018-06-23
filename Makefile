@@ -23,6 +23,7 @@ test: virtualenv
 	)
 
 local:
+	@rm -rf dist
 	@( \
 		python setup.py sdist; \
 		pip install dist/helium*.tar.gz; \

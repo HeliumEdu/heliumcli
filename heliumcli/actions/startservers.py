@@ -5,7 +5,7 @@ from .. import utils
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.9'
+__version__ = '1.2.0'
 
 child_processes = []
 
@@ -25,8 +25,13 @@ class StartServersAction:
 
         # Identify dev servers (if present) and launch them
         processes = []
-        for project in config["projects"]:
-            runserver_bin = os.path.join(projects_dir, project, config["serverBinFilename"])
+        for project in utils.get_projects(config):
+            if config["projectsRelativeDir"] != ".":
+                project_path = os.path.join(projects_dir, project)
+            else:
+                project_path = os.path.join(projects_dir)
+
+            runserver_bin = os.path.join(project_path, config["serverBinFilename"])
 
             if os.path.exists(runserver_bin):
                 processes.append(subprocess.Popen(runserver_bin))

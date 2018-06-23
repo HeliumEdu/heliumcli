@@ -9,7 +9,7 @@ from .prepcode import PrepCodeAction
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.10'
+__version__ = '1.2.0'
 
 
 class BuildReleaseAction:
@@ -30,11 +30,16 @@ class BuildReleaseAction:
 
         # First ensure all repos are in a clean state with all changes committed
         dirty_repos = []
-        for project in config["projects"]:
+        for project in utils.get_projects(config):
             if args.roles and project not in args.roles:
                 continue
 
-            repo = git.Repo(os.path.join(projects_dir, project))
+            if config["projectsRelativeDir"] != ".":
+                project_path = os.path.join(projects_dir, project)
+            else:
+                project_path = os.path.join(projects_dir)
+
+            repo = git.Repo(project_path)
 
             if repo.untracked_files or repo.is_dirty():
                 dirty_repos.append(project)
@@ -59,14 +64,21 @@ class BuildReleaseAction:
 
         print("Committing changes and creating release tags ...")
 
-        for project in config["projects"]:
+        for project in utils.get_projects(config):
             print(project)
-            self._commit_and_tag(os.path.join(projects_dir, project), version)
 
-        root_dir = os.path.abspath(os.path.join(projects_dir, ".."))
-        if os.path.exists(os.path.join(root_dir, ".git")):
-            print(utils.get_repo_name(root_dir))
-            self._commit_and_tag(root_dir, version)
+            if config["projectsRelativeDir"] != ".":
+                project_path = os.path.join(projects_dir, project)
+            else:
+                project_path = os.path.join(projects_dir)
+
+            self._commit_and_tag(project_path, version)
+
+        if config["projectsRelativeDir"] != ".":
+            root_dir = os.path.abspath(os.path.join(projects_dir, ".."))
+            if os.path.exists(os.path.join(root_dir, ".git")):
+                print(utils.get_repo_name(root_dir))
+                self._commit_and_tag(root_dir, version)
 
         print("... release version {} built.".format(version))
 

@@ -9,7 +9,7 @@ from .settings import VERSION, get_default_settings
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.11'
+__version__ = '1.2.0'
 
 _config_cache = None
 
@@ -107,3 +107,7 @@ def get_repo_name(repo_dir):  # pragma: no cover
                                       stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                                       bufsize=1).stdout.read().decode('utf-8')
     return os.path.basename(remote_url_str.strip()).rstrip(".git")
+
+
+def get_projects(config):
+    return config["projects"]

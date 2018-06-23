@@ -7,7 +7,7 @@ from .. import utils
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.9'
+__version__ = '1.2.0'
 
 
 class UpdateProjectsAction:
@@ -23,21 +23,25 @@ class UpdateProjectsAction:
         config = utils.get_config()
         projects_dir = utils.get_projects_dir()
 
-        root_dir = os.path.abspath(os.path.join(projects_dir, ".."))
-        if os.path.exists(os.path.join(root_dir, ".git")):
-            print(utils.get_repo_name(root_dir))
+        if config["projectsRelativeDir"] != ".":
+            root_dir = os.path.abspath(os.path.join(projects_dir, ".."))
+            if os.path.exists(os.path.join(root_dir, ".git")):
+                print(utils.get_repo_name(root_dir))
 
-            repo = git.Repo(root_dir)
-            repo.git.fetch(tags=True, prune=True)
-            print(repo.git.pull() + "\n")
+                repo = git.Repo(root_dir)
+                repo.git.fetch(tags=True, prune=True)
+                print(repo.git.pull() + "\n")
 
         if not os.path.exists(projects_dir):
             os.mkdir(projects_dir)
 
-        for project in config["projects"]:
+        for project in utils.get_projects(config):
             print(project)
 
-            project_path = os.path.join(projects_dir, project)
+            if config["projectsRelativeDir"] != ".":
+                project_path = os.path.join(projects_dir, project)
+            else:
+                project_path = os.path.join(projects_dir)
 
             if not os.path.exists(os.path.join(project_path, ".git")):
                 print("Cloning repo to ./projects/{}".format(project))
@@ -47,6 +51,6 @@ class UpdateProjectsAction:
                 repo.git.fetch(tags=True, prune=True)
                 print(repo.git.pull())
 
-            subprocess.call(["make", "install", "-C", os.path.join(projects_dir, project)])
+            subprocess.call(["make", "install", "-C", project_path])
 
             print("")

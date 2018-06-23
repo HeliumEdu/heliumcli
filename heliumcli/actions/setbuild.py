@@ -7,7 +7,7 @@ from .. import utils
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.9'
+__version__ = '1.2.0'
 
 
 class SetBuildAction:
@@ -24,23 +24,29 @@ class SetBuildAction:
         config = utils.get_config()
         projects_dir = utils.get_projects_dir()
 
-        root_dir = os.path.abspath(os.path.join(projects_dir, ".."))
-        if os.path.exists(os.path.join(root_dir, ".git")):
-            print(utils.get_repo_name(root_dir))
+        if config["projectsRelativeDir"] != ".":
+            root_dir = os.path.abspath(os.path.join(projects_dir, ".."))
+            if os.path.exists(os.path.join(root_dir, ".git")):
+                print(utils.get_repo_name(root_dir))
 
-            repo = git.Repo(root_dir)
-            repo.git.fetch(tags=True, prune=True)
-            repo.git.checkout(args.version)
+                repo = git.Repo(root_dir)
+                repo.git.fetch(tags=True, prune=True)
+                repo.git.checkout(args.version)
 
-            print("")
+                print("")
 
-        for project in config["projects"]:
+        for project in utils.get_projects(config):
             print(project)
 
-            repo = git.Repo(os.path.join(projects_dir, project))
+            if config["projectsRelativeDir"] != ".":
+                project_path = os.path.join(projects_dir, project)
+            else:
+                project_path = os.path.join(projects_dir)
+
+            repo = git.Repo(project_path)
             repo.git.fetch(tags=True, prune=True)
             repo.git.checkout(args.version)
 
-            subprocess.call(["make", "install", "-C", os.path.join(projects_dir, project)])
+            subprocess.call(["make", "install", "-C", project_path])
 
             print("")
