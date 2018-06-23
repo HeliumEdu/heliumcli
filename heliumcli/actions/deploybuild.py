@@ -7,7 +7,7 @@ from .. import utils
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.9'
+__version__ = '1.2.1'
 
 
 class DeployBuildAction:
@@ -34,21 +34,22 @@ class DeployBuildAction:
         config = utils.get_config()
         ansible_dir = utils.get_ansible_dir()
 
-        root_dir = os.path.abspath(os.path.join(ansible_dir, ".."))
-        if os.path.exists(os.path.join(root_dir, ".git")):
-            repo = git.Repo(root_dir)
-            try:
-                repo.git.fetch(tags=True, prune=True)
-            except git.GitCommandError as ex:
-                if ex.status == 128:
-                    print("WARN: if you want to get the latest code updates, verify your network connection")
-                else:
-                    raise ex
+        if config["projectsRelativeDir"] != ".":
+            root_dir = os.path.abspath(os.path.join(ansible_dir, ".."))
+            if os.path.exists(os.path.join(root_dir, ".git")):
+                repo = git.Repo(root_dir)
+                try:
+                    repo.git.fetch(tags=True, prune=True)
+                except git.GitCommandError as ex:
+                    if ex.status == 128:
+                        print("WARN: if you want to get the latest code updates, verify your network connection")
+                    else:
+                        raise ex
 
-            if len(repo.git.diff(args.version, 'master')) > 0:
-                repo.git.checkout(args.version)
-            else:
-                repo.git.checkout('master')
+                if len(repo.git.diff(args.version, 'master')) > 0:
+                    repo.git.checkout(args.version)
+                else:
+                    repo.git.checkout('master')
 
         version = args.version.lstrip("v")
         hosts = utils.parse_hosts_file(args.env)
