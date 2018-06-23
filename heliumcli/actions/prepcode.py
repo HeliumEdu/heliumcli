@@ -4,12 +4,13 @@ import shutil
 import subprocess
 
 import git
+import re
 
 from .. import utils
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.2.0'
+__version__ = '1.2.2'
 
 
 class PrepCodeAction:
@@ -57,15 +58,14 @@ class PrepCodeAction:
             repo = git.Repo(project_path)
             repo.git.fetch(tags=True, prune=True)
 
-            versions_list = repo.tags
-            versions_list.sort(key=lambda v: list(map(int, v.tag.tag.lstrip("v").split("."))))
+            version_tags = self._sort_tags(repo.tags)
 
-            if len(versions_list) == 0:
-                print("No tags have been created yet.")
+            if len(version_tags) == 0:
+                print("No version tags have been created yet.")
 
                 return
 
-            latest_tag = versions_list[-1]
+            latest_tag = version_tags[-1]
             changes = latest_tag.commit.diff(None)
 
             print("Checking the " + str(len(changes)) + ' file(s) in "' +
@@ -153,3 +153,18 @@ class PrepCodeAction:
             line = "  \"version\": \"{}\",\n".format(self._current_version)
             return line, True
         return line, False
+
+    def _sort_tags(self, tags):
+        # Remove tags that don't match semantic versioning
+        version_tags = []
+
+        for git_tag in tags:
+            cleaned_tag = git_tag.tag.tag.lstrip("v")
+            pattern = re.compile("^[0-9\.]*$")
+            if pattern.match(cleaned_tag):
+                version_tags.append(git_tag)
+
+        version_tags.sort(key=lambda v: list(map(int, v.tag.tag.lstrip("v").split("."))))
+
+        return version_tags
+
