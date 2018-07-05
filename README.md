@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/HeliumEdu/heliumcli.svg?branch=master)](https://travis-ci.org/HeliumEdu/heliumcli)
 [![codecov](https://codecov.io/gh/HeliumEdu/heliumcli/branch/master/graph/badge.svg)](https://codecov.io/gh/HeliumEdu/heliumcli)
 [![Updates](https://pyup.io/repos/github/HeliumEdu/heliumcli/shield.svg)](https://pyup.io/repos/github/HeliumEdu/heliumcli/)
+[![Python 3](https://pyup.io/repos/github/HeliumEdu/heliumcli/python-3-shield.svg)](https://pyup.io/repos/github/HeliumEdu/heliumcli/)
 [![PyPI version](https://badge.fury.io/py/heliumcli.svg)](https://badge.fury.io/py/heliumcli)
 
 
