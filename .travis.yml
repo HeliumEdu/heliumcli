@@ -12,6 +12,7 @@ install:
 - sudo -H pip install setuptools twine --upgrade
 script:
 - make test
+- make local
 after_success:
 - codecov
 deploy:
