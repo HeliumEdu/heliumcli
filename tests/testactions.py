@@ -8,7 +8,7 @@ from .helpers import testcase, commonhelper
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.2.2'
+__version__ = '1.3.3'
 
 
 class TestActionsTestCase(testcase.HeliumCLITestCase):
@@ -143,34 +143,6 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         commonhelper.verify_versioned_file_updated(self, versioned_file1_path, "1.2.3")
         commonhelper.verify_versioned_file_updated(self, versioned_file2_path, "1.2.3")
 
-    def test_prep_code_sort_tags(self):
-        # GIVEN
-        tag1 = mock.MagicMock()
-        tag1.tag = mock.MagicMock()
-        tag1.tag.tag = '1.2.2'
-        tag2 = mock.MagicMock()
-        tag2.tag = mock.MagicMock()
-        tag2.tag.tag = '1.2.3'
-        tag3 = mock.MagicMock()
-        tag3.tag = mock.MagicMock()
-        tag3.tag.tag = '1.2.1'
-        tag4 = mock.MagicMock()
-        tag4.tag = mock.MagicMock()
-        tag4.tag.tag = '0.1.5'
-        tag5 = mock.MagicMock()
-        tag5.tag = mock.MagicMock()
-        tag5.tag.tag = 'text-1.2.3'
-
-        tags = [tag1, tag2, tag3, tag4, tag5]
-        from heliumcli.actions import prepcode
-        action = prepcode.PrepCodeAction()
-
-        # WHEN
-        sorted_tags = action._sort_tags(tags)
-
-        # THEN
-        self.assertEqual(sorted_tags, [tag4, tag3, tag1, tag2])
-
     def test_build_release(self):
         # GIVEN
         version_file_path = commonhelper.given_python_version_file_exists()
@@ -194,6 +166,9 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         commonhelper.verify_versioned_file_updated(self, version_file_path, "1.2.3")
         commonhelper.verify_versioned_file_updated(self, package_file_path, "1.2.3")
         commonhelper.verify_versioned_file_updated(self, versioned_file_path, "1.2.3")
+
+    def test_list_builds(self):
+        main(["main.py", "--init", "--silent", "list-builds"])
 
     def test_build_release_fails_when_dirty(self):
         # GIVEN

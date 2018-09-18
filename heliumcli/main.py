@@ -4,6 +4,7 @@ import argparse
 
 import sys
 
+from heliumcli.actions.listbuilds import ListBuildsAction
 from . import utils
 from .actions.buildrelease import BuildReleaseAction
 from .actions.deploybuild import DeployBuildAction
@@ -15,7 +16,7 @@ from .actions.updateprojects import UpdateProjectsAction
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.9'
+__version__ = '1.3.3'
 
 
 def main(argv):
@@ -27,6 +28,7 @@ def main(argv):
         PrepCodeAction(),
         BuildReleaseAction(),
         DeployBuildAction(),
+        ListBuildsAction(),
     }
 
     parser = argparse.ArgumentParser(prog="helium-cli")
