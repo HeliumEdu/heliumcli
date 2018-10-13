@@ -7,7 +7,7 @@ from .. import utils
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.2.1'
+__version__ = '1.4.0'
 
 
 class DeployBuildAction:
@@ -42,7 +42,7 @@ class DeployBuildAction:
                     repo.git.fetch(tags=True, prune=True)
                 except git.GitCommandError as ex:
                     if ex.status == 128:
-                        print("WARN: if you want to get the latest code updates, verify your network connection")
+                        print("WARN: if you want to get the latest code updates, verify your network connection.")
                     else:
                         raise ex
 

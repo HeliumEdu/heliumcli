@@ -9,7 +9,7 @@ from .. import utils
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.3.3'
+__version__ = '1.4.0'
 
 
 class PrepCodeAction:
@@ -17,20 +17,17 @@ class PrepCodeAction:
         self.name = "prep-code"
         self.help = "Prepare code for release build, updating version and copyright information in project files"
 
-    def init(self):
-        self._copyright_name = utils.get_copyright_name()
-        self._current_year = str(datetime.date.today().year)
-        self._current_version = None
-
     def setup(self, subparsers):
-        self.init()
-
         parser = subparsers.add_parser(self.name, help=self.help)
         parser.add_argument('--roles', action='store', type=str, nargs='*',
                             help="Limit the project roles to be prepped")
         parser.set_defaults(action=self)
 
     def run(self, args):
+        self._copyright_name = utils.get_copyright_name()
+        self._current_year = str(datetime.date.today().year)
+        self._current_version = None
+
         config = utils.get_config()
         projects_dir = utils.get_projects_dir()
 
@@ -67,8 +64,10 @@ class PrepCodeAction:
             latest_tag = version_tags[-1]
             changes = latest_tag.commit.diff(None)
 
-            print("Checking the " + str(len(changes)) + ' file(s) in "' +
-                  project + '" that have been modified since ' + latest_tag.tag.tag + " was tagged ...")
+            print(
+                "Checking the {} file(s) in \"{}\" that have been modified since {} was tagged ...".format(len(changes),
+                                                                                                           project,
+                                                                                                           latest_tag.tag.tag))
             print("-------------------------------")
 
             count = 0
@@ -81,7 +80,7 @@ class PrepCodeAction:
                         count += 1
 
             print("-------------------------------")
-            print("Updated " + str(count) + " file(s).")
+            print("Updated {} file(s).".format(count))
             print("")
 
             if os.path.exists(os.path.join(project_path, "package.json")):
@@ -117,7 +116,7 @@ class PrepCodeAction:
         new_file.close()
 
         if updated:
-            print("Updated " + file_path)
+            print("Updated {}.".format(file_path))
 
             shutil.copy(file_path + ".tmp", file_path)
         os.remove(file_path + ".tmp")

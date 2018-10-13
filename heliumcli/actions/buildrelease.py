@@ -9,7 +9,7 @@ from .prepcode import PrepCodeAction
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.2.0'
+__version__ = '1.4.0'
 
 
 class BuildReleaseAction:
@@ -59,7 +59,6 @@ class BuildReleaseAction:
                                   os.path.join(config["versionInfo"]["project"], config["versionInfo"]["path"]))
 
         prepcodeaction = PrepCodeAction()
-        prepcodeaction.init()
         prepcodeaction.run(args)
 
         print("Committing changes and creating release tags ...")
@@ -86,7 +85,7 @@ class BuildReleaseAction:
         repo = git.Repo(path)
 
         if version in repo.tags:
-            print("Version already exists, not doing anything")
+            print("Version already exists, not doing anything.")
         else:
             if repo.is_dirty():
                 repo.git.add(u=True)

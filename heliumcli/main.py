@@ -6,6 +6,7 @@ import sys
 
 from heliumcli.actions.listbuilds import ListBuildsAction
 from . import utils
+from .actions.init import InitAction
 from .actions.buildrelease import BuildReleaseAction
 from .actions.deploybuild import DeployBuildAction
 from .actions.prepcode import PrepCodeAction
@@ -16,11 +17,12 @@ from .actions.updateprojects import UpdateProjectsAction
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.3.3'
+__version__ = '1.4.0'
 
 
 def main(argv):
     actions = {
+        InitAction(),
         UpdateAction(),
         UpdateProjectsAction(),
         SetBuildAction(),
@@ -32,16 +34,11 @@ def main(argv):
     }
 
     parser = argparse.ArgumentParser(prog="helium-cli")
-    parser.add_argument("--init", action="store_true", help="Initialize the project without prompt")
-    parser.add_argument("--silent", action="store_true", help="Run more quietly, not displaying decorations")
+    parser.add_argument("--silent", action="store_true", help="Run quietly without displaying decorations")
     subparsers = parser.add_subparsers(title="subcommands")
 
-    silent = '--silent' in argv
-    if not silent:
+    if '--silent' not in argv:
         print(utils.get_title())
-
-    if '--init' in argv:
-        utils.get_config(True)
 
     for action in actions:
         action.setup(subparsers)
