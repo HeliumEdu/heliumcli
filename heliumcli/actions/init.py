@@ -16,6 +16,7 @@ class InitAction:
 
     def setup(self, subparsers):
         parser = subparsers.add_parser(self.name, help=self.help)
+        parser.add_argument("--template-project", action="store_true", help="Initialize a project from a template Django project")
         parser.set_defaults(action=self)
 
     def run(self, args):
@@ -26,5 +27,7 @@ class InitAction:
             sys.exit(1)
 
         utils.get_config(True)
+
+        # TODO: implement template-project config
 
         print("A new helium-cli project has been initialized.")
