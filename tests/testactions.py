@@ -2,8 +2,9 @@ import os
 
 from mock import mock
 
-from heliumcli import utils, settings
 from heliumcli.main import main
+from heliumcli import utils, settings
+from tests.helpers.commonhelper import given_config_exists
 from .helpers import testcase, commonhelper
 
 __author__ = 'Alex Laird'
@@ -22,7 +23,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
     @mock.patch("os.path.exists", return_value=False)
     def test_update_clone_projects(self, mock_path_exists):
         # GIVEN
-        main(["main.py", "init"])
+        given_config_exists()
 
         # WHEN
         main(["main.py", "update-projects"])
@@ -99,7 +100,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
 
     def test_deploy_build_code_limit_hosts(self):
         # GIVEN
-        main(["main.py", "init"])
+        given_config_exists()
 
         # WHEN
         main(["main.py", "deploy-build", "1.2.3", "devbox", "--code", "--roles", "host1,host2"])
@@ -116,7 +117,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
 
     def test_deploy_build_all_tags(self):
         # GIVEN
-        main(["main.py", "init"])
+        given_config_exists()
 
         # WHEN
         main(["main.py", "deploy-build", "1.2.3", "devbox", "--code", "--migrate", "--envvars", "--conf", "--ssl"])
@@ -177,14 +178,16 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
 
     def test_list_builds(self):
         # GIVEN
-        main(["main.py", "init"])
+        given_config_exists()
+
+        # WHEN
         main(["main.py", "--silent", "list-builds"])
 
     def test_build_release_fails_when_dirty(self):
         # GIVEN
         repo_instance = self.mock_git_repo.return_value
         repo_instance.is_dirty = mock.MagicMock(return_value=True)
-        main(["main.py", "init"])
+        given_config_exists()
 
         # WHEN
         main(["main.py", "build-release", "1.2.3"])

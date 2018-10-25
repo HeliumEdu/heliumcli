@@ -1,6 +1,6 @@
 import os
 
-from heliumcli.main import main
+from tests.helpers.commonhelper import given_config_exists
 from .helpers import testcase
 
 __author__ = 'Alex Laird'
@@ -14,7 +14,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         self.assertFalse(os.path.exists(os.environ.get("HELIUMCLI_CONFIG_PATH")))
 
         # WHEN
-        main(["main.py", "init"])
+        given_config_exists()
 
         # THEN
         self.assertTrue(os.path.exists(os.environ.get("HELIUMCLI_CONFIG_PATH")))

@@ -1,5 +1,4 @@
 import os
-
 import sys
 
 from .. import utils
@@ -16,7 +15,10 @@ class InitAction:
 
     def setup(self, subparsers):
         parser = subparsers.add_parser(self.name, help=self.help)
-        parser.add_argument("--template-project", action="store_true", help="Initialize a project from a template Django project")
+        parser.add_argument("id", help="The ID (no spaces) to give to the new project")
+        parser.add_argument("name", help="The friendly name to give to the new project")
+        parser.add_argument("host", help="The hostname to give the project")
+        parser.add_argument("github-user", help="The GitHub username or project name")
         parser.set_defaults(action=self)
 
     def run(self, args):
@@ -28,6 +30,10 @@ class InitAction:
 
         utils.get_config(True)
 
-        # TODO: implement template-project config
+        self._init_project(args)
 
         print("A new helium-cli project has been initialized.")
+
+    def _init_project(self, args):
+        # TODO: implement template init
+        pass
