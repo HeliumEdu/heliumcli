@@ -20,6 +20,7 @@ class InitAction:
 
     def setup(self, subparsers):
         parser = subparsers.add_parser(self.name, help=self.help)
+        parser.add_argument("--config-only", action="store_true", help="Only initialize the .heliumcli.yml config file")
         parser.add_argument("id", help="The ID (no spaces) to give to the new project")
         parser.add_argument("name", help="The friendly name to give to the new project")
         parser.add_argument("host", help="The hostname to give the project")
@@ -35,46 +36,51 @@ class InitAction:
 
         utils.get_config(True)
 
-        self._init_project(args)
+        self._upper_slug = args.id.replace("-", "_").replace(" ", "_").upper()
+        self._lower_slug = self._upper_slug.lower()
+
+        if not args.config_only:
+            self._init_project(args)
+        else:
+            self._replace_in_file(os.environ.get("HELIUMCLI_CONFIG_PATH", ".heliumcli.yml"), args)
 
         print("A new helium-cli project has been initialized.")
 
     def _init_project(self, args):
+        project_dir = os.path.join(os.environ.get("HELIUMCLI_CONFIG_PATH"), args.id)
         template_project_name = "template-project"
 
         print("Cloning the template-project repo into this directory ...")
         git.Repo.clone_from("{}/{}.git".format("https://github.com/HeliumEdu", template_project_name),
-                            template_project_name)
+                            project_dir)
 
-        copy_tree(template_project_name, ".")
-        shutil.rmtree(template_project_name)
-        shutil.rmtree(".git")
+        shutil.rmtree(os.path.join(project_dir, ".git"))
 
-        repo = git.Repo.init(".")
+        repo = git.Repo.init(project_dir)
 
         print("Updating template variables ...")
 
-        upper_slug = args.id.replace("-", "_").replace(" ", "_").upper()
-        lower_slug = upper_slug.lower()
-
-        for dir_name, dirs, files in os.walk("."):
+        for dir_name, dirs, files in os.walk(project_dir):
             for filename in files:
-                path = os.path.join(dir_name, filename)
-                with open(path, "r") as f:
-                    s = f.read()
-                s = s.replace("{%PROJECT_ID%}", args.id)
-                s = s.replace("{%PROJECT_ID_UPPER%}", upper_slug)
-                s = s.replace("{%PROJECT_ID_LOWER%}", lower_slug)
-                s = s.replace("{%PROJECT_NAME%}", args.name)
-                s = s.replace("{%PROJECT_GITHUB_USER%}", args.github_user)
-
-                with open(path, "w") as f:
-                    f.write(s)
+                self._replace_in_file(dir_name, filename, args)
 
         repo.git.add(A=True)
 
-        os.rename("project_id", lower_slug)
+        os.rename(os.path.join(project_dir, "project_id"), os.path.join(project_dir, self._lower_slug))
 
         print("Running make ...")
 
-        subprocess.call(["make", "install"])
+        subprocess.call(["make", "install", "-C", project_dir])
+
+    def _replace_in_file(self, dir_name, filename, args):
+        path = os.path.join(dir_name, filename)
+        with open(path, "r") as f:
+            s = f.read()
+        s = s.replace("{%PROJECT_ID%}", args.id)
+        s = s.replace("{%PROJECT_ID_UPPER%}", upper_slug)
+        s = s.replace("{%PROJECT_ID_LOWER%}", lower_slug)
+        s = s.replace("{%PROJECT_NAME%}", args.name)
+        s = s.replace("{%PROJECT_GITHUB_USER%}", args.github_user)
+
+        with open(path, "w") as f:
+            f.write(s)

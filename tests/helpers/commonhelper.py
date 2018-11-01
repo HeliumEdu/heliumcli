@@ -10,7 +10,7 @@ __version__ = '1.4.0'
 
 
 def given_config_exists(id="test", name="Test", host="test.heliumedu.com", github_user="HeliumEdu"):
-    main(["main.py", "init", id, name, host, github_user])
+    main(["main.py", "init", "--config-only", id, name, host, github_user])
 
 
 def given_runserver_exists(project):
