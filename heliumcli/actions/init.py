@@ -2,7 +2,6 @@ import os
 import shutil
 import subprocess
 import sys
-from distutils.dir_util import copy_tree
 
 import git
 
@@ -40,14 +39,14 @@ class InitAction:
         self._lower_slug = self._upper_slug.lower()
 
         if not args.config_only:
-            self._init_project(args)
+            self._init_project(config_path, args)
         else:
-            self._replace_in_file(os.environ.get("HELIUMCLI_CONFIG_PATH", ".heliumcli.yml"), args)
+            self._replace_in_file(os.path.dirname(config_path), os.path.basename(config_path), args)
 
         print("A new helium-cli project has been initialized.")
 
-    def _init_project(self, args):
-        project_dir = os.path.join(os.environ.get("HELIUMCLI_CONFIG_PATH"), args.id)
+    def _init_project(self, config_path, args):
+        project_dir = os.path.join(os.path.dirname(config_path), args.id)
         template_project_name = "template-project"
 
         print("Cloning the template-project repo into this directory ...")
@@ -77,8 +76,8 @@ class InitAction:
         with open(path, "r") as f:
             s = f.read()
         s = s.replace("{%PROJECT_ID%}", args.id)
-        s = s.replace("{%PROJECT_ID_UPPER%}", upper_slug)
-        s = s.replace("{%PROJECT_ID_LOWER%}", lower_slug)
+        s = s.replace("{%PROJECT_ID_UPPER%}", self._upper_slug)
+        s = s.replace("{%PROJECT_ID_LOWER%}", self._lower_slug)
         s = s.replace("{%PROJECT_NAME%}", args.name)
         s = s.replace("{%PROJECT_GITHUB_USER%}", args.github_user)
 
