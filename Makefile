@@ -7,7 +7,7 @@ all: env virtualenv install
 virtualenv:
 	@if [ ! -d ".venv" ]; then \
 		python3 -m pip install virtualenv --user; \
-        python3 -m virtualenv .venv; \
+		python3 -m virtualenv .venv; \
 	fi
 
 install: env virtualenv
