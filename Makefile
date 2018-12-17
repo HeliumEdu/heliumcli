@@ -1,8 +1,8 @@
-.PHONY: all env virtualenv install
+.PHONY: all virtualenv install test local upload
 
 SHELL := /usr/bin/env bash
 
-all: env virtualenv install
+all: virtualenv install
 
 virtualenv:
 	@if [ ! -d ".venv" ]; then \
@@ -10,7 +10,7 @@ virtualenv:
 		python3 -m virtualenv .venv; \
 	fi
 
-install: env virtualenv
+install: virtualenv
 	@( \
 		source .venv/bin/activate; \
 		python -m pip install -r requirements.txt; \
