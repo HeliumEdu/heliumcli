@@ -30,6 +30,7 @@ local:
 	)
 
 upload:
+	@rm -rf dist
 	@( \
 		source .venv/bin/activate; \
 		python setup.py sdist; \
