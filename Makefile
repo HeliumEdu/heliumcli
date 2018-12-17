@@ -32,5 +32,6 @@ local:
 upload:
 	@( \
 		source .venv/bin/activate; \
-		python setup.py sdist upload; \
+		python setup.py sdist; \
+		twine upload dist/*; \
 	)

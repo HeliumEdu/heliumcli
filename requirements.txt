@@ -6,3 +6,4 @@ GitPython==2.1.11
 PyYAML==4.2b4
 ansible==2.7.4
 future==0.17.1
+twine==1.12.1
