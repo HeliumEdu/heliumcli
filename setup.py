@@ -4,7 +4,7 @@ from heliumcli import settings
 
 version = settings.VERSION
 
-with open('README.md') as f:
+with open('README.md', 'r') as f:
     long_description = f.read()
 
 setup(
