@@ -9,8 +9,8 @@ __copyright__ = 'Copyright 2018, Helium Edu'
 __version__ = '1.4.0'
 
 
-def given_config_exists(id="test", name="Test", host="test.heliumedu.com", github_user="HeliumEdu"):
-    main(["main.py", "init", "--config-only", id, name, host, github_user])
+def given_config_exists(project_id="test", name="Test", host="test.heliumedu.com", github_user="HeliumEdu"):
+    main(["main.py", "init", "--config-only", project_id, name, host, github_user])
 
 
 def given_runserver_exists(project):
@@ -57,7 +57,7 @@ __version__ = '{}'
 # ############################
 # Project configuration
 # ############################
-    
+
 # Project information
 
 PROJECT_NAME = os.environ.get('PROJECT_NAME')
@@ -102,11 +102,11 @@ def given_project_python_versioned_file_exists(project, filename='maths.py'):
     versioned_file.write("""\"\"\"
 Other header comments and such.
 \"\"\"
-    
+
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2017, Helium Edu'
 __version__ = '1.2.2'
-    
+
 def sum(a, b):
     return a + b
 """)
@@ -131,7 +131,7 @@ def given_project_js_versioned_file_exists(project, filename="maths.js"):
  * @author Alex Laird
  * @version 1.2.2
  */
-    
+
 function sum(a, b) {
     return a + b
 }
