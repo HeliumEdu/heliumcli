@@ -4,13 +4,12 @@
 [![Python 3](https://pyup.io/repos/github/HeliumEdu/heliumcli/python-3-shield.svg)](https://pyup.io/repos/github/HeliumEdu/heliumcli/)
 [![PyPI version](https://badge.fury.io/py/heliumcli.svg)](https://badge.fury.io/py/heliumcli)
 
-
 # Helium CLI
 
 ## Prerequisites
 
-* Python (>=2.7, >= 3.5)
-* Pip (>= 9.0)
+  - Python (>=2.7, >= 3.5)
+  - Pip (>= 9.0)
 
 ## Getting Started
 
