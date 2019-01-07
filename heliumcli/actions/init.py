@@ -7,9 +7,9 @@ import git
 
 from .. import utils
 
-__author__ = 'Alex Laird'
-__copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.4.0'
+__author__ = "Alex Laird"
+__copyright__ = "Copyright 2018, Helium Edu"
+__version__ = "1.5.0"
 
 
 class InitAction:

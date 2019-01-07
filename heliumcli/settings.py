@@ -1,9 +1,9 @@
 import json
 import os
 
-__author__ = 'Alex Laird'
-__copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.4.2'
+__author__ = "Alex Laird"
+__copyright__ = "Copyright 2018, Helium Edu"
+__version__ = "1.5.0"
 
 VERSION = __version__
 
@@ -11,7 +11,7 @@ VERSION = __version__
 def get_default_settings():
     return {
         "gitProject": os.environ.get("HELIUMCLI_GIT_PROJECT", "https://github.com/HeliumEdu"),
-        "projects": json.loads(os.environ.get("HELIUMCLI_PROJECTS", '["platform", "frontend"]')),
+        "projects": json.loads(os.environ.get("HELIUMCLI_PROJECTS", "[\"platform\", \"frontend\"]")),
         "projectsRelativeDir": os.environ.get("HELIUMCLI_PROJECTS_RELATIVE_DIR", "projects"),
         "serverBinFilename": os.environ.get("HELIUMCLI_SERVER_BIN_FILENAME", "bin/runserver"),
         "ansibleRelativeDir": os.environ.get("HELIUMCLI_ANSIBLE_RELATIVE_DIR", "ansible"),

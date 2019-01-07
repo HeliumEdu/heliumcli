@@ -7,9 +7,9 @@ import git
 from .. import utils
 from .prepcode import PrepCodeAction
 
-__author__ = 'Alex Laird'
-__copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.4.0'
+__author__ = "Alex Laird"
+__copyright__ = "Copyright 2018, Helium Edu"
+__version__ = "1.5.0"
 
 
 class BuildReleaseAction:
@@ -20,7 +20,7 @@ class BuildReleaseAction:
     def setup(self, subparsers):
         parser = subparsers.add_parser(self.name, help=self.help)
         parser.add_argument("version", help="The version number to be tagged")
-        parser.add_argument('--roles', action='store', type=str, nargs='*',
+        parser.add_argument("--roles", action="store", type=str, nargs="*",
                             help="Limit the project roles to be built/tagged")
         parser.set_defaults(action=self)
 
@@ -89,7 +89,7 @@ class BuildReleaseAction:
         else:
             if repo.is_dirty():
                 repo.git.add(u=True)
-                repo.git.commit(m='[heliumcli] Release {}'.format(version))
+                repo.git.commit(m="[heliumcli] Release {}".format(version))
                 repo.remotes["origin"].push("master")
             tag = repo.create_tag(version, m="")
             repo.remotes["origin"].push(tag)
@@ -105,9 +105,9 @@ class BuildReleaseAction:
         for line in version_file:
             if version_file_path.endswith(".py"):
                 if line.strip().startswith("__version__ ="):
-                    line = "__version__ = '{}'\n".format(version)
+                    line = "__version__ = \"{}\"\n".format(version)
                 elif line.strip().startswith("__copyright__ = "):
-                    line = "__copyright__ = 'Copyright {}, {}'\n".format(str(datetime.date.today().year),
+                    line = "__copyright__ = \"Copyright {}, {}\"\n".format(str(datetime.date.today().year),
                                                                          utils.get_copyright_name())
             elif version_file.name == "package.json":
                 if line.strip().startswith("\"version\":"):

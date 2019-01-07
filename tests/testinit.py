@@ -5,9 +5,9 @@ from unittest import TestCase
 from heliumcli import utils
 from heliumcli.main import main
 
-__author__ = 'Alex Laird'
-__copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.4.0'
+__author__ = "Alex Laird"
+__copyright__ = "Copyright 2018, Helium Edu"
+__version__ = "1.5.0"
 
 
 class TestActionsTestCase(TestCase):

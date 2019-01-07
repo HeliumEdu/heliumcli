@@ -15,9 +15,9 @@ from .actions.startservers import StartServersAction
 from .actions.update import UpdateAction
 from .actions.updateprojects import UpdateProjectsAction
 
-__author__ = 'Alex Laird'
-__copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.4.0'
+__author__ = "Alex Laird"
+__copyright__ = "Copyright 2018, Helium Edu"
+__version__ = "1.5.0"
 
 
 def main(argv):
@@ -37,7 +37,7 @@ def main(argv):
     parser.add_argument("--silent", action="store_true", help="Run quietly without displaying decorations")
     subparsers = parser.add_subparsers(title="subcommands")
 
-    if '--silent' not in argv:
+    if "--silent" not in argv:
         print(utils.get_title())
 
     for action in actions:
@@ -50,7 +50,7 @@ def main(argv):
 
     args = parser.parse_args(argv[1:])
 
-    if not hasattr(args, 'action'):  # pragma: no cover
+    if not hasattr(args, "action"):  # pragma: no cover
         parser.print_help()
 
         return

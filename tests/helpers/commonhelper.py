@@ -4,9 +4,9 @@ import os
 from heliumcli import utils
 from heliumcli.main import main
 
-__author__ = 'Alex Laird'
-__copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.4.1'
+__author__ = "Alex Laird"
+__copyright__ = "Copyright 2018, Helium Edu"
+__version__ = "1.5.0"
 
 
 def given_config_exists(project_id="test", name="Test", host="test.heliumedu.com", github_user="HeliumEdu"):
@@ -27,15 +27,15 @@ def given_runserver_exists(project):
 def given_hosts_file_exists():
     utils.get_config(True)
 
-    if not os.path.exists(os.path.join(utils.get_ansible_dir(), 'hosts')):
-        os.makedirs(os.path.join(utils.get_ansible_dir(), 'hosts'))
+    if not os.path.exists(os.path.join(utils.get_ansible_dir(), "hosts")):
+        os.makedirs(os.path.join(utils.get_ansible_dir(), "hosts"))
 
-    hosts_file = open(os.path.join(utils.get_ansible_dir(), 'hosts', 'devbox'), "w")
+    hosts_file = open(os.path.join(utils.get_ansible_dir(), "hosts", "devbox"), "w")
     hosts_file.write("[devbox]\nheliumedu.test ansible_user=vagrant ip_address=10.1.0.10")
     hosts_file.close()
 
 
-def given_python_version_file_exists(version='1.2.2'):
+def given_python_version_file_exists(version="1.2.2"):
     config = utils.get_config(True)
 
     version_file_path = os.path.join(utils.get_projects_dir(), config["versionInfo"]["project"],
@@ -50,9 +50,9 @@ Header comments and such.
 
 import os
 
-__author__ = 'Alex Laird'
-__copyright__ = 'Copyright 2017, Helium Edu'
-__version__ = '{}'
+__author__ = "Alex Laird"
+__copyright__ = "Copyright 2017, Helium Edu"
+__version__ = "{}"
 
 # ############################
 # Project configuration
@@ -60,18 +60,18 @@ __version__ = '{}'
 
 # Project information
 
-PROJECT_NAME = os.environ.get('PROJECT_NAME')
-MORE_SETTINGS = 'more_settings_after_this'
+PROJECT_NAME = os.environ.get("PROJECT_NAME")
+MORE_SETTINGS = "more_settings_after_this"
 """.format(version))
     version_file.close()
 
     return version_file_path
 
 
-def given_project_package_json_exists(project, version='1.2.2'):
+def given_project_package_json_exists(project, version="1.2.2"):
     utils.get_config(True)
 
-    versioned_file_path = os.path.join(utils.get_projects_dir(), project, 'package.json')
+    versioned_file_path = os.path.join(utils.get_projects_dir(), project, "package.json")
     if not os.path.exists(os.path.dirname(versioned_file_path)):
         os.makedirs(os.path.dirname(versioned_file_path))
 
@@ -91,7 +91,7 @@ def given_project_package_json_exists(project, version='1.2.2'):
     return versioned_file_path
 
 
-def given_project_python_versioned_file_exists(project, filename='maths.py'):
+def given_project_python_versioned_file_exists(project, filename="maths.py"):
     utils.get_config(True)
 
     versioned_file_path = os.path.join(utils.get_projects_dir(), project, filename)
@@ -103,9 +103,9 @@ def given_project_python_versioned_file_exists(project, filename='maths.py'):
 Other header comments and such.
 \"\"\"
 
-__author__ = 'Alex Laird'
-__copyright__ = 'Copyright 2017, Helium Edu'
-__version__ = '1.2.2'
+__author__ = "Alex Laird"
+__copyright__ = "Copyright 2017, Helium Edu"
+__version__ = "1.2.2"
 
 def sum(a, b):
     return a + b
@@ -144,18 +144,18 @@ function sum(a, b) {
 def verify_versioned_file_updated(test_case, versioned_file_path, version):
     current_version_found = False
     current_year_found = False
-    for line in open(versioned_file_path, 'r'):
-        if versioned_file_path.endswith('.py'):
-            if "__version__ = '{}'".format(version) in line:
+    for line in open(versioned_file_path, "r"):
+        if versioned_file_path.endswith(".py"):
+            if "__version__ = \"{}\"".format(version) in line:
                 current_version_found = True
-            elif "__copyright__ = 'Copyright {}'".format(str(datetime.date.today().year)):
+            elif "__copyright__ = \"Copyright {}\"".format(str(datetime.date.today().year)):
                 current_year_found = True
-        elif versioned_file_path.endswith('.js'):
+        elif versioned_file_path.endswith(".js"):
             if "* @version {}".format(version) in line:
                 current_version_found = True
             elif "* Copyright (c) {}".format(str(datetime.date.today().year)):
                 current_year_found = True
-        elif os.path.basename(versioned_file_path) == 'package.json':
+        elif os.path.basename(versioned_file_path) == "package.json":
             current_year_found = True
             if "version\": \"{}\",".format(version) in line:
                 current_version_found = True

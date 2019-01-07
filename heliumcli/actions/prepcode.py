@@ -7,9 +7,9 @@ import git
 
 from .. import utils
 
-__author__ = 'Alex Laird'
-__copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.4.0'
+__author__ = "Alex Laird"
+__copyright__ = "Copyright 2018, Helium Edu"
+__version__ = "1.5.0"
 
 
 class PrepCodeAction:
@@ -19,7 +19,7 @@ class PrepCodeAction:
 
     def setup(self, subparsers):
         parser = subparsers.add_parser(self.name, help=self.help)
-        parser.add_argument('--roles', action='store', type=str, nargs='*',
+        parser.add_argument("--roles", action="store", type=str, nargs="*",
                             help="Limit the project roles to be prepped")
         parser.set_defaults(action=self)
 
@@ -34,7 +34,7 @@ class PrepCodeAction:
         for line in open(os.path.join(projects_dir, config["versionInfo"]["project"], config["versionInfo"]["path"]),
                          "r"):
             if config["versionInfo"]["path"].endswith(".py") and line.startswith("__version__ = "):
-                self._current_version = line.strip().split("__version__ = '")[1].rstrip("'")
+                self._current_version = line.strip().split("__version__ = \"")[1].rstrip("\"")
 
         if not self._current_version:
             print("WARN: helium-cli does not know how to process this type of file for version information: {}".format(
@@ -87,7 +87,7 @@ class PrepCodeAction:
                 self._process_file(os.path.join(project_path, "package.json"))
 
                 # This is to ensure the lock file also gets updated
-                subprocess.call(['npm', '--prefix', project_path, 'install'])
+                subprocess.call(["npm", "--prefix", project_path, "install"])
 
     def _process_file(self, file_path):
         filename = os.path.basename(file_path)
@@ -124,15 +124,15 @@ class PrepCodeAction:
         return updated
 
     def _process_python_line(self, line):
-        if utils.should_update(line, "__version__ = '{}'".format(self._current_version), "__version__ ="):
+        if utils.should_update(line, "__version__ = \"{}\"".format(self._current_version), "__version__ ="):
 
-            line = "__version__ = '{}'\n".format(self._current_version)
+            line = "__version__ = \"{}\"\n".format(self._current_version)
             return line, True
         elif utils.should_update(line,
-                                 "__copyright__ = 'Copyright {}, {}'".format(self._current_year, self._copyright_name),
-                                 "__copyright__ = ", "{}'".format(self._copyright_name)):
+                                 "__copyright__ = \"Copyright {}, {}\"".format(self._current_year, self._copyright_name),
+                                 "__copyright__ = ", "{}\"".format(self._copyright_name)):
 
-            line = "__copyright__ = 'Copyright {}, {}'\n".format(self._current_year, self._copyright_name)
+            line = "__copyright__ = \"Copyright {}, {}\"\n".format(self._current_year, self._copyright_name)
             return line, True
         return line, False
 

@@ -8,9 +8,9 @@ from builtins import input
 
 from .settings import VERSION, get_default_settings
 
-__author__ = 'Alex Laird'
-__copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.3.3'
+__author__ = "Alex Laird"
+__copyright__ = "Copyright 2018, Helium Edu"
+__version__ = "1.5.0"
 
 _config_cache = None
 
@@ -39,9 +39,9 @@ def get_config(init=False):
     if not _config_cache:
         if not os.path.exists(config_path):
             if not init:  # pragma: no cover
-                response = input('No config file found; initialize a new project [Y/n]? ')
-                if response.lower() not in ['y', 'yes', '']:
-                    print('\nThis tool cannot be used without a config file.\n')
+                response = input("No config file found; initialize a new project [Y/n]? ")
+                if response.lower() not in ["y", "yes", ""]:
+                    print("\nThis tool cannot be used without a config file.\n")
 
                     sys.exit(1)
                 else:
@@ -75,14 +75,14 @@ def get_projects_dir():
 
 
 def parse_hosts_file(env):
-    hosts_str = subprocess.Popen(['ansible', 'all', '-i', os.path.join('hosts', env), '--list-hosts'],
+    hosts_str = subprocess.Popen(["ansible", "all", "-i", os.path.join("hosts", env), "--list-hosts"],
                                  cwd=get_ansible_dir(), stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-                                 bufsize=1).stdout.read().decode('utf-8')
+                                 bufsize=1).stdout.read().decode("utf-8")
 
     hosts = []
-    for line in hosts_str.split('\n')[1:]:
-        if line.strip() != '':
-            hosts.append(['ubuntu' if env != 'devbox' else 'vagrant', line.strip()])
+    for line in hosts_str.split("\n")[1:]:
+        if line.strip() != "":
+            hosts.append(["ubuntu" if env != "devbox" else "vagrant", line.strip()])
 
     return hosts
 
@@ -98,7 +98,7 @@ def should_update(line, verification, start_needle, end_needle=""):
 
 
 def get_copyright_name():  # pragma: no cover
-    with open(os.path.join(get_ansible_dir(), "group_vars", "all.yml"), 'r') as lines:
+    with open(os.path.join(get_ansible_dir(), "group_vars", "all.yml"), "r") as lines:
         data = yaml.safe_load(lines)
         return data[get_config()["ansibleCopyrightNameVar"]]
 
@@ -106,7 +106,7 @@ def get_copyright_name():  # pragma: no cover
 def get_repo_name(repo_dir):  # pragma: no cover
     remote_url_str = subprocess.Popen(["git", "config", "--get", "remote.origin.url"], cwd=repo_dir,
                                       stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-                                      bufsize=1).stdout.read().decode('utf-8')
+                                      bufsize=1).stdout.read().decode("utf-8")
     return os.path.basename(remote_url_str.strip()).rstrip(".git")
 
 

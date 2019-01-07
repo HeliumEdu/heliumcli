@@ -5,9 +5,9 @@ from mock import mock
 from heliumcli import utils, settings
 from .helpers import testcase
 
-__author__ = 'Alex Laird'
-__copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.11'
+__author__ = "Alex Laird"
+__copyright__ = "Copyright 2018, Helium Edu"
+__version__ = "1.5.0"
 
 
 class TestActionsTestCase(testcase.HeliumCLITestCase):
@@ -38,7 +38,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         # GIVEN
         self.assertFalse(os.path.exists(os.environ.get("HELIUMCLI_CONFIG_PATH")))
         os.environ["HELIUMCLI_GIT_PROJECT"] = "git@example.com:SomeProject"
-        os.environ["HELIUMCLI_PROJECTS"] = '["proj1", "proj2", "project3"]'
+        os.environ["HELIUMCLI_PROJECTS"] = "[\"proj1\", \"proj2\", \"project3\"]"
         os.environ["HELIUMCLI_PROJECTS_RELATIVE_DIR"] = "some/dir/projects"
         os.environ["HELIUMCLI_SERVER_BIN_FILENAME"] = "some/bin/server"
         os.environ["HELIUMCLI_ANSIBLE_RELATIVE_DIR"] = "some/dir/ansible"

@@ -3,9 +3,9 @@ from mock import mock
 from heliumcli import utils
 from .helpers import testcase
 
-__author__ = 'Alex Laird'
-__copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.3.3'
+__author__ = "Alex Laird"
+__copyright__ = "Copyright 2018, Helium Edu"
+__version__ = "1.5.0"
 
 
 class TestActionsTestCase(testcase.HeliumCLITestCase):
@@ -13,19 +13,19 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         # GIVEN
         tag1 = mock.MagicMock()
         tag1.tag = mock.MagicMock()
-        tag1.tag.tag = '1.2.2'
+        tag1.tag.tag = "1.2.2"
         tag2 = mock.MagicMock()
         tag2.tag = mock.MagicMock()
-        tag2.tag.tag = '1.2.3'
+        tag2.tag.tag = "1.2.3"
         tag3 = mock.MagicMock()
         tag3.tag = mock.MagicMock()
-        tag3.tag.tag = '1.2.1'
+        tag3.tag.tag = "1.2.1"
         tag4 = mock.MagicMock()
         tag4.tag = mock.MagicMock()
-        tag4.tag.tag = '0.1.5'
+        tag4.tag.tag = "0.1.5"
         tag5 = mock.MagicMock()
         tag5.tag = mock.MagicMock()
-        tag5.tag.tag = 'text-1.2.3'
+        tag5.tag.tag = "text-1.2.3"
 
         tags = [tag1, tag2, tag3, tag4, tag5]
 

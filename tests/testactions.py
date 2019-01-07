@@ -7,9 +7,9 @@ from heliumcli import utils, settings
 from tests.helpers.commonhelper import given_config_exists
 from .helpers import testcase, commonhelper
 
-__author__ = 'Alex Laird'
-__copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.4.0'
+__author__ = "Alex Laird"
+__copyright__ = "Copyright 2018, Helium Edu"
+__version__ = "1.5.0"
 
 
 class TestActionsTestCase(testcase.HeliumCLITestCase):
@@ -91,10 +91,10 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
             ["ssh", "-t", "vagrant@heliumedu.test", utils.get_config(True)["hostProvisionCommand"]])
         self.mock_subprocess_call.assert_any_call(
             ["ansible-playbook",
-             '--inventory-file={}/hosts/devbox'.format(utils.get_ansible_dir()), '-v',
-             '--extra-vars',
-             'build_version=1.2.3',
-             '{}/{}.yml'.format(utils.get_ansible_dir(), "devbox")])
+             "--inventory-file={}/hosts/devbox".format(utils.get_ansible_dir()), "-v",
+             "--extra-vars",
+             "build_version=1.2.3",
+             "{}/{}.yml".format(utils.get_ansible_dir(), "devbox")])
 
         self.subprocess_popen.start()
 
@@ -108,12 +108,12 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         # THEN
         self.mock_subprocess_call.assert_called_once_with(
             ["ansible-playbook",
-             '--inventory-file={}/hosts/devbox'.format(utils.get_ansible_dir()), '-v',
-             '--extra-vars',
-             'build_version=1.2.3',
-             '--tags', 'code',
-             '--limit', 'host1,host2',
-             '{}/{}.yml'.format(utils.get_ansible_dir(), "devbox")])
+             "--inventory-file={}/hosts/devbox".format(utils.get_ansible_dir()), "-v",
+             "--extra-vars",
+             "build_version=1.2.3",
+             "--tags", "code",
+             "--limit", "host1,host2",
+             "{}/{}.yml".format(utils.get_ansible_dir(), "devbox")])
 
     def test_deploy_build_all_tags(self):
         # GIVEN
@@ -125,11 +125,11 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         # THEN
         self.mock_subprocess_call.assert_called_once_with(
             ["ansible-playbook",
-             '--inventory-file={}/hosts/devbox'.format(utils.get_ansible_dir()), '-v',
-             '--extra-vars',
-             'build_version=1.2.3',
-             '--tags', 'code,migrate,envvars,conf,ssl',
-             '{}/{}.yml'.format(utils.get_ansible_dir(), "devbox")])
+             "--inventory-file={}/hosts/devbox".format(utils.get_ansible_dir()), "-v",
+             "--extra-vars",
+             "build_version=1.2.3",
+             "--tags", "code,migrate,envvars,conf,ssl",
+             "{}/{}.yml".format(utils.get_ansible_dir(), "devbox")])
 
     def test_prep_code(self):
         # GIVEN
@@ -138,11 +138,11 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         versioned_file2_path = commonhelper.given_project_js_versioned_file_exists("frontend")
         repo_instance = self.mock_git_repo.return_value
         latest_tag = repo_instance.tags[-1]
-        latest_tag.commit = mock.MagicMock('git.commit.Commit')
-        diff1 = mock.MagicMock('git.diff.Diff')
-        diff1.b_rawpath = versioned_file1_path.encode('utf-8')
-        diff2 = mock.MagicMock('git.diff.Diff')
-        diff2.b_rawpath = versioned_file2_path.encode('utf-8')
+        latest_tag.commit = mock.MagicMock("git.commit.Commit")
+        diff1 = mock.MagicMock("git.diff.Diff")
+        diff1.b_rawpath = versioned_file1_path.encode("utf-8")
+        diff2 = mock.MagicMock("git.diff.Diff")
+        diff2.b_rawpath = versioned_file2_path.encode("utf-8")
         latest_tag.commit.diff = mock.MagicMock(side_effect=[[diff1], [diff2]])
 
         # WHEN
@@ -161,9 +161,9 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         repo_instance.untracked_files = []
         repo_instance.is_dirty = mock.MagicMock(side_effect=[False, False, True, True])
         latest_tag = repo_instance.tags[-1]
-        latest_tag.commit = mock.MagicMock('git.commit.Commit')
-        diff1 = mock.MagicMock('git.diff.Diff')
-        diff1.b_rawpath = versioned_file_path.encode('utf-8')
+        latest_tag.commit = mock.MagicMock("git.commit.Commit")
+        diff1 = mock.MagicMock("git.diff.Diff")
+        diff1.b_rawpath = versioned_file_path.encode("utf-8")
         latest_tag.commit.diff = mock.MagicMock(side_effect=[[diff1], []])
 
         # WHEN

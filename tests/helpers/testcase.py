@@ -7,9 +7,9 @@ from mock import mock
 
 from heliumcli import utils
 
-__author__ = 'Alex Laird'
-__copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.1.7'
+__author__ = "Alex Laird"
+__copyright__ = "Copyright 2018, Helium Edu"
+__version__ = "1.5.0"
 
 
 class HeliumCLITestCase(TestCase):
@@ -52,14 +52,14 @@ class HeliumCLITestCase(TestCase):
         repo_instance.remotes["origin"].push = mock.MagicMock("git.cmd.Git")
 
         repo_instance.create_tag = mock.MagicMock(return_value=TagReference(repo_instance, "refs/tags/1.2.3"))
-        tag1 = mock.MagicMock('git.tag.TagReference')
-        tag1.tag = mock.MagicMock('git.tag.TagObject')
+        tag1 = mock.MagicMock("git.tag.TagReference")
+        tag1.tag = mock.MagicMock("git.tag.TagObject")
         tag1.tag.tag = "1.2.0"
-        tag2 = mock.MagicMock('git.tag.TagReference')
-        tag2.tag = mock.MagicMock('git.tag.TagObject')
+        tag2 = mock.MagicMock("git.tag.TagReference")
+        tag2.tag = mock.MagicMock("git.tag.TagObject")
         tag2.tag.tag = "1.2.1"
-        tag3 = mock.MagicMock('git.tag.TagReference')
-        tag3.tag = mock.MagicMock('git.tag.TagObject')
+        tag3 = mock.MagicMock("git.tag.TagReference")
+        tag3.tag = mock.MagicMock("git.tag.TagObject")
         tag3.tag.tag = "1.2.2"
         repo_instance.tags = [tag1, tag2, tag3]
 

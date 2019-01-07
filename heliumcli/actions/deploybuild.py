@@ -5,9 +5,9 @@ import git
 
 from .. import utils
 
-__author__ = 'Alex Laird'
-__copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.4.0'
+__author__ = "Alex Laird"
+__copyright__ = "Copyright 2018, Helium Edu"
+__version__ = "1.5.0"
 
 
 class DeployBuildAction:
@@ -19,7 +19,7 @@ class DeployBuildAction:
         parser = subparsers.add_parser(self.name, help=self.help)
         parser.add_argument("version", help="The build version to be deployed, which may be a version or a branch")
         parser.add_argument("env", help="The environment to deploy to")
-        parser.add_argument('--roles', action='store', type=str, nargs='*',
+        parser.add_argument("--roles", action="store", type=str, nargs="*",
                             help="Limit the project roles to be deployed")
         parser.add_argument("--migrate", action="store_true", help="Install code dependencies and run migrations")
         parser.add_argument("--code", action="store_true", help="Only deploy code")
@@ -46,10 +46,10 @@ class DeployBuildAction:
                     else:
                         raise ex
 
-                if len(repo.git.diff(args.version, 'master')) > 0:
+                if len(repo.git.diff(args.version, "master")) > 0:
                     repo.git.checkout(args.version)
                 else:
-                    repo.git.checkout('master')
+                    repo.git.checkout("master")
 
         version = args.version.lstrip("v")
         hosts = utils.parse_hosts_file(args.env)
@@ -57,8 +57,8 @@ class DeployBuildAction:
             subprocess.call(["ssh", "-t", "{}@{}".format(host[0], host[1]),
                              config["hostProvisionCommand"]])
 
-        playbook_options = ['--inventory-file={}/hosts/{}'.format(ansible_dir, args.env), '-v',
-                            '--extra-vars', 'build_version={}'.format(version)]
+        playbook_options = ["--inventory-file={}/hosts/{}".format(ansible_dir, args.env), "-v",
+                            "--extra-vars", "build_version={}".format(version)]
 
         if args.migrate or args.code or args.envvars or args.conf or args.ssl:
             tags = []
@@ -79,4 +79,4 @@ class DeployBuildAction:
             playbook_options.append("--limit")
             playbook_options.append(",".join(args.roles))
 
-        subprocess.call(["ansible-playbook"] + playbook_options + ['{}/{}.yml'.format(ansible_dir, args.env)])
+        subprocess.call(["ansible-playbook"] + playbook_options + ["{}/{}.yml".format(ansible_dir, args.env)])
