@@ -10,7 +10,7 @@ __copyright__ = "Copyright 2018, Helium Edu"
 __version__ = "1.5.0"
 
 
-class TestActionsTestCase(TestCase):
+class TestInitTestCase(TestCase):
     def setUp(self):
         self.build_dir = os.path.join("tests", "_build")
         if os.path.exists(self.build_dir):

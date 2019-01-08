@@ -10,7 +10,7 @@ __copyright__ = "Copyright 2018, Helium Edu"
 __version__ = "1.5.0"
 
 
-class TestActionsTestCase(testcase.HeliumCLITestCase):
+class TestConfigTestCase(testcase.HeliumCLITestCase):
     def test_default_config_created(self):
         # GIVEN
         self.assertFalse(os.path.exists(os.environ.get("HELIUMCLI_CONFIG_PATH")))

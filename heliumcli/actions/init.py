@@ -48,12 +48,22 @@ class InitAction:
     def _init_project(self, config_path, args):
         project_dir = os.path.join(os.path.dirname(config_path), args.id)
         template_project_name = "template-project"
+        template_version = "1.1.0"
 
-        print("Cloning the template-project repo into this directory ...")
+        print("Cloning the template-project v{} repo into this directory ...".format(template_version))
         git.Repo.clone_from("{}/{}.git".format("https://github.com/HeliumEdu", template_project_name),
-                            project_dir)
+                            project_dir,
+                            branch=template_version)
 
         shutil.rmtree(os.path.join(project_dir, ".git"))
+
+        if os.path.exists(os.path.join(project_dir, ".travis.yml.template")):
+            os.remove(os.path.join(project_dir, ".travis.yml"))
+            os.rename(os.path.join(project_dir, ".travis.yml.template"), os.path.join(project_dir, ".travis.yml"))
+
+        if os.path.exists(os.path.join(project_dir, "Makefile.template")):
+            os.remove(os.path.join(project_dir, "Makefile"))
+            os.rename(os.path.join(project_dir, "Makefile.template"), os.path.join(project_dir, "Makefile"))
 
         repo = git.Repo.init(project_dir)
 
@@ -69,15 +79,9 @@ class InitAction:
 
         print("Running make ...")
 
+        subprocess.call(["python3", "-m", "pip", "install", "virtualenv"])
+        subprocess.call(["python3", "-m", "virtualenv", os.path.join(project_dir, ".venv")])
         subprocess.call(["make", "install", "-C", project_dir])
-
-        if os.path.exists(os.path.join(project_dir, ".travis.yml.template")):
-            os.remove(os.path.join(project_dir, ".travis.yml"))
-            os.rename(os.path.join(project_dir, ".travis.yml.template"), os.path.join(project_dir, ".travis.yml"))
-
-        if os.path.exists(os.path.join(project_dir, "Makefile.template")):
-            os.remove(os.path.join(project_dir, "Makefile"))
-            os.rename(os.path.join(project_dir, "Makefile.template"), os.path.join(project_dir, "Makefile"))
 
     def _replace_in_file(self, dir_name, filename, args):
         path = os.path.join(dir_name, filename)

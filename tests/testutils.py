@@ -8,7 +8,7 @@ __copyright__ = "Copyright 2018, Helium Edu"
 __version__ = "1.5.0"
 
 
-class TestActionsTestCase(testcase.HeliumCLITestCase):
+class TestUtilsTestCase(testcase.HeliumCLITestCase):
     def test_sort_tags(self):
         # GIVEN
         tag1 = mock.MagicMock()
