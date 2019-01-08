@@ -9,7 +9,7 @@ from .. import utils
 
 __author__ = "Alex Laird"
 __copyright__ = "Copyright 2018, Helium Edu"
-__version__ = "1.5.0"
+__version__ = "1.5.1"
 
 
 class InitAction:
@@ -70,6 +70,14 @@ class InitAction:
         print("Running make ...")
 
         subprocess.call(["make", "install", "-C", project_dir])
+
+        if os.path.exists(os.path.join(project_dir, ".travis.yml.template")):
+            os.remove(os.path.join(project_dir, ".travis.yml"))
+            os.rename(os.path.join(project_dir, ".travis.yml.template"), os.path.join(project_dir, ".travis.yml"))
+
+        if os.path.exists(os.path.join(project_dir, "Makefile.template")):
+            os.remove(os.path.join(project_dir, "Makefile"))
+            os.rename(os.path.join(project_dir, "Makefile.template"), os.path.join(project_dir, "Makefile"))
 
     def _replace_in_file(self, dir_name, filename, args):
         path = os.path.join(dir_name, filename)
