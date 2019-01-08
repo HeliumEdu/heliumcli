@@ -7,7 +7,7 @@ from .helpers import testcase
 
 __author__ = "Alex Laird"
 __copyright__ = "Copyright 2018, Helium Edu"
-__version__ = "1.5.0"
+__version__ = "1.5.2"
 
 
 class TestConfigTestCase(testcase.HeliumCLITestCase):
