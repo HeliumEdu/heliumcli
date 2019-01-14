@@ -1,8 +1,15 @@
 import subprocess
+import click
 
 __author__ = "Alex Laird"
 __copyright__ = "Copyright 2018, Helium Edu"
 __version__ = "1.5.0"
+
+
+@click.command()
+def cli():
+    """Update the CLI tool to the latest version"""
+    pass
 
 
 class UpdateAction:

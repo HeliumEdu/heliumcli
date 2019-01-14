@@ -2,14 +2,21 @@ import datetime
 import os
 import shutil
 
+import click
 import git
 
-from .. import utils
 from .prepcode import PrepCodeAction
+from .. import utils
 
 __author__ = "Alex Laird"
 __copyright__ = "Copyright 2018, Helium Edu"
 __version__ = "1.5.0"
+
+
+@click.command()
+def cli():
+    """Build a release version for all projects, tagging when complete"""
+    pass
 
 
 class BuildReleaseAction:
@@ -108,7 +115,7 @@ class BuildReleaseAction:
                     line = "__version__ = \"{}\"\n".format(version)
                 elif line.strip().startswith("__copyright__ = "):
                     line = "__copyright__ = \"Copyright {}, {}\"\n".format(str(datetime.date.today().year),
-                                                                         utils.get_copyright_name())
+                                                                           utils.get_copyright_name())
             elif version_file.name == "package.json":
                 if line.strip().startswith("\"version\":"):
                     line = "  \"version\": \"{}\",\n".format(version)

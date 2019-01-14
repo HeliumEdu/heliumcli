@@ -1,6 +1,6 @@
 import os
 import subprocess
-
+import click
 from .. import utils
 
 __author__ = "Alex Laird"
@@ -9,6 +9,11 @@ __version__ = "1.5.0"
 
 child_processes = []
 
+
+@click.command()
+def cli():
+    """Launch known project servers to run locally"""
+    pass
 
 class StartServersAction:
     def __init__(self):

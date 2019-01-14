@@ -1,13 +1,14 @@
 .PHONY: all virtualenv install test local upload
 
 SHELL := /usr/bin/env bash
+PYTHON_BIN ?= python
 
 all: virtualenv install
 
 virtualenv:
 	@if [ ! -d ".venv" ]; then \
-		python3 -m pip install virtualenv --user; \
-		python3 -m virtualenv .venv; \
+		$(PYTHON_BIN) -m pip install virtualenv --user; \
+		$(PYTHON_BIN) -m virtualenv .venv; \
 	fi
 
 install: virtualenv
@@ -24,9 +25,11 @@ test: virtualenv
 
 local:
 	@rm -rf dist
+	$(PYTHON_BIN) -m pip install click
+	@
 	@( \
-		python setup.py sdist; \
-		pip install dist/helium*.tar.gz; \
+		$(PYTHON_BIN) setup.py sdist; \
+		$(PYTHON_BIN) -m pip install dist/heliumcli*.tar.gz; \
 	)
 
 upload:

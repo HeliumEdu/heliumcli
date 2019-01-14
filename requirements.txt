@@ -7,3 +7,4 @@ PyYAML==4.2b4
 ansible==2.7.5
 future==0.17.1
 twine==1.12.1
+click==7.0

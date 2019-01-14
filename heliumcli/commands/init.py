@@ -2,6 +2,7 @@ import os
 import shutil
 import subprocess
 import sys
+import click
 
 import git
 
@@ -10,6 +11,11 @@ from .. import utils
 __author__ = "Alex Laird"
 __copyright__ = "Copyright 2018, Helium Edu"
 __version__ = "1.5.2"
+
+@click.command()
+def cli():
+    """Initialize a new project that is compatible with helium-cli"""
+    pass
 
 
 class InitAction:

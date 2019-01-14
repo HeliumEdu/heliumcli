@@ -1,5 +1,6 @@
 import os
 import subprocess
+import click
 
 import git
 
@@ -8,6 +9,11 @@ from .. import utils
 __author__ = "Alex Laird"
 __copyright__ = "Copyright 2018, Helium Edu"
 __version__ = "1.5.0"
+
+@click.command()
+def cli():
+    """Deploy the specified build, which may be a versioned release or a branch"""
+    pass
 
 
 class DeployBuildAction:

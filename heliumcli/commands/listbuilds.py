@@ -1,5 +1,5 @@
 import os
-
+import click
 import git
 
 from .. import utils
@@ -7,6 +7,11 @@ from .. import utils
 __author__ = "Alex Laird"
 __copyright__ = "Copyright 2018, Helium Edu"
 __version__ = "1.5.0"
+
+@click.command()
+def cli():
+    """List available builds"""
+    pass
 
 
 class ListBuildsAction:

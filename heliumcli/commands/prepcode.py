@@ -2,6 +2,7 @@ import datetime
 import os
 import shutil
 import subprocess
+import click
 
 import git
 
@@ -11,6 +12,11 @@ __author__ = "Alex Laird"
 __copyright__ = "Copyright 2018, Helium Edu"
 __version__ = "1.5.0"
 
+
+@click.command()
+def cli():
+    """Prepare code for release build, updating version and copyright information in project files"""
+    pass
 
 class PrepCodeAction:
     def __init__(self):

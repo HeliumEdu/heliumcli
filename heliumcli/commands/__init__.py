@@ -1,0 +1,1 @@
+from .buildrelease import cli
