@@ -19,7 +19,7 @@ __copyright__ = "Copyright 2019, Helium Edu"
 __version__ = "2.0.0"
 
 CMD_FOLDER = os.path.abspath(os.path.join(os.path.dirname(__file__), "commands"))
-CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
+CONTEXT_SETTINGS = dict(auto_envvar_prefix="HELIUMCLI", help_option_names=["-h", "--help"])
 
 
 class Context(object):

@@ -1,12 +1,13 @@
 import datetime
 import os
 
-from heliumcli import utils
 from heliumcli.main import main
 
+from heliumcli.config import Config
+
 __author__ = "Alex Laird"
-__copyright__ = "Copyright 2018, Helium Edu"
-__version__ = "1.5.0"
+__copyright__ = "Copyright 2019, Helium Edu"
+__version__ = "2.0.0"
 
 
 def given_config_exists(project_id="test", name="Test", host="test.heliumedu.com", github_user="HeliumEdu"):
@@ -14,31 +15,34 @@ def given_config_exists(project_id="test", name="Test", host="test.heliumedu.com
 
 
 def given_runserver_exists(project):
-    config = utils.get_config(True)
+    config = Config()
+    cfg = config.get_config(True)
 
-    if not os.path.exists(os.path.join(utils.get_projects_dir(), project)):
-        os.makedirs(os.path.join(utils.get_projects_dir(), project))
+    if not os.path.exists(os.path.join(cfg.get_projects_dir(), project)):
+        os.makedirs(os.path.join(cfg.get_projects_dir(), project))
 
     os.mkdir(
-        os.path.join(utils.get_projects_dir(), project, os.path.dirname(config["serverBinFilename"])))
-    open(os.path.join(utils.get_projects_dir(), project, config["serverBinFilename"]), "wb").close()
+        os.path.join(cfg.get_projects_dir(), project, os.path.dirname(config["serverBinFilename"])))
+    open(os.path.join(cfg.get_projects_dir(), project, config["serverBinFilename"]), "wb").close()
 
 
 def given_hosts_file_exists():
-    utils.get_config(True)
+    config = Config()
+    cfg = config.get_config(True)
 
-    if not os.path.exists(os.path.join(utils.get_ansible_dir(), "hosts")):
-        os.makedirs(os.path.join(utils.get_ansible_dir(), "hosts"))
+    if not os.path.exists(os.path.join(cfg.get_ansible_dir(), "hosts")):
+        os.makedirs(os.path.join(cfg.get_ansible_dir(), "hosts"))
 
-    hosts_file = open(os.path.join(utils.get_ansible_dir(), "hosts", "devbox"), "w")
+    hosts_file = open(os.path.join(cfg.get_ansible_dir(), "hosts", "devbox"), "w")
     hosts_file.write("[devbox]\nheliumedu.test ansible_user=vagrant ip_address=10.1.0.10")
     hosts_file.close()
 
 
 def given_python_version_file_exists(version="1.2.2"):
-    config = utils.get_config(True)
+    config = Config()
+    cfg = config.get_config(True)
 
-    version_file_path = os.path.join(utils.get_projects_dir(), config["versionInfo"]["project"],
+    version_file_path = os.path.join(cfg.get_projects_dir(), config["versionInfo"]["project"],
                                      config["versionInfo"]["path"])
     if not os.path.exists(os.path.dirname(version_file_path)):
         os.makedirs(os.path.dirname(version_file_path))
@@ -69,9 +73,10 @@ MORE_SETTINGS = "more_settings_after_this"
 
 
 def given_project_package_json_exists(project, version="1.2.2"):
-    utils.get_config(True)
+    config = Config()
+    cfg = config.get_config(True)
 
-    versioned_file_path = os.path.join(utils.get_projects_dir(), project, "package.json")
+    versioned_file_path = os.path.join(cfg.get_projects_dir(), project, "package.json")
     if not os.path.exists(os.path.dirname(versioned_file_path)):
         os.makedirs(os.path.dirname(versioned_file_path))
 
@@ -92,9 +97,10 @@ def given_project_package_json_exists(project, version="1.2.2"):
 
 
 def given_project_python_versioned_file_exists(project, filename="maths.py"):
-    utils.get_config(True)
+    config = Config()
+    cfg = config.get_config(True)
 
-    versioned_file_path = os.path.join(utils.get_projects_dir(), project, filename)
+    versioned_file_path = os.path.join(cfg.get_projects_dir(), project, filename)
     if not os.path.exists(os.path.dirname(versioned_file_path)):
         os.makedirs(os.path.dirname(versioned_file_path))
 
@@ -116,9 +122,10 @@ def sum(a, b):
 
 
 def given_project_js_versioned_file_exists(project, filename="maths.js"):
-    utils.get_config(True)
+    config = Config()
+    cfg = config.get_config(True)
 
-    versioned_file_path = os.path.join(utils.get_projects_dir(), project, filename)
+    versioned_file_path = os.path.join(cfg.get_projects_dir(), project, filename)
     if not os.path.exists(os.path.dirname(versioned_file_path)):
         os.makedirs(os.path.dirname(versioned_file_path))
 

@@ -2,12 +2,12 @@ import os
 
 from mock import mock
 
-from heliumcli import utils, settings
+from heliumcli.config import Config
 from .helpers import testcase
 
 __author__ = "Alex Laird"
-__copyright__ = "Copyright 2018, Helium Edu"
-__version__ = "1.5.2"
+__copyright__ = "Copyright 2019, Helium Edu"
+__version__ = "2.0.0"
 
 
 class TestConfigTestCase(testcase.HeliumCLITestCase):
@@ -16,7 +16,8 @@ class TestConfigTestCase(testcase.HeliumCLITestCase):
         self.assertFalse(os.path.exists(os.environ.get("HELIUMCLI_CONFIG_PATH")))
 
         # WHEN
-        utils.get_config(True)
+        config = Config()
+        config.get_config(True)
 
         # THEN
         self.assertTrue(os.path.exists(os.environ.get("HELIUMCLI_CONFIG_PATH")))
@@ -24,12 +25,13 @@ class TestConfigTestCase(testcase.HeliumCLITestCase):
     @mock.patch("os.path.exists", return_value=True)
     def test_config_already_exists(self, mock_path_exists):
         # GIVEN
-        utils._save_config(os.environ.get("HELIUMCLI_CONFIG_PATH"), settings.get_default_settings())
-        utils.get_config(True)
+        config = Config()
+        config._save_config(os.environ.get("HELIUMCLI_CONFIG_PATH"), config.get_default_settings())
+        config.get_config(True)
         mock_path_exists.reset_mock()
 
         # WHEN
-        utils.get_config(True)
+        config.get_config(True)
 
         # THEN
         mock_path_exists.assert_not_called()
@@ -49,11 +51,12 @@ class TestConfigTestCase(testcase.HeliumCLITestCase):
         os.environ["HELIUMCLI_HOST_PROVISION_COMMAND"] = "sudo yum install python"
 
         # WHEN
-        config = utils.get_config(True)
+        config = Config()
+        cfg = config.get_config(True)
 
         # THEN
         self.assertTrue(os.environ.get("HELIUMCLI_CONFIG_PATH"))
-        self.assertEqual(config, {
+        self.assertEqual(cfg, {
             "ansibleCopyrightNameVar": "my_dev_name",
             "ansibleRelativeDir": "some/dir/ansible",
             "gitProject": "git@example.com:SomeProject",

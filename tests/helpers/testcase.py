@@ -2,22 +2,22 @@ import os
 import shutil
 from unittest import TestCase
 
+from click.testing import CliRunner
 from git import TagReference
 from mock import mock
 
-from heliumcli import utils
-
 __author__ = "Alex Laird"
-__copyright__ = "Copyright 2018, Helium Edu"
-__version__ = "1.5.0"
+__copyright__ = "Copyright 2019, Helium Edu"
+__version__ = "2.0.0"
 
 
 class HeliumCLITestCase(TestCase):
     def setUp(self):
+        self.runner = CliRunner()
+
         self.build_dir = os.path.join("tests", "_build")
         if os.path.exists(self.build_dir):
             shutil.rmtree(self.build_dir)
-            utils._config_cache = None
         os.mkdir(self.build_dir)
 
         os.environ["HELIUMCLI_CONFIG_PATH"] = os.path.join(self.build_dir, ".heliumcli.test.yml")
@@ -32,7 +32,6 @@ class HeliumCLITestCase(TestCase):
 
     def tearDown(self):
         shutil.rmtree(self.build_dir)
-        utils._config_cache = None
 
     def _setup_git_mocks(self):
         self.git_repo = mock.patch("git.Repo")
@@ -73,11 +72,13 @@ class HeliumCLITestCase(TestCase):
         self.mock_subprocess_popen = self.subprocess_popen.start()
 
     def _setup_util_mocks(self):
-        self.utils_get_copyright_name = mock.patch("heliumcli.utils.get_copyright_name",
-                                                   return_value="Helium Edu")
-        self.addCleanup(self.utils_get_copyright_name.stop)
-        self.mock_get_copyright_name = self.utils_get_copyright_name.start()
-
-        self.utils_get_repo_name = mock.patch("heliumcli.utils.get_repo_name", return_value="deploy")
-        self.addCleanup(self.utils_get_repo_name.stop)
-        self.mock_get_repo_name = self.utils_get_repo_name.start()
+        # TODO: properly mock these
+        pass
+        # self.utils_get_copyright_name = mock.patch("heliumcli.config.get_copyright_name",
+        #                                            return_value="Helium Edu")
+        # self.addCleanup(self.utils_get_copyright_name.stop)
+        # self.mock_get_copyright_name = self.utils_get_copyright_name.start()
+        #
+        # self.utils_get_repo_name = mock.patch("heliumcli.config.get_repo_name", return_value="deploy")
+        # self.addCleanup(self.utils_get_repo_name.stop)
+        # self.mock_get_repo_name = self.utils_get_repo_name.start()
