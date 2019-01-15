@@ -2,35 +2,17 @@ import datetime
 import os
 import shutil
 
-import click
 import git
 
 from .prepcode import PrepCodeAction
 from .. import utils
 
 __author__ = "Alex Laird"
-__copyright__ = "Copyright 2018, Helium Edu"
-__version__ = "1.5.0"
-
-
-@click.command()
-def cli():
-    """Build a release version for all projects, tagging when complete"""
-    pass
+__copyright__ = "Copyright 2019, Helium Edu"
+__version__ = "2.0.0"
 
 
 class BuildReleaseAction:
-    def __init__(self):
-        self.name = "build-release"
-        self.help = "Build a release version for all projects, tagging when complete"
-
-    def setup(self, subparsers):
-        parser = subparsers.add_parser(self.name, help=self.help)
-        parser.add_argument("version", help="The version number to be tagged")
-        parser.add_argument("--roles", action="store", type=str, nargs="*",
-                            help="Limit the project roles to be built/tagged")
-        parser.set_defaults(action=self)
-
     def run(self, args):
         config = utils.get_config()
         projects_dir = utils.get_projects_dir()

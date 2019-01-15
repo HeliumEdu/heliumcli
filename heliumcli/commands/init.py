@@ -2,36 +2,17 @@ import os
 import shutil
 import subprocess
 import sys
-import click
 
 import git
 
 from .. import utils
 
 __author__ = "Alex Laird"
-__copyright__ = "Copyright 2018, Helium Edu"
-__version__ = "1.5.2"
-
-@click.command()
-def cli():
-    """Initialize a new project that is compatible with helium-cli"""
-    pass
+__copyright__ = "Copyright 2019, Helium Edu"
+__version__ = "2.0.0"
 
 
 class InitAction:
-    def __init__(self):
-        self.name = "init"
-        self.help = "Initialize a new project that is compatible with helium-cli"
-
-    def setup(self, subparsers):
-        parser = subparsers.add_parser(self.name, help=self.help)
-        parser.add_argument("--config-only", action="store_true", help="Only initialize the .heliumcli.yml config file")
-        parser.add_argument("id", help="The ID (no spaces) to give to the new project")
-        parser.add_argument("name", help="The friendly name to give to the new project")
-        parser.add_argument("host", help="The hostname to give the project")
-        parser.add_argument("github_user", help="The GitHub username or project name")
-        parser.set_defaults(action=self)
-
     def run(self, args):
         config_path = os.path.abspath(os.environ.get("HELIUMCLI_CONFIG_PATH", ".heliumcli.yml"))
         if os.path.exists(config_path):

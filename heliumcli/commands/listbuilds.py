@@ -1,29 +1,15 @@
 import os
-import click
+
 import git
 
 from .. import utils
 
 __author__ = "Alex Laird"
-__copyright__ = "Copyright 2018, Helium Edu"
-__version__ = "1.5.0"
-
-@click.command()
-def cli():
-    """List available builds"""
-    pass
+__copyright__ = "Copyright 2019, Helium Edu"
+__version__ = "2.0.0"
 
 
 class ListBuildsAction:
-    def __init__(self):
-        self.name = "list-builds"
-        self.help = "List available builds"
-
-    def setup(self, subparsers):
-        parser = subparsers.add_parser(self.name, help=self.help)
-        parser.add_argument("--latest", action="store_true", help="Only list the latest build")
-        parser.set_defaults(action=self)
-
     def run(self, args):
         config = utils.get_config()
         projects_dir = utils.get_projects_dir()

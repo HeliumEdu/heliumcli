@@ -2,33 +2,17 @@ import datetime
 import os
 import shutil
 import subprocess
-import click
 
 import git
 
 from .. import utils
 
 __author__ = "Alex Laird"
-__copyright__ = "Copyright 2018, Helium Edu"
-__version__ = "1.5.0"
+__copyright__ = "Copyright 2019, Helium Edu"
+__version__ = "2.0.0"
 
-
-@click.command()
-def cli():
-    """Prepare code for release build, updating version and copyright information in project files"""
-    pass
 
 class PrepCodeAction:
-    def __init__(self):
-        self.name = "prep-code"
-        self.help = "Prepare code for release build, updating version and copyright information in project files"
-
-    def setup(self, subparsers):
-        parser = subparsers.add_parser(self.name, help=self.help)
-        parser.add_argument("--roles", action="store", type=str, nargs="*",
-                            help="Limit the project roles to be prepped")
-        parser.set_defaults(action=self)
-
     def run(self, args):
         self._copyright_name = utils.get_copyright_name()
         self._current_year = str(datetime.date.today().year)
@@ -135,7 +119,8 @@ class PrepCodeAction:
             line = "__version__ = \"{}\"\n".format(self._current_version)
             return line, True
         elif utils.should_update(line,
-                                 "__copyright__ = \"Copyright {}, {}\"".format(self._current_year, self._copyright_name),
+                                 "__copyright__ = \"Copyright {}, {}\"".format(self._current_year,
+                                                                               self._copyright_name),
                                  "__copyright__ = ", "{}\"".format(self._copyright_name)):
 
             line = "__copyright__ = \"Copyright {}, {}\"\n".format(self._current_year, self._copyright_name)

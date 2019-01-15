@@ -1,25 +1,10 @@
 import subprocess
-import click
 
 __author__ = "Alex Laird"
-__copyright__ = "Copyright 2018, Helium Edu"
-__version__ = "1.5.0"
-
-
-@click.command()
-def cli():
-    """Update the CLI tool to the latest version"""
-    pass
+__copyright__ = "Copyright 2019, Helium Edu"
+__version__ = "2.0.0"
 
 
 class UpdateAction:
-    def __init__(self):
-        self.name = "update"
-        self.help = "Update the CLI tool to the latest version"
-
-    def setup(self, subparsers):
-        parser = subparsers.add_parser(self.name, help=self.help)
-        parser.set_defaults(action=self)
-
     def run(self, args):
         subprocess.call(["pip", "install", "--upgrade", "heliumcli"])

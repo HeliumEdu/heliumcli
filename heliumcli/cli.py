@@ -6,7 +6,7 @@ import click
 from heliumcli.config import Config
 
 __author__ = "Alex Laird"
-__copyright__ = "Copyright 2018, Helium Edu"
+__copyright__ = "Copyright 2019, Helium Edu"
 __version__ = "2.0.0"
 
 CMD_FOLDER = os.path.abspath(os.path.join(os.path.dirname(__file__), "commands"))
@@ -33,71 +33,105 @@ class Context(object):
 pass_context = click.make_pass_decorator(Context, ensure=True)
 
 
-class HeliumCLI(click.MultiCommand):
-    def list_commands(self, ctx):
-        rv = []
-        for filename in os.listdir(CMD_FOLDER):
-            if filename == "__init__.py":
-                continue
-
-            if filename.endswith(".py"):
-                rv.append(filename[:-3].replace('_', '-'))
-        rv.sort()
-        return rv
-
-    def get_command(self, ctx, name):
-        if sys.version_info[0] == 2:
-            name = name.encode("ascii", "replace")
-        mod = __import__("heliumcli.commands.{}".format(name.replace('-', '_')), None, None, ["cli"])
-        return mod.cli
-
-
-@click.group(cli=HeliumCLI, context_settings=CONTEXT_SETTINGS)
+@click.group(context_settings=CONTEXT_SETTINGS)
 @click.version_option(version=__version__)
-@click.option("-v", "--verbose", is_flag=True, help="Enables verbose mode.")
 @pass_context
-def cli(ctx, verbose):
+def cli(ctx):
     """CLI that provides a useful set of tools for maintaining, building, and deploying code in compatible projects."""
-    ctx.verbose = verbose
+    pass
 
-    # actions = {
-    #     InitAction(),
-    #     UpdateAction(),
-    #     UpdateProjectsAction(),
-    #     SetBuildAction(),
-    #     StartServersAction(),
-    #     PrepCodeAction(),
-    #     BuildReleaseAction(),
-    #     DeployBuildAction(),
-    #     ListBuildsAction(),
-    # }
-    #
-    # parser = argparse.ArgumentParser(prog="helium-cli")
-    # parser.add_argument("--silent", action="store_true", help="Run quietly without displaying decorations")
-    # subparsers = parser.add_subparsers(title="subcommands")
-    #
-    # if "--silent" not in argv:
-    #     print(utils.get_title())
-    #
-    # for action in actions:
-    #     action.setup(subparsers)
-    #
-    # if len(argv) == 1:  # pragma: no cover
-    #     parser.print_help()
-    #
-    #     return
-    #
-    # args = parser.parse_args(argv[1:])
-    #
-    # if not hasattr(args, "action"):  # pragma: no cover
-    #     parser.print_help()
-    #
-    #     return
-    #
-    # args.action.run(args)
-    #
-    # print("")
 
+@click.command()
+@click.argument("version")
+@click.option("--roles", help="Limit the project roles to be built/tagged")
+@pass_context
+def build_release(ctx):
+    """Build a release version for all projects, tagging when complete"""
+    pass
+
+
+@click.command()
+@click.argument("version")
+@click.argument("env")
+@click.option("--roles", help="Limit the project roles to be deployed")
+@click.option("--migrate", help="Install code dependencies and run migrations")
+@click.option("--code", help="Only deploy code")
+@click.option("--envvars", help="Only deploy environment variables")
+@click.option("--conf", help="Only deploy configuration files and restart necessary services")
+@click.option("--ssl", help="Only deploy SSL certificates and restart necessary services")
+@pass_context
+def deploy_build(ctx):
+    """Deploy the specified build, which may be a versioned release or a branch"""
+    pass
+
+
+@click.command()
+@click.argument("id")
+@click.argument("name")
+@click.argument("host")
+@click.argument("github_user")
+@click.option("--config-only", help="Only initialize the .heliumcli.yml config file")
+@pass_context
+def init(ctx):
+    """Initialize a new project with an that is compatible with helium-cli, providing an ID (slug with no spaces),
+    friendly name, hostname for the webservice, and GitHub username"""
+    pass
+
+
+@click.command()
+@click.option("--latest", help="Only list the latest build")
+@pass_context
+def list_builds(ctx):
+    """List available builds"""
+    pass
+
+
+@click.command()
+@click.option("--roles", help="Limit the project roles to be prepped")
+@pass_context
+def prep_code(ctx):
+    """Prepare code for release build, updating version and copyright information in project files"""
+    pass
+
+
+@click.command()
+@click.argument("version")
+@pass_context
+def set_build(ctx):
+    """Set all projects to the specified build, which may be a versioned release or a branch"""
+    pass
+
+
+@click.command()
+@pass_context
+def start_servers(ctx):
+    """Launch known project servers to run locally"""
+    pass
+
+
+@click.command()
+@pass_context
+def update(ctx):
+    """Update the CLI tool to the latest version"""
+    pass
+
+
+@click.command()
+@pass_context
+def update_projects(ctx):
+    """Ensure all projects have the latest code and dependencies"""
+    pass
+
+
+cli.add_command(build_release)
+cli.add_command(deploy_build)
+cli.add_command(init)
+cli.add_command(list_builds)
+cli.add_command(prep_code)
+cli.add_command(set_build)
+cli.add_command(start_servers)
+cli.add_command(update)
+cli.add_command(update_projects)
 
 if __name__ == '__main__':
     cli()

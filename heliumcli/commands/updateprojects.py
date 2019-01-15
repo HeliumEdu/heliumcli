@@ -1,31 +1,16 @@
 import os
 import subprocess
 
-import click
 import git
 
 from .. import utils
 
 __author__ = "Alex Laird"
-__copyright__ = "Copyright 2018, Helium Edu"
-__version__ = "1.5.0"
-
-
-@click.command()
-def cli():
-    """Ensure all projects have the latest code and dependencies installed"""
-    pass
+__copyright__ = "Copyright 2019, Helium Edu"
+__version__ = "2.0.0"
 
 
 class UpdateProjectsAction:
-    def __init__(self):
-        self.name = "update-projects"
-        self.help = "Ensure all projects have the latest code and dependencies installed"
-
-    def setup(self, subparsers):
-        parser = subparsers.add_parser(self.name, help=self.help)
-        parser.set_defaults(action=self)
-
     def run(self, args):
         config = utils.get_config()
         projects_dir = utils.get_projects_dir()

@@ -1,41 +1,16 @@
 import os
 import subprocess
-import click
 
 import git
 
 from .. import utils
 
 __author__ = "Alex Laird"
-__copyright__ = "Copyright 2018, Helium Edu"
-__version__ = "1.5.0"
-
-@click.command()
-def cli():
-    """Deploy the specified build, which may be a versioned release or a branch"""
-    pass
+__copyright__ = "Copyright 2019, Helium Edu"
+__version__ = "2.0.0"
 
 
 class DeployBuildAction:
-    def __init__(self):
-        self.name = "deploy-build"
-        self.help = "Deploy the specified build, which may be a versioned release or a branch"
-
-    def setup(self, subparsers):
-        parser = subparsers.add_parser(self.name, help=self.help)
-        parser.add_argument("version", help="The build version to be deployed, which may be a version or a branch")
-        parser.add_argument("env", help="The environment to deploy to")
-        parser.add_argument("--roles", action="store", type=str, nargs="*",
-                            help="Limit the project roles to be deployed")
-        parser.add_argument("--migrate", action="store_true", help="Install code dependencies and run migrations")
-        parser.add_argument("--code", action="store_true", help="Only deploy code")
-        parser.add_argument("--envvars", action="store_true", help="Only deploy environment variables")
-        parser.add_argument("--conf", action="store_true",
-                            help="Only deploy configuration files and restart necessary services")
-        parser.add_argument("--ssl", action="store_true",
-                            help="Only deploy SSL certificates and restart necessary services")
-        parser.set_defaults(action=self)
-
     def run(self, args):
         config = utils.get_config()
         ansible_dir = utils.get_ansible_dir()
