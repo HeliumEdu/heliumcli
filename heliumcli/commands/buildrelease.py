@@ -2,25 +2,30 @@ import datetime
 import os
 import shutil
 
+import click
 import git
 
-from .prepcode import PrepCodeAction
-from .. import utils
+from .prepcode import PrepCodeCommand
 
 __author__ = "Alex Laird"
 __copyright__ = "Copyright 2019, Helium Edu"
 __version__ = "2.0.0"
 
 
-class BuildReleaseAction:
-    def run(self, args):
-        config = utils.get_config()
-        projects_dir = utils.get_projects_dir()
+class BuildReleaseCommand:
+    def __init__(self, ctx, version, roles):
+        self.ctx = ctx
+        self.version = version
+        self.roles = roles
+
+    def run(self):
+        config = self.ctx.config.get_config()
+        projects_dir = self.ctx.config.get_projects_dir()
 
         # First ensure all repos are in a clean state with all changes committed
         dirty_repos = []
-        for project in utils.get_projects(config):
-            if args.roles and project not in args.roles:
+        for project in self.ctx.config.get_projects(config):
+            if self.roles and project not in self.roles:
                 continue
 
             if config["projectsRelativeDir"] != ".":
@@ -37,23 +42,24 @@ class BuildReleaseAction:
                 repo.git.checkout("master")
 
         if len(dirty_repos) > 0:
-            print("WARN: this operation cannot be performed when a repo is dirty. Commit all changes to the following "
-                  "repos before proceeding: {}".format(dirty_repos))
+            click.echo(
+                "WARN: this operation cannot be performed when a repo is dirty. Commit all changes to the following "
+                "repos before proceeding: {}".format(dirty_repos))
 
             return
 
-        version = args.version.lstrip("v")
+        version = self.version.lstrip("v")
 
         self._update_version_file(version,
                                   os.path.join(config["versionInfo"]["project"], config["versionInfo"]["path"]))
 
-        prepcodeaction = PrepCodeAction()
-        prepcodeaction.run(args)
+        prep_code_command = PrepCodeCommand(self.ctx, self.roles)
+        prep_code_command.run()
 
-        print("Committing changes and creating release tags ...")
+        click.echo("Committing changes and creating release tags ...")
 
-        for project in utils.get_projects(config):
-            print(project)
+        for project in self.ctx.config.get_projects(config):
+            click.echo(project)
 
             if config["projectsRelativeDir"] != ".":
                 project_path = os.path.join(projects_dir, project)
@@ -65,16 +71,16 @@ class BuildReleaseAction:
         if config["projectsRelativeDir"] != ".":
             root_dir = os.path.abspath(os.path.join(projects_dir, ".."))
             if os.path.exists(os.path.join(root_dir, ".git")):
-                print(utils.get_repo_name(root_dir))
+                click.echo(self.ctx.config.get_repo_name(root_dir))
                 self._commit_and_tag(root_dir, version)
 
-        print("... release version {} built.".format(version))
+        click.echo("... release version {} built.".format(version))
 
     def _commit_and_tag(self, path, version):
         repo = git.Repo(path)
 
         if version in repo.tags:
-            print("Version already exists, not doing anything.")
+            click.echo("Version already exists, not doing anything.")
         else:
             if repo.is_dirty():
                 repo.git.add(u=True)
@@ -84,9 +90,9 @@ class BuildReleaseAction:
             repo.remotes["origin"].push(tag)
 
     def _update_version_file(self, version, path):
-        config = utils.get_config()
+        config = self.ctx.config.get_config()
 
-        version_file_path = os.path.join(utils.get_projects_dir(), path)
+        version_file_path = os.path.join(self.ctx.config.get_projects_dir(), path)
 
         version_file = open(version_file_path, "r")
         new_version_file = open(version_file_path + ".tmp", "w")
@@ -97,14 +103,15 @@ class BuildReleaseAction:
                     line = "__version__ = \"{}\"\n".format(version)
                 elif line.strip().startswith("__copyright__ = "):
                     line = "__copyright__ = \"Copyright {}, {}\"\n".format(str(datetime.date.today().year),
-                                                                           utils.get_copyright_name())
+                                                                           self.ctx.config.get_copyright_name())
             elif version_file.name == "package.json":
                 if line.strip().startswith("\"version\":"):
                     line = "  \"version\": \"{}\",\n".format(version)
             # TODO: implement other known types
             else:
-                print("WARN: helium-cli does not know how to process this type of file for version file: {}".format(
-                    config["versionInfo"]["path"]))
+                click.echo(
+                    "WARN: helium-cli does not know how to process this type of file for version file: {}".format(
+                        config["versionInfo"]["path"]))
 
                 new_version_file.close()
                 os.remove(version_file_path + ".tmp")

@@ -3,6 +3,15 @@ import sys
 
 import click
 
+from heliumcli.commands.buildrelease import BuildReleaseCommand
+from heliumcli.commands.deploybuild import DeployBuildCommand
+from heliumcli.commands.init import InitCommand
+from heliumcli.commands.listbuilds import ListBuildsCommand
+from heliumcli.commands.prepcode import PrepCodeCommand
+from heliumcli.commands.setbuild import SetBuildCommand
+from heliumcli.commands.startservers import StartServersCommand
+from heliumcli.commands.update import UpdateCommand
+from heliumcli.commands.updateprojects import UpdateProjectsCommand
 from heliumcli.config import Config
 
 __author__ = "Alex Laird"
@@ -10,7 +19,7 @@ __copyright__ = "Copyright 2019, Helium Edu"
 __version__ = "2.0.0"
 
 CMD_FOLDER = os.path.abspath(os.path.join(os.path.dirname(__file__), "commands"))
-CONTEXT_SETTINGS = dict(auto_envvar_prefix="HELIUMCLI", help_option_names=["-h", "--help"])
+CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 
 
 class Context(object):
@@ -45,9 +54,10 @@ def cli(ctx):
 @click.argument("version")
 @click.option("--roles", help="Limit the project roles to be built/tagged")
 @pass_context
-def build_release(ctx):
+def build_release(ctx, version, roles):
     """Build a release version for all projects, tagging when complete"""
-    pass
+    command = BuildReleaseCommand(ctx, version, roles)
+    command.run()
 
 
 @click.command()
@@ -60,9 +70,10 @@ def build_release(ctx):
 @click.option("--conf", help="Only deploy configuration files and restart necessary services")
 @click.option("--ssl", help="Only deploy SSL certificates and restart necessary services")
 @pass_context
-def deploy_build(ctx):
+def deploy_build(ctx, version, env, roles, migrate, code, envvars, conf, ssl):
     """Deploy the specified build, which may be a versioned release or a branch"""
-    pass
+    command = DeployBuildCommand(ctx, version, env, roles, migrate, code, envvars, conf, ssl)
+    command.run()
 
 
 @click.command()
@@ -72,55 +83,62 @@ def deploy_build(ctx):
 @click.argument("github_user")
 @click.option("--config-only", help="Only initialize the .heliumcli.yml config file")
 @pass_context
-def init(ctx):
+def init(ctx, id, name, host, github_user, config_only):
     """Initialize a new project with an that is compatible with helium-cli, providing an ID (slug with no spaces),
     friendly name, hostname for the webservice, and GitHub username"""
-    pass
+    command = InitCommand(ctx, id, name, host, github_user, config_only)
+    command.run()
 
 
 @click.command()
 @click.option("--latest", help="Only list the latest build")
 @pass_context
-def list_builds(ctx):
+def list_builds(ctx, latest):
     """List available builds"""
-    pass
+    command = ListBuildsCommand(ctx, latest)
+    command.run()
 
 
 @click.command()
 @click.option("--roles", help="Limit the project roles to be prepped")
 @pass_context
-def prep_code(ctx):
+def prep_code(ctx, roles):
     """Prepare code for release build, updating version and copyright information in project files"""
-    pass
+    command = PrepCodeCommand(ctx, roles)
+    command.run()
 
 
 @click.command()
 @click.argument("version")
 @pass_context
-def set_build(ctx):
+def set_build(ctx, version):
     """Set all projects to the specified build, which may be a versioned release or a branch"""
-    pass
+    command = SetBuildCommand(ctx, version)
+    command.run()
 
 
 @click.command()
 @pass_context
 def start_servers(ctx):
     """Launch known project servers to run locally"""
-    pass
+    command = StartServersCommand(ctx)
+    command.run()
 
 
 @click.command()
 @pass_context
 def update(ctx):
     """Update the CLI tool to the latest version"""
-    pass
+    command = UpdateCommand()
+    command.run()
 
 
 @click.command()
 @pass_context
 def update_projects(ctx):
     """Ensure all projects have the latest code and dependencies"""
-    pass
+    command = UpdateProjectsCommand(ctx)
+    command.run()
 
 
 cli.add_command(build_release)

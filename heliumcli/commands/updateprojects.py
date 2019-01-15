@@ -1,34 +1,36 @@
 import os
 import subprocess
 
+import click
 import git
-
-from .. import utils
 
 __author__ = "Alex Laird"
 __copyright__ = "Copyright 2019, Helium Edu"
 __version__ = "2.0.0"
 
 
-class UpdateProjectsAction:
-    def run(self, args):
-        config = utils.get_config()
-        projects_dir = utils.get_projects_dir()
+class UpdateProjectsCommand:
+    def __init__(self, ctx):
+        self.ctx = ctx
+
+    def run(self):
+        config = self.ctx.config.get_config()
+        projects_dir = self.ctx.config.get_projects_dir()
 
         if config["projectsRelativeDir"] != ".":
             root_dir = os.path.abspath(os.path.join(projects_dir, ".."))
             if os.path.exists(os.path.join(root_dir, ".git")):
-                print(utils.get_repo_name(root_dir))
+                click.echo(self.ctx.config.get_repo_name(root_dir))
 
                 repo = git.Repo(root_dir)
                 repo.git.fetch(tags=True, prune=True)
-                print(repo.git.pull() + "\n")
+                click.echo(repo.git.pull() + "\n")
 
         if not os.path.exists(projects_dir):
             os.mkdir(projects_dir)
 
-        for project in utils.get_projects(config):
-            print(project)
+        for project in self.ctx.config.get_projects(config):
+            click.echo(project)
 
             if config["projectsRelativeDir"] != ".":
                 project_path = os.path.join(projects_dir, project)
@@ -36,13 +38,13 @@ class UpdateProjectsAction:
                 project_path = os.path.join(projects_dir)
 
             if not os.path.exists(os.path.join(project_path, ".git")):
-                print("Cloning repo to ./projects/{}".format(project))
+                click.echo("Cloning repo to ./projects/{}".format(project))
                 git.Repo.clone_from("{}/{}.git".format(config["gitProject"], project), project_path)
             else:
                 repo = git.Repo(project_path)
                 repo.git.fetch(tags=True, prune=True)
-                print(repo.git.pull())
+                click.echo(repo.git.pull())
 
             subprocess.call(["make", "install", "-C", project_path])
 
-            print("")
+            click.echo("")

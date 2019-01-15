@@ -3,6 +3,7 @@ import os
 import shutil
 import subprocess
 
+import click
 import git
 
 from .. import utils
@@ -12,14 +13,18 @@ __copyright__ = "Copyright 2019, Helium Edu"
 __version__ = "2.0.0"
 
 
-class PrepCodeAction:
-    def run(self, args):
-        self._copyright_name = utils.get_copyright_name()
+class PrepCodeCommand:
+    def __init__(self, ctx, roles):
+        self.ctx = ctx
+        self.roles = roles
+
+        self._copyright_name = self.ctx.config.get_copyright_name()
         self._current_year = str(datetime.date.today().year)
         self._current_version = None
 
-        config = utils.get_config()
-        projects_dir = utils.get_projects_dir()
+    def run(self):
+        config = self.ctx.config.get_config()
+        projects_dir = self.ctx.config.get_projects_dir()
 
         for line in open(os.path.join(projects_dir, config["versionInfo"]["project"], config["versionInfo"]["path"]),
                          "r"):
@@ -27,13 +32,14 @@ class PrepCodeAction:
                 self._current_version = line.strip().split("__version__ = \"")[1].rstrip("\"")
 
         if not self._current_version:
-            print("WARN: helium-cli does not know how to process this type of file for version information: {}".format(
-                config["versionInfo"]["path"]))
+            click.echo(
+                "WARN: helium-cli does not know how to process this type of file for version information: {}".format(
+                    config["versionInfo"]["path"]))
 
             return
 
-        for project in utils.get_projects(config):
-            if args.roles and project not in args.roles:
+        for project in self.ctx.config.get_projects(config):
+            if self.roles and project not in self.roles:
                 continue
 
             if config["projectsRelativeDir"] != ".":
@@ -47,18 +53,18 @@ class PrepCodeAction:
             version_tags = utils.sort_tags(repo.tags)
 
             if len(version_tags) == 0:
-                print("No version tags have been created yet.")
+                click.echo("No version tags have been created yet.")
 
                 return
 
             latest_tag = version_tags[-1]
             changes = latest_tag.commit.diff(None)
 
-            print(
+            click.echo(
                 "Checking the {} file(s) in \"{}\" that have been modified since {} was tagged ...".format(len(changes),
                                                                                                            project,
                                                                                                            latest_tag.tag.tag))
-            print("-------------------------------")
+            click.echo("-------------------------------")
 
             count = 0
             for change in changes:
@@ -69,9 +75,9 @@ class PrepCodeAction:
                     if self._process_file(file_path):
                         count += 1
 
-            print("-------------------------------")
-            print("Updated {} file(s).".format(count))
-            print("")
+            click.echo("-------------------------------")
+            click.echo("Updated {} file(s).".format(count))
+            click.echo("")
 
             if os.path.exists(os.path.join(project_path, "package.json")):
                 self._process_file(os.path.join(project_path, "package.json"))
@@ -106,7 +112,7 @@ class PrepCodeAction:
         new_file.close()
 
         if updated:
-            print("Updated {}.".format(file_path))
+            click.echo("Updated {}.".format(file_path))
 
             shutil.copy(file_path + ".tmp", file_path)
         os.remove(file_path + ".tmp")
