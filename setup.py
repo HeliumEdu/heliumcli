@@ -39,6 +39,7 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Topic :: Software Development :: Build Tools",
+        "Topic :: Software Development :: Testing",
         "Environment :: Console",
         "Environment :: Web Environment",
         "Intended Audience :: Developers",
