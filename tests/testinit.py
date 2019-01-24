@@ -30,8 +30,7 @@ class TestInitTestCase(TestCase):
         self.assertFalse(os.path.exists(os.environ.get("HELIUMCLI_CONFIG_PATH")))
 
         # WHEN
-        self.runner.invoke(init,
-                           ["main.py", "init", "my-project", "My Project", "myproject.heliumedu.com", "HeliumEdu"])
+        self.runner.invoke(init, ["my-project", "My Project", "myproject.heliumedu.com", "HeliumEdu"])
 
         # THEN
         self.assertTrue(os.path.exists(os.environ.get("HELIUMCLI_CONFIG_PATH")))

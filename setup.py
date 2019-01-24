@@ -14,11 +14,12 @@ setup(
         "click",
         "GitPython >= 2.1.9",
         "PyYAML <= 3.13, >=3.12",
-        "ansible >= 2.5"
+        "ansible >= 2.5",
+        "pyngrok >= 1.3.1"
     ],
     entry_points="""
         [console_scripts]
-        helium=heliumcli.cli:cli
+        heliumcli=heliumcli.cli:cli
     """,
     description="CLI that provides a useful set of tools for maintaining, building, and deploying code in compatible projects",
     long_description=long_description,
@@ -36,6 +37,10 @@ setup(
         "Programming Language :: Python :: 3.7",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
-        "Topic :: Software Development :: Build Tools"
+        "Topic :: Software Development :: Build Tools",
+        "Topic :: Software Development :: Testing",
+        "Environment :: Console",
+        "Environment :: Web Environment",
+        "Intended Audience :: Developers",
     ],
 )

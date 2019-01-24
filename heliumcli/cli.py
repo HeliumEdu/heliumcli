@@ -64,14 +64,17 @@ def build_release(ctx, version, roles):
 @click.argument("version")
 @click.argument("env")
 @click.option("--roles", help="Limit the project roles to be deployed")
-@click.option("--migrate", help="Install code dependencies and run migrations")
-@click.option("--code", help="Only deploy code")
-@click.option("--envvars", help="Only deploy environment variables")
-@click.option("--conf", help="Only deploy configuration files and restart necessary services")
-@click.option("--ssl", help="Only deploy SSL certificates and restart necessary services")
+@click.option("--migrate", is_flag=True, help="Install code dependencies and run migrations")
+@click.option("--code", is_flag=True, help="Only deploy code")
+@click.option("--envvars", is_flag=True, help="Only deploy environment variables")
+@click.option("--conf", is_flag=True, help="Only deploy configuration files and restart necessary services")
+@click.option("--ssl", is_flag=True, help="Only deploy SSL certificates and restart necessary services")
 @pass_context
 def deploy_build(ctx, version, env, roles, migrate, code, envvars, conf, ssl):
     """Deploy the specified build, which may be a versioned release or a branch"""
+    if roles:
+        roles = roles.split(",")
+
     command = DeployBuildCommand(ctx, version, env, roles, migrate, code, envvars, conf, ssl)
     command.run()
 
@@ -81,7 +84,7 @@ def deploy_build(ctx, version, env, roles, migrate, code, envvars, conf, ssl):
 @click.argument("name")
 @click.argument("host")
 @click.argument("github_user")
-@click.option("--config-only", help="Only initialize the .heliumcli.yml config file")
+@click.option("--config-only", is_flag=True, help="Only initialize the .heliumcli.yml config file")
 @pass_context
 def init(ctx, id, name, host, github_user, config_only):
     """Initialize a new project with an that is compatible with helium-cli, providing an ID (slug with no spaces),
@@ -91,7 +94,7 @@ def init(ctx, id, name, host, github_user, config_only):
 
 
 @click.command()
-@click.option("--latest", help="Only list the latest build")
+@click.option("--latest", is_flag=True, help="Only list the latest build")
 @pass_context
 def list_builds(ctx, latest):
     """List available builds"""
@@ -104,6 +107,9 @@ def list_builds(ctx, latest):
 @pass_context
 def prep_code(ctx, roles):
     """Prepare code for release build, updating version and copyright information in project files"""
+    if roles:
+        roles = roles.split(",")
+
     command = PrepCodeCommand(ctx, roles)
     command.run()
 

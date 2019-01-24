@@ -24,7 +24,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
     @mock.patch("os.path.exists", return_value=False)
     def test_update_clone_projects(self, mock_path_exists):
         # GIVEN
-        given_config_exists()
+        given_config_exists(self)
 
         # WHEN
         self.runner.invoke(update_projects)
@@ -106,10 +106,10 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
 
     def test_deploy_build_code_limit_hosts(self):
         # GIVEN
-        given_config_exists()
+        given_config_exists(self)
 
         # WHEN
-        self.runner.invoke(deploy_build, ["1.2.3", "devbox", True, "host1,host2"])
+        self.runner.invoke(deploy_build, ["1.2.3", "devbox", "--roles", "host1,host2"])
 
         # THEN
         config = Config()
@@ -124,10 +124,10 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
 
     def test_deploy_build_all_tags(self):
         # GIVEN
-        given_config_exists()
+        given_config_exists(self)
 
         # WHEN
-        self.runner.invoke(deploy_build, ["1.2.3", "devbox", True, True, True, True, True])
+        self.runner.invoke(deploy_build, ["1.2.3", "devbox", "--migrate", "--code", "--envvars", "--conf", "--ssl"])
 
         # THEN
         config = Config()
@@ -186,7 +186,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
 
     def test_list_builds(self):
         # GIVEN
-        given_config_exists()
+        given_config_exists(self)
 
         # WHEN
         self.runner.invoke(list_builds, ["1.2.3"])
@@ -195,7 +195,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         # GIVEN
         repo_instance = self.mock_git_repo.return_value
         repo_instance.is_dirty = mock.MagicMock(return_value=True)
-        given_config_exists()
+        given_config_exists(self)
 
         # WHEN
         self.runner.invoke(build_release, ["1.2.3"])

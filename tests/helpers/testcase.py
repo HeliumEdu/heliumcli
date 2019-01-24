@@ -72,13 +72,16 @@ class HeliumCLITestCase(TestCase):
         self.mock_subprocess_popen = self.subprocess_popen.start()
 
     def _setup_util_mocks(self):
-        # TODO: properly mock these
-        pass
-        # self.utils_get_copyright_name = mock.patch("heliumcli.config.get_copyright_name",
-        #                                            return_value="Helium Edu")
-        # self.addCleanup(self.utils_get_copyright_name.stop)
-        # self.mock_get_copyright_name = self.utils_get_copyright_name.start()
-        #
-        # self.utils_get_repo_name = mock.patch("heliumcli.config.get_repo_name", return_value="deploy")
-        # self.addCleanup(self.utils_get_repo_name.stop)
-        # self.mock_get_repo_name = self.utils_get_repo_name.start()
+        def get_copyright_name():
+            return "Helium Edu"
+
+        def get_repo_name():
+            return "deploy"
+
+        self.utils_get_copyright_name = mock.patch("heliumcli.config.Config", "get_copyright_name", get_copyright_name)
+        self.addCleanup(self.utils_get_copyright_name.stop)
+        self.mock_get_copyright_name = self.utils_get_copyright_name.start()
+
+        self.utils_get_repo_name = mock.patch("heliumcli.config.Config", "get_repo_name", get_repo_name)
+        self.addCleanup(self.utils_get_repo_name.stop)
+        self.mock_get_repo_name = self.utils_get_repo_name.start()
