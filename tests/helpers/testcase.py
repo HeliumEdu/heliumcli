@@ -28,7 +28,7 @@ class HeliumCLITestCase(TestCase):
 
         self._setup_subprocess_mocks()
 
-        self._setup_util_mocks()
+        self._setup_config_mocks()
 
     def tearDown(self):
         shutil.rmtree(self.build_dir)
@@ -71,7 +71,7 @@ class HeliumCLITestCase(TestCase):
         self.addCleanup(self.subprocess_popen.stop)
         self.mock_subprocess_popen = self.subprocess_popen.start()
 
-    def _setup_util_mocks(self):
+    def _setup_config_mocks(self):
         def get_copyright_name():
             return "Helium Edu"
 

@@ -39,6 +39,7 @@ setup(
         "Operating System :: OS Independent",
         "Topic :: Software Development :: Build Tools",
         "Topic :: Software Development :: Testing",
+        "Development Status :: 5 - Production/Stable",
         "Environment :: Console",
         "Environment :: Web Environment",
         "Intended Audience :: Developers",
