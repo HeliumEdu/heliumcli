@@ -1,10 +1,11 @@
 import os
 import shutil
-from unittest import TestCase
+from unittest import TestCase, mock
 
 from click.testing import CliRunner
 from git import TagReference
-from mock import mock
+
+from heliumcli.config import Config
 
 __author__ = "Alex Laird"
 __copyright__ = "Copyright 2019, Helium Edu"
@@ -72,16 +73,10 @@ class HeliumCLITestCase(TestCase):
         self.mock_subprocess_popen = self.subprocess_popen.start()
 
     def _setup_config_mocks(self):
-        def get_copyright_name():
-            return "Helium Edu"
-
-        def get_repo_name():
-            return "deploy"
-
-        self.utils_get_copyright_name = mock.patch("heliumcli.config.Config", "get_copyright_name", get_copyright_name)
+        self.utils_get_copyright_name = mock.patch.object(Config, "get_copyright_name", return_value="Helium Edu")
         self.addCleanup(self.utils_get_copyright_name.stop)
         self.mock_get_copyright_name = self.utils_get_copyright_name.start()
 
-        self.utils_get_repo_name = mock.patch("heliumcli.config.Config", "get_repo_name", get_repo_name)
+        self.utils_get_repo_name = mock.patch.object(Config, "get_repo_name", return_value="deploy")
         self.addCleanup(self.utils_get_repo_name.stop)
         self.mock_get_repo_name = self.utils_get_repo_name.start()
