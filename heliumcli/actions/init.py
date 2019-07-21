@@ -9,7 +9,7 @@ from .. import utils
 
 __author__ = "Alex Laird"
 __copyright__ = "Copyright 2018, Helium Edu"
-__version__ = "1.5.4"
+__version__ = "1.5.5"
 
 
 class InitAction:
