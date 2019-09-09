@@ -13,7 +13,7 @@ setup(
     install_requires=[
         "click",
         "GitPython >= 2.1.9",
-        "PyYAML <= 3.13, >=3.12",
+        "PyYAML >= 5.1.2",
         "ansible >= 2.5",
         "pyngrok >= 1.3.1"
     ],
