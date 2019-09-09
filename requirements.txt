@@ -1,7 +1,7 @@
 GitPython==2.1.11
-PyYAML==4.2b4
+PyYAML==5.1.2
 ansible==2.7.12
-pyngrok==1.4.0
+pyngrok==1.4.2
 future==0.17.1
 coverage==4.5.2
 codecov==2.0.15
