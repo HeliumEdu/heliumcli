@@ -1,21 +1,22 @@
 sudo: required
 language: python
 python:
-- "2.7"
-- "3.5"
-- "3.6"
-- "3.7"
+  - "2.7"
+  - "3.5"
+  - "3.6"
+  - "3.7"
 install:
-- python -m pip install virtualenv
-- python -m virtualenv .venv
-- source .venv/bin/activate
-- python -m pip install -r requirements.txt
-- sudo -H python -m pip install setuptools twine --upgrade
+  - python -m pip install virtualenv
+  - python -m virtualenv .venv
+  - source .venv/bin/activate
+  - python -m pip install -r requirements.txt
+  - python -m pip install -r requirements-dev.txt
+  - sudo -H python -m pip install setuptools twine --upgrade
 script:
-- make test
-- make local
+  - make test
+  - make local
 after_success:
-- codecov
+  - codecov
 deploy:
   provider: pypi
   user: alexdlaird
