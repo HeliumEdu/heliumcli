@@ -16,11 +16,11 @@ setup(
     version=version,
     python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*",
     install_requires=[
-        "GitPython >= 2.1.9",
-        "PyYAML >=3.12",
-        "ansible >= 2.5",
-        "pyngrok >= 1.3.1",
-        "future"
+        "GitPython>=2.1.15",
+        "PyYAML>=5.1.2",
+        "ansible>=2.7.16",
+        "pyngrok>=1.4.4",
+        "future>=0.17.1"
     ],
     scripts=["bin/helium-cli"],
     description="CLI tool that provides a useful set of tools for maintaining, building, and deploying code in " \
