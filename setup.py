@@ -19,7 +19,8 @@ setup(
         "GitPython >= 2.1.9",
         "PyYAML >=3.12",
         "ansible >= 2.5",
-        "pyngrok >= 1.3.1"
+        "pyngrok >= 1.3.1",
+        "future"
     ],
     scripts=["bin/helium-cli"],
     description="CLI tool that provides a useful set of tools for maintaining, building, and deploying code in " \
