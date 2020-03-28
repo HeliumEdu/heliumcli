@@ -19,7 +19,7 @@ setup(
         "GitPython>=2.1.15",
         "PyYAML>=5.1.2",
         "ansible>=2.7.16",
-        "pyngrok>=1.4.4",
+        "pyngrok>=2.1.3",
         "future>=0.17.1"
     ],
     scripts=["bin/helium-cli"],
