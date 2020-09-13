@@ -4,10 +4,9 @@
 .coverage
 *.log
 .venv
-htmlcov
 dist/
-build/
-tests/_build
+_build
 MANIFEST
+*.egg-info
+
 .heliumcli.yml
-heliumcli.egg-info

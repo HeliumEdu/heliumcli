@@ -23,6 +23,7 @@ setup(
         "future>=0.17.1"
     ],
     scripts=["bin/helium-cli"],
+    include_package_data=True,
     description="CLI tool that provides a useful set of tools for maintaining, building, and deploying code in " \
                 "compatible projects",
     long_description=long_description,
