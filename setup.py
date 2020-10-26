@@ -14,13 +14,12 @@ setup(
         "heliumcli.actions"
     ],
     version=version,
-    python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*",
+    python_requires=">=3.5",
     install_requires=[
         "GitPython>=2.1.15",
         "PyYAML>=5.1.2",
         "ansible>=2.7.16",
-        "pyngrok>=4.1,<4.2",
-        "future>=0.17.1"
+        "pyngrok>=5.0.0",
     ],
     scripts=["bin/helium-cli"],
     include_package_data=True,
@@ -35,7 +34,7 @@ setup(
     keywords=["cli", "build", "deployment", "ansible", "git"],
     license="MIT",
     classifiers=[
-        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",

@@ -1,15 +1,14 @@
 import os
+from unittest import mock
 
-from mock import mock
-
-from heliumcli.main import main
 from heliumcli import utils, settings
+from heliumcli.main import main
 from tests.helpers.commonhelper import given_config_exists
 from .helpers import testcase, commonhelper
 
 __author__ = "Alex Laird"
 __copyright__ = "Copyright 2018, Helium Edu"
-__version__ = "1.5.2"
+__version__ = "1.6.0"
 
 
 class TestActionsTestCase(testcase.HeliumCLITestCase):
