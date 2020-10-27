@@ -1,11 +1,11 @@
-from mock import mock
+from unittest import mock
 
 from heliumcli import utils
 from .helpers import testcase
 
 __author__ = "Alex Laird"
 __copyright__ = "Copyright 2018, Helium Edu"
-__version__ = "1.5.2"
+__version__ = "1.6.0"
 
 
 class TestUtilsTestCase(testcase.HeliumCLITestCase):

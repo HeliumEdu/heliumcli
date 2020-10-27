@@ -1,14 +1,13 @@
 #!/usr/bin/env python
 
 import argparse
-
 import sys
 
 from heliumcli.actions.listbuilds import ListBuildsAction
 from . import utils
-from .actions.init import InitAction
 from .actions.buildrelease import BuildReleaseAction
 from .actions.deploybuild import DeployBuildAction
+from .actions.init import InitAction
 from .actions.prepcode import PrepCodeAction
 from .actions.setbuild import SetBuildAction
 from .actions.startservers import StartServersAction
@@ -17,7 +16,7 @@ from .actions.updateprojects import UpdateProjectsAction
 
 __author__ = "Alex Laird"
 __copyright__ = "Copyright 2018, Helium Edu"
-__version__ = "1.5.0"
+__version__ = "1.6.0"
 
 
 def main(argv):

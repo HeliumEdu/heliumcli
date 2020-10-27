@@ -2,9 +2,9 @@ import os
 import re
 import subprocess
 import sys
+from builtins import input
 
 import yaml
-from builtins import input
 
 from .settings import VERSION, get_default_settings
 

@@ -1,15 +1,15 @@
 import os
 import shutil
 from unittest import TestCase
+from unittest import mock
 
 from git import TagReference
-from mock import mock
 
 from heliumcli import utils
 
 __author__ = "Alex Laird"
 __copyright__ = "Copyright 2018, Helium Edu"
-__version__ = "1.5.0"
+__version__ = "1.6.0"
 
 
 class HeliumCLITestCase(TestCase):
