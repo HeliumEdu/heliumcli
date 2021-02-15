@@ -61,6 +61,11 @@ class InitAction:
             os.remove(os.path.join(project_dir, ".travis.yml"))
             os.rename(os.path.join(project_dir, ".travis.yml.template"), os.path.join(project_dir, ".travis.yml"))
 
+        if os.path.exists(os.path.join(project_dir, ".github", "workflows", "build.yml.template")):
+            os.remove(os.path.join(project_dir, ".github", "workflows", "build.yml"))
+            os.rename(os.path.join(project_dir, ".github", "workflows", "build.yml.template"),
+                      os.path.join(project_dir, ".github", "workflows", "build.yml"))
+
         if os.path.exists(os.path.join(project_dir, "Makefile.template")):
             os.remove(os.path.join(project_dir, "Makefile"))
             os.rename(os.path.join(project_dir, "Makefile.template"), os.path.join(project_dir, "Makefile"))
