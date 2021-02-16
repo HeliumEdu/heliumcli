@@ -30,6 +30,11 @@ local:
 		pip install dist/helium*.tar.gz; \
 	)
 
+validate-release:
+	@if [[ "${VERSION}" == "" ]]; then echo "VERSION is not set" & exit 1 ; fi
+
+	@if [[ $$(grep "__version__ = \"${VERSION}\"" heliumcli/settings.py) == "" ]] ; then echo "Version not bumped in heliumcli/settings.py" & exit 1 ; fi
+
 upload:
 	@rm -rf dist
 	@( \
