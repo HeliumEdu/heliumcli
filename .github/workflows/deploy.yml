@@ -28,10 +28,10 @@ jobs:
         run: |
           make validate-release VERSION=${{ steps.get_version.outputs.VERSION }}
       - name: Run tests
-        run: |
+        run:
           make test
       - name: Build
-        run: |
+        run:
           make local
       - name: Publish
         env:
