@@ -8,8 +8,8 @@ import git
 from .. import utils
 
 __author__ = "Alex Laird"
-__copyright__ = "Copyright 2021, Helium Edu"
-__version__ = "1.6.4"
+__copyright__ = "Copyright 2022, Helium Edu"
+__version__ = "1.6.5"
 
 
 class InitAction:
@@ -48,7 +48,7 @@ class InitAction:
     def _init_project(self, config_path, args):
         project_dir = os.path.join(os.path.dirname(config_path), args.id)
         template_project_name = "template-project"
-        template_version = os.environ.get("HELIUMCLI_TEMPLATE_PROJECT_VERSION", "1.2.2")
+        template_version = os.environ.get("HELIUMCLI_TEMPLATE_PROJECT_VERSION", "1.2.3")
 
         print("Cloning the template-project {} repo into this directory ...".format(template_version))
         git.Repo.clone_from("{}/{}.git".format("https://github.com/HeliumEdu", template_project_name),
