@@ -14,7 +14,7 @@ setup(
         "heliumcli.actions"
     ],
     version=version,
-    python_requires=">=3.5",
+    python_requires=">=3.5,<=3.9",
     install_requires=[
         "GitPython>=2.1.15",
         "PyYAML>=5.1.2",
