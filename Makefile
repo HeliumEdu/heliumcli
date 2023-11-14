@@ -1,13 +1,14 @@
 .PHONY: all virtualenv install test local upload
 
 SHELL := /usr/bin/env bash
+PYTHON_BIN ?= python
 
 all: virtualenv install
 
 virtualenv:
 	@if [ ! -d ".venv" ]; then \
-		python3 -m pip install virtualenv --user; \
-		python3 -m virtualenv .venv; \
+		$(PYTHON_BIN) -m pip install virtualenv --user; \
+		$(PYTHON_BIN) -m virtualenv .venv; \
 	fi
 
 install: virtualenv
@@ -20,14 +21,14 @@ install: virtualenv
 test: virtualenv
 	@( \
 		source .venv/bin/activate; \
-		python `which nosetests` --with-coverage --cover-erase --cover-package=. --cover-xml --cover-xml-file=_build/coverage/coverage.xml --cover-html --cover-html-dir=_build/coverage; \
+		python -m coverage run -m unittest discover -b && python -m coverage xml && python -m coverage html && python -m coverage report; \
 	)
 
 local:
 	@rm -rf dist
 	@( \
-		python setup.py sdist; \
-		pip install dist/helium*.tar.gz; \
+		$(PYTHON_BIN) setup.py sdist; \
+		$(PYTHON_BIN) -m pip install dist/*.tar.gz; \
 	)
 
 validate-release:
@@ -36,9 +37,10 @@ validate-release:
 	@if [[ $$(grep "__version__ = \"${VERSION}\"" heliumcli/settings.py) == "" ]] ; then echo "Version not bumped in heliumcli/settings.py" & exit 1 ; fi
 
 upload:
-	@rm -rf dist
+	@rm -rf *.egg-info dist
 	@( \
 		source .venv/bin/activate; \
+		python -m pip install twine; \
 		python setup.py sdist; \
-		twine upload dist/*; \
+		python -m twine upload dist/*; \
 	)

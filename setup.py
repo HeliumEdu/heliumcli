@@ -14,7 +14,7 @@ setup(
         "heliumcli.actions"
     ],
     version=version,
-    python_requires=">=3.5,<=3.9",
+    python_requires=">=3.5",
     install_requires=[
         "GitPython>=2.1.15",
         "PyYAML>=5.1.2",
@@ -43,6 +43,8 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Topic :: Software Development :: Build Tools",
