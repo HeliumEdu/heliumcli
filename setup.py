@@ -31,6 +31,9 @@ setup(
     author_email="contact@alexlaird.com",
     url="https://github.com/HeliumEdu/heliumcli",
     download_url="https://github.com/HeliumEdu/heliumcli/archive/{}.tar.gz".format(version),
+    project_urls={
+        "Sponsor": "https://github.com/sponsors/alexdlaird"
+    },
     keywords=["cli", "build", "deployment", "ansible", "git"],
     license="MIT",
     classifiers=[

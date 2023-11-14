@@ -17,3 +17,8 @@ The Helium CLI can easily be used with a compatible project by installing it wit
 is then available from the command line with `helium-cli`.
 
 More details pertaining to project compatibility, installation, and configuration can be found in the [Helium CLI Wiki](https://github.com/HeliumEdu/heliumcli/wiki).
+
+## Contributing
+
+Want to contribute financially? If you've found `helium-cli` useful, [sponsorship](https://github.com/sponsors/alexdlaird) would
+also be greatly appreciated!
