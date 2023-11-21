@@ -42,6 +42,8 @@ class BuildReleaseAction:
             repo = git.Repo(project_path)
 
             if repo.untracked_files or repo.is_dirty():
+                print("Untracked files in {}: {}".format(project, repo.untracked_files))
+
                 dirty_repos.append(project)
             else:
                 repo.git.fetch(tags=True, prune=True)

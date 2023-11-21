@@ -48,7 +48,7 @@ class UpdateProjectsAction:
                 git.Repo.clone_from("{}/{}.git".format(config["gitProject"], project), project_path)
             else:
                 repo = git.Repo(project_path)
-                repo.git.fetch(tags=True, prune=True)
+                repo.git.fetch(tags=True, prune=True, force=True)
                 print(repo.git.pull())
 
             subprocess.call(["make", "install", "-C", project_path])

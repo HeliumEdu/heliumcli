@@ -39,7 +39,7 @@ class DeployBuildAction:
             if os.path.exists(os.path.join(root_dir, ".git")):
                 repo = git.Repo(root_dir)
                 try:
-                    repo.git.fetch(tags=True, prune=True)
+                    repo.git.fetch(tags=True, prune=True, force=True)
                 except git.GitCommandError as ex:
                     if ex.status == 128:
                         print("WARN: if you want to get the latest code updates, verify your network connection.")
