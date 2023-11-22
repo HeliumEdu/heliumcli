@@ -26,7 +26,7 @@ class ListBuildsAction:
         if config["projectsRelativeDir"] != ".":
             root_dir = os.path.abspath(os.path.join(projects_dir, ".."))
             if os.path.exists(os.path.join(root_dir, ".git")):
-                print(utils.get_repo_name(root_dir))
+                print(utils.get_repo_name(root_dir, config["remoteName"]))
 
                 repo = git.Repo(root_dir)
                 repo.git.fetch(tags=True, prune=True)

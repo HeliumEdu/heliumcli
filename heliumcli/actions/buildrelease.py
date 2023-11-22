@@ -47,7 +47,7 @@ class BuildReleaseAction:
                 dirty_repos.append(project)
             else:
                 repo.git.fetch(tags=True, prune=True)
-                repo.git.checkout("master")
+                repo.git.checkout(config["branchName"])
 
         if len(dirty_repos) > 0:
             print("WARN: this operation cannot be performed when a repo is dirty. Commit all changes to the following "
@@ -73,17 +73,17 @@ class BuildReleaseAction:
             else:
                 project_path = os.path.join(projects_dir)
 
-            self._commit_and_tag(project_path, version)
+            self._commit_and_tag(project_path, version, config["remoteName"], config["branchName"])
 
         if config["projectsRelativeDir"] != ".":
             root_dir = os.path.abspath(os.path.join(projects_dir, ".."))
             if os.path.exists(os.path.join(root_dir, ".git")):
-                print(utils.get_repo_name(root_dir))
-                self._commit_and_tag(root_dir, version)
+                print(utils.get_repo_name(root_dir, config["remoteName"]))
+                self._commit_and_tag(root_dir, version, config["remoteName"], config["branchName"])
 
         print("... release version {} built.".format(version))
 
-    def _commit_and_tag(self, path, version):
+    def _commit_and_tag(self, path, version, remote_name, branch_name):
         repo = git.Repo(path)
 
         if version in repo.tags:
@@ -92,9 +92,9 @@ class BuildReleaseAction:
             if repo.is_dirty():
                 repo.git.add(u=True)
                 repo.git.commit(m="[heliumcli] Release {}".format(version))
-                repo.remotes["origin"].push("master")
+                repo.remotes[remote_name].push(branch_name)
             tag = repo.create_tag(version, m="")
-            repo.remotes["origin"].push(tag)
+            repo.remotes[remote_name].push(tag)
 
     def _update_version_file(self, version, path):
         config = utils.get_config()

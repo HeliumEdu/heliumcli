@@ -3,7 +3,7 @@ import os
 
 __author__ = "Alex Laird"
 __copyright__ = "Copyright 2023, Helium Edu"
-__version__ = "1.6.6"
+__version__ = "1.6.7"
 
 VERSION = __version__
 
@@ -22,4 +22,6 @@ def get_default_settings():
             "project": os.environ.get("HELIUMCLI_VERSION_INFO_PROJECT", "platform"),
             "path": os.environ.get("HELIUMCLI_VERSION_INFO_PATH", "conf/configs/common.py"),
         },
+        "remoteName": os.environ.get("HELIUMCLI_REMOTE_NAME", "origin"),
+        "branchName": os.environ.get("HELIUMCLI_MAIN_BRANCH", "main"),
     }

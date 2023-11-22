@@ -45,8 +45,8 @@ class HeliumCLITestCase(TestCase):
         repo_instance.git.fetch = mock.MagicMock("git.cmd.Git")
         repo_instance.git.add = mock.MagicMock("git.cmd.Git")
         repo_instance.git.checkout = mock.MagicMock("git.cmd.Git",
-                                                    "Already on \"master\"\n"
-                                                    "Your branch is up to date with \"origin/master\".")
+                                                    "Already on \"main\"\n"
+                                                    "Your branch is up to date with \"origin/main\".")
         repo_instance.git.commit = mock.MagicMock("git.cmd.Git")
         repo_instance.git.commit = mock.MagicMock("git.cmd.Git")
         repo_instance.remotes["origin"].push = mock.MagicMock("git.cmd.Git")

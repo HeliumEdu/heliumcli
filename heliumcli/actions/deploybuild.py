@@ -46,10 +46,10 @@ class DeployBuildAction:
                     else:
                         raise ex
 
-                if len(repo.git.diff(args.version, "master")) > 0:
+                if len(repo.git.diff(args.version, config["branchName"])) > 0:
                     repo.git.checkout(args.version)
                 else:
-                    repo.git.checkout("master")
+                    repo.git.checkout(config["branchName"])
 
         version = args.version.lstrip("v")
         hosts = utils.parse_hosts_file(args.env)

@@ -103,8 +103,8 @@ def get_copyright_name():  # pragma: no cover
         return data[get_config()["ansibleCopyrightNameVar"]]
 
 
-def get_repo_name(repo_dir):  # pragma: no cover
-    remote_url_str = subprocess.Popen(["git", "config", "--get", "remote.origin.url"], cwd=repo_dir,
+def get_repo_name(repo_dir, remote_name):  # pragma: no cover
+    remote_url_str = subprocess.Popen(["git", "config", "--get", "remote.{}.url".format(remote_name)], cwd=repo_dir,
                                       stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                                       bufsize=1).stdout.read().decode("utf-8")
     return os.path.basename(remote_url_str.strip()).rstrip(".git")
