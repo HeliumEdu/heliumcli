@@ -34,6 +34,8 @@ class DeployBuildAction:
         config = utils.get_config()
         ansible_dir = utils.get_ansible_dir()
 
+        version = args.version.lstrip("v")
+
         if config["projectsRelativeDir"] != ".":
             root_dir = os.path.abspath(os.path.join(ansible_dir, ".."))
             if os.path.exists(os.path.join(root_dir, ".git")):
@@ -46,12 +48,8 @@ class DeployBuildAction:
                     else:
                         raise ex
 
-                if len(repo.git.diff(args.version, config["branchName"])) > 0:
-                    repo.git.checkout(args.version)
-                else:
-                    repo.git.checkout(config["branchName"])
+                repo.git.checkout(version)
 
-        version = args.version.lstrip("v")
         hosts = utils.parse_hosts_file(args.env)
         for host in hosts:
             subprocess.call(["ssh", "-t", "{}@{}".format(host[0], host[1]),
