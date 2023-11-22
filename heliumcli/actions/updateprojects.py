@@ -30,7 +30,8 @@ class UpdateProjectsAction:
 
                 repo = git.Repo(root_dir)
                 repo.git.fetch(tags=True, prune=True, force=os.environ.get("HELIUMCLI_FORCE_FETCH", "False") == "True")
-                print(repo.git.pull() + "\n")
+                if os.environ.get("HELIUMCLI_SKIP_UPDATE_PULL", "False") != "True":
+                    print(repo.git.pull() + "\n")
 
         if not os.path.exists(projects_dir):
             os.mkdir(projects_dir)
