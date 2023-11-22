@@ -1,6 +1,7 @@
 import datetime
 import os
 import shutil
+import sys
 
 import git
 
@@ -50,10 +51,10 @@ class BuildReleaseAction:
                 repo.git.checkout(config["branchName"])
 
         if len(dirty_repos) > 0:
-            print("WARN: this operation cannot be performed when a repo is dirty. Commit all changes to the following "
+            print("Error: this operation cannot be performed when a repo is dirty. Commit all changes to the following "
                   "repos before proceeding: {}".format(dirty_repos))
 
-            return
+            sys.exit(1)
 
         version = args.version.lstrip("v")
 

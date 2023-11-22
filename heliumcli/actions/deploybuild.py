@@ -1,5 +1,6 @@
 import os
 import subprocess
+import sys
 
 import git
 
@@ -78,4 +79,11 @@ class DeployBuildAction:
             playbook_options.append("--limit")
             playbook_options.append(",".join(args.roles))
 
-        subprocess.call(["ansible-playbook"] + playbook_options + ["{}/{}.yml".format(ansible_dir, args.env)])
+        ret = subprocess.call(["ansible-playbook"] + playbook_options + ["{}/{}.yml".format(ansible_dir, args.env)])
+
+        if ret != 0:
+            if ret < 0:
+                print("Ansible killed by signal")
+            else:
+                print("Ansible failed with return value {}".format(ret))
+            sys.exit(1)
