@@ -79,11 +79,13 @@ class DeployBuildAction:
             playbook_options.append("--limit")
             playbook_options.append(",".join(args.roles))
 
-        ret = subprocess.call(["ansible-playbook"] + playbook_options + ["{}/{}.yml".format(ansible_dir, args.env)])
+        cmd = ["ansible-playbook"] + playbook_options + ["{}/{}.yml".format(ansible_dir, args.env)]
+        print("Executing Ansible command: {}".format(cmd))
+        ret = subprocess.call(cmd)
 
         if isinstance(ret, int) and ret != 0:
             if ret < 0:
-                print("Ansible killed by signal")
+                print("Error: Ansible killed by signal")
             else:
-                print("Ansible failed with return value {}".format(ret))
+                print("Error: Ansible failed with return value {}".format(ret))
             sys.exit(1)
