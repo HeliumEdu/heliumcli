@@ -23,5 +23,5 @@ def get_default_settings():
             "path": os.environ.get("HELIUMCLI_VERSION_INFO_PATH", "conf/configs/common.py"),
         },
         "remoteName": os.environ.get("HELIUMCLI_REMOTE_NAME", "origin"),
-        "branchName": os.environ.get("HELIUMCLI_MAIN_BRANCH", "main"),
+        "branchName": os.environ.get("HELIUMCLI_BRANCH_NAME", "main"),
     }

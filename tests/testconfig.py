@@ -46,6 +46,8 @@ class TestConfigTestCase(testcase.HeliumCLITestCase):
         os.environ["HELIUMCLI_VERSION_INFO_PROJECT"] = "proj2"
         os.environ["HELIUMCLI_VERSION_INFO_PATH"] = "some/path/project/version"
         os.environ["HELIUMCLI_HOST_PROVISION_COMMAND"] = "sudo yum install python"
+        os.environ["HELIUMCLI_BRANCH_NAME"] = "fancy-main"
+        os.environ["HELIUMCLI_REMOTE_NAME"] = "fancy-origin"
 
         # WHEN
         config = utils.get_config(True)
@@ -60,5 +62,7 @@ class TestConfigTestCase(testcase.HeliumCLITestCase):
             "projects": ["proj1", "proj2", "project3"],
             "projectsRelativeDir": "some/dir/projects",
             "serverBinFilename": "some/bin/server",
-            "versionInfo": {"path": "some/path/project/version", "project": "proj2"}
+            "versionInfo": {"path": "some/path/project/version", "project": "proj2"},
+            "branchName": "fancy-main",
+            "remoteName": "fancy-origin"
         })
