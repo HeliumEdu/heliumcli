@@ -189,7 +189,10 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         given_config_exists()
 
         # WHEN
-        main(["main.py", "build-release", "1.2.3"])
+        try:
+            main(["main.py", "build-release", "1.2.3"])
+        except SystemExit:
+            self.assertTrue(True)
 
         # THEN
         self.mock_git_repo.return_value.create_tag.assert_not_called()

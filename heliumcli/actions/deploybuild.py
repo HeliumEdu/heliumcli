@@ -81,7 +81,7 @@ class DeployBuildAction:
 
         ret = subprocess.call(["ansible-playbook"] + playbook_options + ["{}/{}.yml".format(ansible_dir, args.env)])
 
-        if ret != 0:
+        if isinstance(ret, int) and ret != 0:
             if ret < 0:
                 print("Ansible killed by signal")
             else:

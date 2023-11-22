@@ -2,6 +2,7 @@ import os
 import shutil
 from unittest import TestCase
 from unittest import mock
+from unittest.mock import Mock
 
 from git import TagReference
 
