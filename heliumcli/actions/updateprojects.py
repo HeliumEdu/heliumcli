@@ -29,7 +29,7 @@ class UpdateProjectsAction:
                 print(utils.get_repo_name(root_dir, config["remoteName"]))
 
                 repo = git.Repo(root_dir)
-                repo.git.fetch(tags=True, prune=True)
+                repo.git.fetch(tags=True, prune=True, force=os.environ.get("HELIUMCLI_FORCE_FETCH", "False") == "True")
                 print(repo.git.pull() + "\n")
 
         if not os.path.exists(projects_dir):
@@ -48,7 +48,7 @@ class UpdateProjectsAction:
                 git.Repo.clone_from("{}/{}.git".format(config["gitProject"], project), project_path)
             else:
                 repo = git.Repo(project_path)
-                repo.git.fetch(tags=True, prune=True, force=True)
+                repo.git.fetch(tags=True, prune=True, force=os.environ.get("HELIUMCLI_FORCE_FETCH", "False") == "True")
                 print(repo.git.pull())
 
             subprocess.call(["make", "install", "-C", project_path])
