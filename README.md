@@ -1,5 +1,5 @@
 [![PyPI Version](https://badge.fury.io/py/heliumcli.svg)](https://badge.fury.io/py/heliumcli)
-[![CI/CD](https://github.com/heliumedu/heliumcli/workflows/CI/CD/badge.svg)](https://github.com/heliumedu/heliumcli/actions?query=workflow%3ACI%2FCD)
+[![Build](https://github.com/heliumedu/heliumcli/workflows/build.yml/badge.svg)](https://github.com/heliumedu/heliumcli/actions/workflows/build.yml)
 [![Codecov](https://codecov.io/gh/HeliumEdu/heliumcli/branch/main/graph/badge.svg)](https://codecov.io/gh/HeliumEdu/heliumcli)
 [![Python Versions](https://img.shields.io/pypi/pyversions/heliumcli.svg)](https://pypi.org/project/heliumcli/)
 [![PyPI License](https://img.shields.io/pypi/l/heliumcli.svg)](https://pypi.org/project/heliumcli/)
