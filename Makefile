@@ -1,4 +1,4 @@
-.PHONY: all virtualenv install test local upload
+.PHONY: all nopyc clean virtualenv install test local upload
 
 SHELL := /usr/bin/env bash
 PYTHON_BIN ?= python
@@ -23,6 +23,13 @@ test: virtualenv
 		source .venv/bin/activate; \
 		python -m coverage run -m unittest discover -b && python -m coverage xml && python -m coverage html && python -m coverage report; \
 	)
+
+nopyc:
+	find . -name '*.pyc' | xargs rm -f || true
+	find . -name __pycache__ | xargs rm -rf || true
+
+clean: nopyc
+	rm -rf _build dist *.egg-info .venv
 
 local:
 	@rm -rf dist
