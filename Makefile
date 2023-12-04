@@ -32,9 +32,11 @@ clean: nopyc
 	rm -rf _build dist *.egg-info .venv
 
 local:
-	@rm -rf dist
+	@rm -rf *.egg-info dist
 	@( \
-		$(PYTHON_BIN) setup.py sdist; \
+		$(PYTHON_BIN) -m pip install --upgrade pip; \
+        $(PYTHON_BIN) -m pip install --upgrade setuptools wheel; \
+		$(PYTHON_BIN) -m build; \
 		$(PYTHON_BIN) -m pip install dist/*.tar.gz; \
 	)
 
@@ -45,8 +47,7 @@ validate-release:
 
 upload: local
 	@( \
-		$(PYTHON_BIN) -m pip install --upgrade pip; \
-        $(PYTHON_BIN) -m pip install setuptools wheel twine; \
-		$(PYTHON_BIN) setup.py sdist; \
+        $(PYTHON_BIN) -m pip install --upgrade twine; \
+		$(PYTHON_BIN) -m build; \
 		$(PYTHON_BIN) -m twine upload dist/*; \
 	)
