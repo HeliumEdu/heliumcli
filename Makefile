@@ -35,7 +35,7 @@ local:
 	@rm -rf *.egg-info dist
 	@( \
 		$(PYTHON_BIN) -m pip install --upgrade pip; \
-        $(PYTHON_BIN) -m pip install --upgrade setuptools wheel; \
+        $(PYTHON_BIN) -m pip install --upgrade build; \
 		$(PYTHON_BIN) -m build; \
 		$(PYTHON_BIN) -m pip install dist/*.tar.gz; \
 	)
