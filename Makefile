@@ -43,11 +43,10 @@ validate-release:
 
 	@if [[ $$(grep "__version__ = \"${VERSION}\"" heliumcli/settings.py) == "" ]] ; then echo "Version not bumped in heliumcli/settings.py" & exit 1 ; fi
 
-upload:
-	@rm -rf *.egg-info dist
+upload: local
 	@( \
-		source .venv/bin/activate; \
-		python -m pip install twine; \
-		python setup.py sdist; \
-		python -m twine upload dist/*; \
+		$(PYTHON_BIN) -m pip install --upgrade pip; \
+        $(PYTHON_BIN) -m pip install setuptools wheel twine; \
+		$(PYTHON_BIN) setup.py sdist; \
+		$(PYTHON_BIN) -m twine upload dist/*; \
 	)
