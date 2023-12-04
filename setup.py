@@ -18,8 +18,8 @@ setup(
     install_requires=[
         "GitPython>=2.1.15",
         "PyYAML>=5.1.2",
-        "ansible>=2.7.16",
-        "pyngrok>=5.0.0",
+        "ansible>=2.10.0",
+        "pyngrok>=7.0.0",
     ],
     scripts=["bin/helium-cli"],
     include_package_data=True,
