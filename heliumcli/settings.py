@@ -2,8 +2,8 @@ import json
 import os
 
 __author__ = "Alex Laird"
-__copyright__ = "Copyright 2023, Helium Edu"
-__version__ = "1.6.12"
+__copyright__ = "Copyright 2024, Helium Edu"
+__version__ = "1.6.13"
 
 VERSION = __version__
 
