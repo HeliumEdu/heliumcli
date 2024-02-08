@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 from heliumcli import settings
 
@@ -9,10 +9,7 @@ with open("README.md", "r") as f:
 
 setup(
     name="heliumcli",
-    packages=[
-        "heliumcli",
-        "heliumcli.actions"
-    ],
+    packages=find_packages(),
     version=version,
     python_requires=">=3.8",
     install_requires=[
@@ -21,8 +18,10 @@ setup(
         "ansible>=2.10.0",
         "pyngrok>=7.1.0",
     ],
-    scripts=["bin/helium-cli"],
-    include_package_data=True,
+    entry_points="""
+        [console_scripts]
+        helium-cli=heliumcli.cli:main
+    """,
     description="CLI tool that provides a useful set of tools for maintaining, building, and "
                 "deploying code in compatible projects.",
     long_description=long_description,
@@ -30,8 +29,6 @@ setup(
     author="Alex Laird",
     author_email="contact@alexlaird.com",
     url="https://github.com/HeliumEdu/heliumcli",
-    download_url="https://github.com/HeliumEdu/heliumcli/archive/{}.tar.gz".format(
-        version),
     project_urls={
         "Sponsor": "https://github.com/sponsors/alexdlaird"
     },

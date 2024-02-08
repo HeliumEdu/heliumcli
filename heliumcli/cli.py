@@ -16,10 +16,11 @@ from .actions.updateprojects import UpdateProjectsAction
 
 __author__ = "Alex Laird"
 __copyright__ = "Copyright 2018, Helium Edu"
-__version__ = "1.6.0"
+__version__ = "1.6.15"
 
 
-def main(argv):
+def main():
+
     actions = {
         InitAction(),
         UpdateAction(),
@@ -36,18 +37,18 @@ def main(argv):
     parser.add_argument("--silent", action="store_true", help="Run quietly without displaying decorations")
     subparsers = parser.add_subparsers(title="subcommands")
 
-    if "--silent" not in argv:
+    if "--silent" not in sys.argv:
         print(utils.get_title())
 
     for action in actions:
         action.setup(subparsers)
 
-    if len(argv) == 1:  # pragma: no cover
+    if len(sys.argv) == 1:  # pragma: no cover
         parser.print_help()
 
         return
 
-    args = parser.parse_args(argv[1:])
+    args = parser.parse_args(sys.argv[1:])
 
     if not hasattr(args, "action"):  # pragma: no cover
         parser.print_help()
@@ -60,4 +61,4 @@ def main(argv):
 
 
 if __name__ == "__main__":
-    main(sys.argv)
+    main()
