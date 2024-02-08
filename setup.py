@@ -23,31 +23,28 @@ setup(
     ],
     scripts=["bin/helium-cli"],
     include_package_data=True,
-    description="CLI tool that provides a useful set of tools for maintaining, building, and deploying code in " \
-                "compatible projects",
+    description="CLI tool that provides a useful set of tools for maintaining, building, and "
+                "deploying code in compatible projects.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="Alex Laird",
     author_email="contact@alexlaird.com",
     url="https://github.com/HeliumEdu/heliumcli",
-    download_url="https://github.com/HeliumEdu/heliumcli/archive/{}.tar.gz".format(version),
+    download_url="https://github.com/HeliumEdu/heliumcli/archive/{}.tar.gz".format(
+        version),
     project_urls={
         "Sponsor": "https://github.com/sponsors/alexdlaird"
     },
-    keywords=["cli", "build", "deployment", "ansible", "git"],
     license="MIT",
     classifiers=[
-        "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.8",
-        "Programming Language :: Python :: 3.9",
-        "Programming Language :: Python :: 3.10",
-        "Programming Language :: Python :: 3.11",
-        "License :: OSI Approved :: MIT License",
-        "Operating System :: OS Independent",
-        "Topic :: Software Development :: Build Tools",
-        "Topic :: Software Development :: Testing",
         "Environment :: Console",
         "Environment :: Web Environment",
         "Intended Audience :: Developers",
+        "Intended Audience :: System Administrators",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python :: 3",
+        "Topic :: Software Development :: Build Tools",
+        "Topic :: Software Development :: Testing",
     ],
 )
