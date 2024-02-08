@@ -3,7 +3,7 @@ import os
 
 __author__ = "Alex Laird"
 __copyright__ = "Copyright 2024, Helium Edu"
-__version__ = "1.6.15"
+__version__ = "1.6.16"
 
 VERSION = __version__
 
