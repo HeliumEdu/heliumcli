@@ -2,7 +2,7 @@ import os
 from unittest import mock
 
 from heliumcli import utils, settings
-from heliumcli.main import main
+from heliumcli.cli import main
 from tests.helpers.commonhelper import given_config_exists
 from .helpers import testcase, commonhelper
 

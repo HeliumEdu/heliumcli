@@ -3,7 +3,7 @@ import shutil
 from unittest import TestCase
 
 from heliumcli import utils
-from heliumcli.main import main
+from heliumcli.cli import main
 
 __author__ = "Alex Laird"
 __copyright__ = "Copyright 2018, Helium Edu"
