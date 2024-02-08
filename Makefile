@@ -14,12 +14,14 @@ virtualenv:
 install: virtualenv
 	@( \
 		source venv/bin/activate; \
+		echo "hello world"; \
 		python -m pip install -r requirements.txt -r requirements-dev.txt; \
 	)
 
 test: virtualenv
 	@( \
 		source venv/bin/activate; \
+		echo "hello world 2"; \
 		python -m coverage run -m unittest discover -b && python -m coverage xml && python -m coverage html && python -m coverage report; \
 	)
 
