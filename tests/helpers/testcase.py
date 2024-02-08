@@ -11,7 +11,7 @@ __author__ = "Alex Laird"
 __copyright__ = "Copyright 2018, Helium Edu"
 __version__ = "1.6.15"
 
-TEST_BUILD_DIR = os.path.abspath(os.path.join(__file__, "..", "_build"))
+TEST_BUILD_DIR = os.path.abspath(os.path.join(__file__, "..", "..", "_build"))
 
 
 class HeliumCLITestCase(TestCase):
