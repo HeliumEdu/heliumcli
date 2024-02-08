@@ -76,7 +76,7 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
 
         # WHEN
         with patch.object(sys, "argv", ["cli.py", "start-servers"]):
-           main()
+            main()
 
         # THEN
         self.mock_subprocess_popen.assert_called_once_with(
@@ -110,7 +110,8 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         given_config_exists()
 
         # WHEN
-        with patch.object(sys, "argv", ["cli.py", "deploy-build", "1.2.3", "devbox", "--code", "--roles", "host1,host2"]):
+        with patch.object(sys, "argv",
+                          ["cli.py", "deploy-build", "1.2.3", "devbox", "--code", "--roles", "host1,host2"]):
             main()
 
         # THEN
@@ -128,7 +129,9 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         given_config_exists()
 
         # WHEN
-        with patch.object(sys, "argv", ["cli.py", "deploy-build", "1.2.3", "devbox", "--code", "--migrate", "--envvars", "--conf", "--ssl"]):
+        with patch.object(sys, "argv",
+                          ["cli.py", "deploy-build", "1.2.3", "devbox", "--code", "--migrate", "--envvars", "--conf",
+                           "--ssl"]):
             main()
 
         # THEN

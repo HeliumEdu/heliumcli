@@ -8,8 +8,8 @@ import git
 from .. import utils
 
 __author__ = "Alex Laird"
-__copyright__ = "Copyright 2022, Helium Edu"
-__version__ = "1.6.5"
+__copyright__ = "Copyright 2024, Helium Edu"
+__version__ = "1.6.15"
 
 
 class InitAction:
@@ -85,7 +85,7 @@ class InitAction:
         print("Running make ...")
 
         subprocess.call(["python3", "-m", "pip", "install", "virtualenv"])
-        subprocess.call(["python3", "-m", "virtualenv", os.path.join(project_dir, ".venv")])
+        subprocess.call(["python3", "-m", "virtualenv", os.path.join(project_dir, "venv")])
         subprocess.call(["make", "install", "-C", project_dir])
 
     def _replace_in_file(self, dir_name, filename, args):
