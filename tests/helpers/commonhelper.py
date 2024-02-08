@@ -1,16 +1,19 @@
 import datetime
 import os
+import sys
+from unittest.mock import patch
 
 from heliumcli import utils
 from heliumcli.cli import main
 
 __author__ = "Alex Laird"
-__copyright__ = "Copyright 2018, Helium Edu"
-__version__ = "1.5.0"
+__copyright__ = "Copyright 2024, Helium Edu"
+__version__ = "1.6.15"
 
 
 def given_config_exists(project_id="test", name="Test", host="test.heliumedu.com", github_user="HeliumEdu"):
-    main(["main.py", "init", "--config-only", project_id, name, host, github_user])
+    with patch.object(sys, "argv", ["cli.py", "init", "--config-only", project_id, name, host, github_user]):
+        main()
 
 
 def given_runserver_exists(project):

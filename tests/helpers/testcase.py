@@ -9,18 +9,19 @@ from heliumcli import utils
 
 __author__ = "Alex Laird"
 __copyright__ = "Copyright 2018, Helium Edu"
-__version__ = "1.6.0"
+__version__ = "1.6.15"
+
+TEST_BUILD_DIR = os.path.abspath(os.path.join(__file__, "..", "_build"))
 
 
 class HeliumCLITestCase(TestCase):
     def setUp(self):
-        self.build_dir = os.path.join("tests", "_build")
-        if os.path.exists(self.build_dir):
-            shutil.rmtree(self.build_dir)
+        if os.path.exists(TEST_BUILD_DIR):
+            shutil.rmtree(TEST_BUILD_DIR)
             utils._config_cache = None
-        os.mkdir(self.build_dir)
+        os.mkdir(TEST_BUILD_DIR)
 
-        os.environ["HELIUMCLI_CONFIG_PATH"] = os.path.join(self.build_dir, ".heliumcli.test.yml")
+        os.environ["HELIUMCLI_CONFIG_PATH"] = os.path.join(TEST_BUILD_DIR, ".heliumcli.test.yml")
         os.environ["HELIUMCLI_PROJECTS_RELATIVE_DIR"] = os.path.join("tests", "_build", "projects")
         os.environ["HELIUMCLI_ANSIBLE_RELATIVE_DIR"] = os.path.join("tests", "_build", "ansible")
 
@@ -31,7 +32,7 @@ class HeliumCLITestCase(TestCase):
         self._setup_util_mocks()
 
     def tearDown(self):
-        shutil.rmtree(self.build_dir)
+        shutil.rmtree(TEST_BUILD_DIR)
         utils._config_cache = None
 
     def _setup_git_mocks(self):

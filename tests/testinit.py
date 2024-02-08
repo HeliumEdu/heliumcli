@@ -1,27 +1,30 @@
 import os
 import shutil
+import sys
 from unittest import TestCase
+from unittest.mock import patch
 
 from heliumcli import utils
 from heliumcli.cli import main
 
 __author__ = "Alex Laird"
-__copyright__ = "Copyright 2018, Helium Edu"
-__version__ = "1.5.2"
+__copyright__ = "Copyright 2024, Helium Edu"
+__version__ = "1.6.15"
+
+from tests.helpers.testcase import TEST_BUILD_DIR
 
 
 class TestInitTestCase(TestCase):
     def setUp(self):
-        self.build_dir = os.path.join("tests", "_build")
-        if os.path.exists(self.build_dir):
-            shutil.rmtree(self.build_dir)
+        if os.path.exists(TEST_BUILD_DIR):
+            shutil.rmtree(TEST_BUILD_DIR)
             utils._config_cache = None
-        os.mkdir(self.build_dir)
+        os.mkdir(TEST_BUILD_DIR)
 
-        os.environ["HELIUMCLI_CONFIG_PATH"] = os.path.join(self.build_dir, ".heliumcli.test.yml")
+        os.environ["HELIUMCLI_CONFIG_PATH"] = os.path.join(TEST_BUILD_DIR, ".heliumcli.test.yml")
 
     def tearDown(self):
-        shutil.rmtree(self.build_dir)
+        shutil.rmtree(TEST_BUILD_DIR)
         utils._config_cache = None
 
     def test_init(self):
@@ -29,7 +32,9 @@ class TestInitTestCase(TestCase):
         self.assertFalse(os.path.exists(os.environ.get("HELIUMCLI_CONFIG_PATH")))
 
         # WHEN
-        main(["main.py", "init", "my-project", "My Project", "myproject.heliumedu.com", "HeliumEdu"])
+        with patch.object(sys, "argv",
+                          ["cli.py", "init", "my-project", "My Project", "myproject.heliumedu.com", "HeliumEdu"]):
+            main()
 
         # THEN
         self.assertTrue(os.path.exists(os.environ.get("HELIUMCLI_CONFIG_PATH")))

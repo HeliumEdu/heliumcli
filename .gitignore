@@ -4,7 +4,7 @@
 .coverage
 *.log
 *.pytest_cache
-.venv
+venv
 dist/
 _build
 MANIFEST

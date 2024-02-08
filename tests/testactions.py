@@ -1,5 +1,7 @@
 import os
+import sys
 from unittest import mock
+from unittest.mock import patch
 
 from heliumcli import utils, settings
 from heliumcli.cli import main
@@ -7,14 +9,15 @@ from tests.helpers.commonhelper import given_config_exists
 from .helpers import testcase, commonhelper
 
 __author__ = "Alex Laird"
-__copyright__ = "Copyright 2018, Helium Edu"
-__version__ = "1.6.0"
+__copyright__ = "Copyright 2024, Helium Edu"
+__version__ = "1.6.15"
 
 
 class TestActionsTestCase(testcase.HeliumCLITestCase):
     def test_update(self):
         # WHEN
-        main(["main.py", "update"])
+        with patch.object(sys, "argv", ["cli.py", "update"]):
+            main()
 
         # THEN
         self.mock_subprocess_call.assert_called_once_with(["pip", "install", "--upgrade", "heliumcli"])
@@ -25,7 +28,8 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         given_config_exists()
 
         # WHEN
-        main(["main.py", "update-projects"])
+        with patch.object(sys, "argv", ["cli.py", "update-projects"]):
+            main()
 
         # THEN
         self.assertEqual(self.mock_git_repo.clone_from.call_count, 2)
@@ -40,7 +44,8 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         utils._save_config(os.environ.get("HELIUMCLI_CONFIG_PATH"), settings.get_default_settings())
 
         # WHEN
-        main(["main.py", "update-projects"])
+        with patch.object(sys, "argv", ["cli.py", "update-projects"]):
+            main()
 
         # THEN
         self.assertEqual(self.mock_git_repo.return_value.git.pull.call_count, 3)
@@ -55,7 +60,8 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         utils._save_config(os.environ.get("HELIUMCLI_CONFIG_PATH"), settings.get_default_settings())
 
         # WHEN
-        main(["main.py", "set-build", "1.2.3"])
+        with patch.object(sys, "argv", ["cli.py", "set-build", "1.2.3"]):
+            main()
 
         # THEN
         self.mock_git_repo.return_value.git.checkout.assert_has_calls([mock.call("1.2.3"), mock.call("1.2.3")])
@@ -69,7 +75,8 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         commonhelper.given_runserver_exists("platform")
 
         # WHEN
-        main(["main.py", "start-servers"])
+        with patch.object(sys, "argv", ["cli.py", "start-servers"]):
+           main()
 
         # THEN
         self.mock_subprocess_popen.assert_called_once_with(
@@ -82,7 +89,8 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         commonhelper.given_hosts_file_exists()
 
         # WHEN
-        main(["main.py", "deploy-build", "1.2.3", "devbox"])
+        with patch.object(sys, "argv", ["cli.py", "deploy-build", "1.2.3", "devbox"]):
+            main()
 
         # THEN
         self.assertEqual(self.mock_subprocess_call.call_count, 2)
@@ -102,7 +110,8 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         given_config_exists()
 
         # WHEN
-        main(["main.py", "deploy-build", "1.2.3", "devbox", "--code", "--roles", "host1,host2"])
+        with patch.object(sys, "argv", ["cli.py", "deploy-build", "1.2.3", "devbox", "--code", "--roles", "host1,host2"]):
+            main()
 
         # THEN
         self.mock_subprocess_call.assert_called_once_with(
@@ -119,7 +128,8 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         given_config_exists()
 
         # WHEN
-        main(["main.py", "deploy-build", "1.2.3", "devbox", "--code", "--migrate", "--envvars", "--conf", "--ssl"])
+        with patch.object(sys, "argv", ["cli.py", "deploy-build", "1.2.3", "devbox", "--code", "--migrate", "--envvars", "--conf", "--ssl"]):
+            main()
 
         # THEN
         self.mock_subprocess_call.assert_called_once_with(
@@ -145,7 +155,8 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         latest_tag.commit.diff = mock.MagicMock(side_effect=[[diff1], [diff2]])
 
         # WHEN
-        main(["main.py", "prep-code"])
+        with patch.object(sys, "argv", ["cli.py", "prep-code"]):
+            main()
 
         # THEN
         commonhelper.verify_versioned_file_updated(self, versioned_file1_path, "1.2.3")
@@ -166,7 +177,8 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         latest_tag.commit.diff = mock.MagicMock(side_effect=[[diff1], []])
 
         # WHEN
-        main(["main.py", "build-release", "1.2.3"])
+        with patch.object(sys, "argv", ["cli.py", "build-release", "1.2.3"]):
+            main()
 
         # THEN
         self.assertEqual(self.mock_git_repo.return_value.create_tag.call_count, 2)
@@ -180,7 +192,8 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         given_config_exists()
 
         # WHEN
-        main(["main.py", "--silent", "list-builds"])
+        with patch.object(sys, "argv", ["cli.py", "--silent", "list-builds"]):
+            main()
 
     def test_build_release_fails_when_dirty(self):
         # GIVEN
@@ -189,10 +202,11 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         given_config_exists()
 
         # WHEN
-        try:
-            main(["main.py", "build-release", "1.2.3"])
-        except SystemExit:
-            self.assertTrue(True)
+        with patch.object(sys, "argv", ["cli.py", "build-release", "1.2.3"]):
+            try:
+                main()
+            except SystemExit:
+                self.assertTrue(True)
 
         # THEN
         self.mock_git_repo.return_value.create_tag.assert_not_called()

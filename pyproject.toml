@@ -1,0 +1,58 @@
+[project]
+name = "heliumcli"
+version = "1.6.15"
+description = "CLI tool that provides a useful set of tools for maintaining, building, and deploying code in compatible projects."
+readme = "README.md"
+license = { file = "LICENSE" }
+maintainers = [{ name = "Alex Laird", email = "contact@alexlaird.com" }]
+requires-python = ">=3.8"
+dependencies = [
+    "GitPython>=2.1.15",
+    "PyYAML>=5.1.2",
+    "ansible>=2.10.0",
+    "pyngrok>=7.1.0",
+]
+classifiers = [
+    "Environment :: Console",
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development :: Build Tools",
+    "Topic :: Software Development :: Testing",
+]
+
+[project.scripts]
+helium-cli = "heliumcli.cli:main"
+
+[project.urls]
+Sponsor = "https://github.com/sponsors/alexdlaird"
+"Source Code" = "https://github.com/HeliumEdu/heliumcli"
+
+[tool.coverage.run]
+omit = [
+    "venv/**",
+    "*/tests/**"
+]
+
+[tool.coverage.report]
+precision = 2
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+]
+
+[tool.coverage.xml]
+output = "_build/coverage/coverage.xml"
+
+[tool.coverage.html]
+title = "Coverage Report"
+directory = "_build/coverage"
