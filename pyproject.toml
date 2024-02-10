@@ -8,9 +8,9 @@ maintainers = [{ name = "Alex Laird", email = "contact@alexlaird.com" }]
 requires-python = ">=3.8"
 dependencies = [
     "GitPython>=2.1.15",
-    "PyYAML>=5.1.2",
-    "ansible>=2.10.0",
-    "pyngrok>=7.1.0"
+    "PyYAML>=5.1",
+    "ansible>=2.10",
+    "pyngrok>=7.0.4",
 ]
 classifiers = [
     "Environment :: Console",
@@ -26,6 +26,11 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Topic :: Software Development :: Build Tools",
     "Topic :: Software Development :: Testing",
+]
+
+[project.optional-dependencies]
+dev = [
+    "coverage[toml]"
 ]
 
 [project.scripts]
@@ -55,8 +60,8 @@ exclude_lines = [
 ]
 
 [tool.coverage.xml]
-output = "_build/coverage/coverage.xml"
+output = "build/coverage/coverage.xml"
 
 [tool.coverage.html]
 title = "Coverage Report"
-directory = "_build/coverage"
+directory = "build/coverage"

@@ -11,7 +11,7 @@ __author__ = "Alex Laird"
 __copyright__ = "Copyright 2018, Helium Edu"
 __version__ = "1.6.15"
 
-TEST_BUILD_DIR = os.path.abspath(os.path.join(__file__, "..", "..", "_build"))
+TEST_BUILD_DIR = os.path.abspath(os.path.join(__file__, "..", "..", "build"))
 
 
 class HeliumCLITestCase(TestCase):
@@ -22,8 +22,8 @@ class HeliumCLITestCase(TestCase):
         os.mkdir(TEST_BUILD_DIR)
 
         os.environ["HELIUMCLI_CONFIG_PATH"] = os.path.join(TEST_BUILD_DIR, ".heliumcli.test.yml")
-        os.environ["HELIUMCLI_PROJECTS_RELATIVE_DIR"] = os.path.join("tests", "_build", "projects")
-        os.environ["HELIUMCLI_ANSIBLE_RELATIVE_DIR"] = os.path.join("tests", "_build", "ansible")
+        os.environ["HELIUMCLI_PROJECTS_RELATIVE_DIR"] = os.path.join("tests", "build", "projects")
+        os.environ["HELIUMCLI_ANSIBLE_RELATIVE_DIR"] = os.path.join("tests", "build", "ansible")
 
         self._setup_git_mocks()
 

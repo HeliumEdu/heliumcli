@@ -14,12 +14,13 @@ virtualenv:
 install: virtualenv
 	@( \
 		source venv/bin/activate; \
-		python -m pip install -r requirements.txt -r requirements-dev.txt; \
+		python -m pip install .; \
 	)
 
 test: virtualenv
 	@( \
 		source venv/bin/activate; \
+		python -m pip install ".[dev]"; \
 		python -m coverage run -m unittest discover -b && python -m coverage xml && python -m coverage html && python -m coverage report; \
 	)
 
@@ -28,7 +29,7 @@ nopyc:
 	find . -name __pycache__ | xargs rm -rf || true
 
 clean: nopyc
-	rm -rf _build dist *.egg-info venv
+	rm -rf build dist *.egg-info venv
 
 local:
 	@rm -rf *.egg-info dist

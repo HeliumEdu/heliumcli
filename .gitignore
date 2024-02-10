@@ -6,7 +6,7 @@
 *.pytest_cache
 venv
 dist/
-_build
+build
 MANIFEST
 *.egg-info
 
