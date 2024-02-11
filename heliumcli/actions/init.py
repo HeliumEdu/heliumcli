@@ -50,8 +50,8 @@ class InitAction:
         template_project_name = "template-project"
         template_version = os.environ.get("HELIUMCLI_TEMPLATE_PROJECT_VERSION", "1.3.1")
 
-        print("Cloning the template-project {} repo into this directory ...".format(template_version))
-        git.Repo.clone_from("{}/{}.git".format("https://github.com/HeliumEdu", template_project_name),
+        print(f"Cloning the template-project {template_version} repo into this directory ...")
+        git.Repo.clone_from(f"https://github.com/HeliumEdu/{template_project_name}.git",
                             project_dir,
                             branch=template_version)
 

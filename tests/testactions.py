@@ -98,10 +98,10 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
             ["ssh", "-t", "vagrant@heliumedu.test", utils.get_config(True)["hostProvisionCommand"]])
         self.mock_subprocess_call.assert_any_call(
             ["ansible-playbook",
-             "--inventory-file={}/hosts/devbox".format(utils.get_ansible_dir()), "-v",
+             f"--inventory-file={utils.get_ansible_dir()}/hosts/devbox", "-v",
              "--extra-vars",
              "build_version=1.2.3",
-             "{}/{}.yml".format(utils.get_ansible_dir(), "devbox")])
+             f"{utils.get_ansible_dir()}/devbox.yml"])
 
         self.subprocess_popen.start()
 
@@ -117,12 +117,12 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         # THEN
         self.mock_subprocess_call.assert_called_once_with(
             ["ansible-playbook",
-             "--inventory-file={}/hosts/devbox".format(utils.get_ansible_dir()), "-v",
+             f"--inventory-file={utils.get_ansible_dir()}/hosts/devbox", "-v",
              "--extra-vars",
              "build_version=1.2.3",
              "--tags", "code",
              "--limit", "host1,host2",
-             "{}/{}.yml".format(utils.get_ansible_dir(), "devbox")])
+             f"{utils.get_ansible_dir()}/devbox.yml"])
 
     def test_deploy_build_all_tags(self):
         # GIVEN
@@ -137,11 +137,11 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         # THEN
         self.mock_subprocess_call.assert_called_once_with(
             ["ansible-playbook",
-             "--inventory-file={}/hosts/devbox".format(utils.get_ansible_dir()), "-v",
+             f"--inventory-file={utils.get_ansible_dir()}/hosts/devbox", "-v",
              "--extra-vars",
              "build_version=1.2.3",
              "--tags", "code,migrate,envvars,conf,ssl",
-             "{}/{}.yml".format(utils.get_ansible_dir(), "devbox")])
+             f"{utils.get_ansible_dir()}/devbox.yml"])
 
     def test_prep_code(self):
         # GIVEN

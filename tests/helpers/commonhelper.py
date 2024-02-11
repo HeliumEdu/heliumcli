@@ -47,15 +47,15 @@ def given_python_version_file_exists(version="1.2.2"):
         os.makedirs(os.path.dirname(version_file_path))
 
     version_file = open(version_file_path, "w")
-    version_file.write("""\"\"\"
+    version_file.write(f"""""\"
 Header comments and such.
-\"\"\"
+""\"
 
 import os
 
 __author__ = "Alex Laird"
 __copyright__ = "Copyright 2017, Helium Edu"
-__version__ = "{}"
+__version__ = "{version}"
 
 # ############################
 # Project configuration
@@ -64,8 +64,8 @@ __version__ = "{}"
 # Project information
 
 PROJECT_NAME = os.environ.get("PROJECT_NAME")
-MORE_SETTINGS = "more_settings_after_this"
-""".format(version))
+MORE_SETTINGS = "more_settings_after_this\"
+""")
     version_file.close()
 
     return version_file_path
@@ -149,18 +149,18 @@ def verify_versioned_file_updated(test_case, versioned_file_path, version):
     current_year_found = False
     for line in open(versioned_file_path, "r"):
         if versioned_file_path.endswith(".py"):
-            if "__version__ = \"{}\"".format(version) in line:
+            if f"__version__ = \"{version}\"" in line:
                 current_version_found = True
-            elif "__copyright__ = \"Copyright {}\"".format(str(datetime.date.today().year)):
+            elif f"__copyright__ = \"Copyright {str(datetime.date.today().year)}\"":
                 current_year_found = True
         elif versioned_file_path.endswith(".js"):
-            if "* @version {}".format(version) in line:
+            if f"* @version {version}" in line:
                 current_version_found = True
-            elif "* Copyright (c) {}".format(str(datetime.date.today().year)):
+            elif f"* Copyright (c) {str(datetime.date.today().year)}":
                 current_year_found = True
         elif os.path.basename(versioned_file_path) == "package.json":
             current_year_found = True
-            if "version\": \"{}\",".format(version) in line:
+            if f"version\": \"{version}\"," in line:
                 current_version_found = True
 
         if current_version_found and current_year_found:

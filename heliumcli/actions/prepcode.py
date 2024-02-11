@@ -37,8 +37,9 @@ class PrepCodeAction:
                 self._current_version = line.strip().split("__version__ = \"")[1].rstrip("\"")
 
         if not self._current_version:
-            print("WARN: helium-cli does not know how to process this type of file for version information: {}".format(
-                config["versionInfo"]["path"]))
+            print(
+                "WARN: helium-cli does not know how to process this type of file for version information: {path}".format(
+                    path=config["versionInfo"]["path"]))
 
             return
 
@@ -65,9 +66,7 @@ class PrepCodeAction:
             changes = latest_tag.commit.diff(None)
 
             print(
-                "Checking the {} file(s) in \"{}\" that have been modified since {} was tagged ...".format(len(changes),
-                                                                                                           project,
-                                                                                                           latest_tag.tag.tag))
+                f"Checking the {len(changes)} file(s) in \"{project}\" that have been modified since {latest_tag.tag.tag} was tagged ...")
             print("-------------------------------")
 
             count = 0
@@ -80,7 +79,7 @@ class PrepCodeAction:
                         count += 1
 
             print("-------------------------------")
-            print("Updated {} file(s).".format(count))
+            print(f"Updated {count} file(s).")
             print("")
 
             if os.path.exists(os.path.join(project_path, "package.json")):
@@ -116,7 +115,7 @@ class PrepCodeAction:
         new_file.close()
 
         if updated:
-            print("Updated {}.".format(file_path))
+            print(f"Updated {file_path}.")
 
             shutil.copy(file_path + ".tmp", file_path)
         os.remove(file_path + ".tmp")
@@ -124,30 +123,30 @@ class PrepCodeAction:
         return updated
 
     def _process_python_line(self, line):
-        if utils.should_update(line, "__version__ = \"{}\"".format(self._current_version), "__version__ ="):
+        if utils.should_update(line, f"__version__ = \"{self._current_version}\"", "__version__ ="):
 
-            line = "__version__ = \"{}\"\n".format(self._current_version)
+            line = f"__version__ = \"{self._current_version}\"\n"
             return line, True
         elif utils.should_update(line,
-                                 "__copyright__ = \"Copyright {}, {}\"".format(self._current_year, self._copyright_name),
-                                 "__copyright__ = ", "{}\"".format(self._copyright_name)):
+                                 f"__copyright__ = \"Copyright {self._current_year}, {self._copyright_name}\"",
+                                 "__copyright__ = ", f"{self._copyright_name}\""):
 
-            line = "__copyright__ = \"Copyright {}, {}\"\n".format(self._current_year, self._copyright_name)
+            line = f"__copyright__ = \"Copyright {self._current_year}, {self._copyright_name}\"\n"
             return line, True
         return line, False
 
     def _process_js_or_css_line(self, line):
         if utils.should_update(line, "* @version " + self._current_version, "* @version"):
-            line = " * @version {}\n".format(self._current_version)
+            line = f" * @version {self._current_version}\n"
             return line, True
-        elif utils.should_update(line, "* Copyright (c) {} {}.".format(self._current_year, self._copyright_name),
-                                 "* Copyright (c)", "{}.".format(self._copyright_name)):
-            line = " * Copyright (c) {} {}.\n".format(self._current_year, self._copyright_name)
+        elif utils.should_update(line, f"* Copyright (c) {self._current_year} {self._copyright_name}.",
+                                 "* Copyright (c)", f"{self._copyright_name}."):
+            line = f" * Copyright (c) {self._current_year} {self._copyright_name}.\n"
             return line, True
         return line, False
 
     def _process_package_json(self, line):
-        if utils.should_update(line, "\"version\": \"{}\",".format(self._current_version), "\"version\": \""):
-            line = "  \"version\": \"{}\",\n".format(self._current_version)
+        if utils.should_update(line, f"\"version\": \"{self._current_version}\",", "\"version\": \""):
+            line = f"  \"version\": \"{self._current_version}\",\n"
             return line, True
         return line, False

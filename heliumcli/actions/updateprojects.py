@@ -45,8 +45,8 @@ class UpdateProjectsAction:
                 project_path = os.path.join(projects_dir)
 
             if not os.path.exists(os.path.join(project_path, ".git")):
-                print("Cloning repo to ./projects/{}".format(project))
-                git.Repo.clone_from("{}/{}.git".format(config["gitProject"], project), project_path)
+                print(f"Cloning repo to ./projects/{project}")
+                git.Repo.clone_from(f"{config['gitProject']}/{project}.git", project_path)
             else:
                 repo = git.Repo(project_path)
                 repo.git.fetch(tags=True, prune=True, force=os.environ.get("HELIUMCLI_FORCE_FETCH", "False") == "True")

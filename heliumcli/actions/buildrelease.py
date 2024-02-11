@@ -43,7 +43,7 @@ class BuildReleaseAction:
             repo = git.Repo(project_path)
 
             if repo.untracked_files or repo.is_dirty():
-                print("Untracked files in {}: {}".format(project, repo.untracked_files))
+                print(f"Untracked files in {project}: {repo.untracked_files}")
 
                 dirty_repos.append(project)
             else:
@@ -51,8 +51,9 @@ class BuildReleaseAction:
                 repo.git.checkout(config["branchName"])
 
         if len(dirty_repos) > 0:
-            print("Error: this operation cannot be performed when a repo is dirty. Commit all changes to the following "
-                  "repos before proceeding: {}".format(dirty_repos))
+            print(
+                f"Error: this operation cannot be performed when a repo is dirty. Commit all changes to the following "
+                "repos before proceeding: {dirty_repos}")
 
             sys.exit(1)
 
@@ -82,7 +83,7 @@ class BuildReleaseAction:
                 print(utils.get_repo_name(root_dir, config["remoteName"]))
                 self._commit_and_tag(root_dir, version, config["remoteName"], config["branchName"])
 
-        print("... release version {} built.".format(version))
+        print(f"... release version {version} built.")
 
     def _commit_and_tag(self, path, version, remote_name, branch_name):
         repo = git.Repo(path)
@@ -92,7 +93,7 @@ class BuildReleaseAction:
         else:
             if repo.is_dirty():
                 repo.git.add(u=True)
-                repo.git.commit(m="[heliumcli] Release {}".format(version))
+                repo.git.commit(m=f"[heliumcli] Release {version}")
                 repo.remotes[remote_name].push(branch_name)
             tag = repo.create_tag(version, m="")
             repo.remotes[remote_name].push(tag)
@@ -108,17 +109,17 @@ class BuildReleaseAction:
         for line in version_file:
             if version_file_path.endswith(".py"):
                 if line.strip().startswith("__version__ ="):
-                    line = "__version__ = \"{}\"\n".format(version)
+                    line = f"__version__ = \"{version}\"\n"
                 elif line.strip().startswith("__copyright__ = "):
-                    line = "__copyright__ = \"Copyright {}, {}\"\n".format(str(datetime.date.today().year),
-                                                                           utils.get_copyright_name())
+                    line = "__copyright__ = \"Copyright {year}, {name}\"\n".format(
+                        year=str(datetime.date.today().year), name=utils.get_copyright_name())
             elif version_file.name == "package.json":
                 if line.strip().startswith("\"version\":"):
-                    line = "  \"version\": \"{}\",\n".format(version)
+                    line = f"  \"version\": \"{version}\",\n"
             # TODO: implement other known types
             else:
-                print("WARN: helium-cli does not know how to process this type of file for version file: {}".format(
-                    config["versionInfo"]["path"]))
+                print("WARN: helium-cli does not know how to process this type of file for version file: {path}".format(
+                    path=config["versionInfo"]["path"]))
 
                 new_version_file.close()
                 os.remove(version_file_path + ".tmp")

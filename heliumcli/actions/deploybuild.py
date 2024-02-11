@@ -54,11 +54,11 @@ class DeployBuildAction:
 
         hosts = utils.parse_hosts_file(args.env)
         for host in hosts:
-            subprocess.call(["ssh", "-t", "{}@{}".format(host[0], host[1]),
+            subprocess.call(["ssh", "-t", f"{host[0]}@{host[1]}",
                              config["hostProvisionCommand"]])
 
-        playbook_options = ["--inventory-file={}/hosts/{}".format(ansible_dir, args.env), "-v",
-                            "--extra-vars", "build_version={}".format(version)]
+        playbook_options = [f"--inventory-file={ansible_dir}/hosts/{args.env}", "-v",
+                            "--extra-vars", f"build_version={version}"]
 
         if args.migrate or args.code or args.envvars or args.conf or args.ssl:
             tags = []
@@ -79,13 +79,13 @@ class DeployBuildAction:
             playbook_options.append("--limit")
             playbook_options.append(",".join(args.roles))
 
-        cmd = ["ansible-playbook"] + playbook_options + ["{}/{}.yml".format(ansible_dir, args.env)]
-        print("Executing Ansible command: {}".format(cmd))
+        cmd = ["ansible-playbook"] + playbook_options + [f"{ansible_dir}/{args.env}.yml"]
+        print(f"Executing Ansible command: {cmd}")
         ret = subprocess.call(cmd)
 
         if isinstance(ret, int) and ret != 0:
             if ret < 0:
                 print("Error: Ansible killed by signal")
             else:
-                print("Error: Ansible failed with return value {}".format(ret))
+                print(f"Error: Ansible failed with return value {ret}")
             sys.exit(1)

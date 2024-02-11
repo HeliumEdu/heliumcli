@@ -16,14 +16,13 @@ _config_cache = None
 
 
 def get_title():
-    return """\
-    __         ___                            ___
+    return f"""    __         ___                            ___
    / /_  ___  / (_)_  ______ ___        _____/ (_)
-  / __ \/ _ \/ / / / / / __ `__ \______/ ___/ / /
+  / __ \\/ _ \\/ / / / / / __ `__ \\______/ ___/ / /
  / / / /  __/ / / /_/ / / / / / /_____/ /__/ / /
-/_/ /_/\___/_/_/\__,_/_/ /_/ /_/      \___/_/_/
-                                              v{}
-""".format(VERSION)
+/_/ /_/\\___/_/_/\\__,_/_/ /_/ /_/      \\___/_/_/
+                                              v{VERSION}
+"""
 
 
 def _save_config(config_path, config):
@@ -103,7 +102,7 @@ def get_copyright_name():  # pragma: no cover
 
 
 def get_repo_name(repo_dir, remote_name):  # pragma: no cover
-    remote_url_str = subprocess.Popen(["git", "config", "--get", "remote.{}.url".format(remote_name)], cwd=repo_dir,
+    remote_url_str = subprocess.Popen(["git", "config", "--get", f"remote.{remote_name}.url"], cwd=repo_dir,
                                       stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                                       bufsize=1).stdout.read().decode("utf-8")
     return os.path.basename(remote_url_str.strip()).rstrip(".git")
