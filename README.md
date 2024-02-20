@@ -1,8 +1,8 @@
-[![PyPI Version](https://badge.fury.io/py/heliumcli.svg)](https://badge.fury.io/py/heliumcli)
-[![Build](https://github.com/heliumedu/heliumcli/actions/workflows/build.yml/badge.svg)](https://github.com/heliumedu/heliumcli/actions/workflows/build.yml)
-[![Codecov](https://codecov.io/gh/HeliumEdu/heliumcli/branch/main/graph/badge.svg)](https://codecov.io/gh/HeliumEdu/heliumcli)
-[![Python Versions](https://img.shields.io/pypi/pyversions/heliumcli.svg)](https://pypi.org/project/heliumcli/)
-[![PyPI License](https://img.shields.io/pypi/l/heliumcli.svg)](https://pypi.org/project/heliumcli/)
+[![Version](https://img.shields.io/pypi/v/heliumcli)](https://pypi.org/project/heliumcli)
+[![Python Versions](https://img.shields.io/pypi/pyversions/heliumcli.svg)](https://pypi.org/project/heliumcli)
+[![Coverage](https://img.shields.io/codecov/c/github/HeliumEdu/heliumcli)](https://codecov.io/gh/HeliumEdu/heliumcli)
+[![Build](https://img.shields.io/github/actions/workflow/status/HeliumEdu/heliumcli/build.yml)](https://github.com/HeliumEdu/heliumcli/actions/workflows/build.yml)
+[![GitHub License](https://img.shields.io/github/license/HeliumEdu/heliumcli)](https://github.com/HeliumEdu/heliumcli/blob/main/LICENSE)
 
 # Helium CLI
 
