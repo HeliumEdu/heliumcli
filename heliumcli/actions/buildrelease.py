@@ -52,15 +52,16 @@ class BuildReleaseAction:
 
         if len(dirty_repos) > 0:
             print(
-                f"Error: this operation cannot be performed when a repo is dirty. Commit all changes to the following "
-                "repos before proceeding: {dirty_repos}")
+                f"Error: this operation cannot be performed when a repo is dirty. Commit all "
+                f"changes to the following repos before proceeding: {dirty_repos}")
 
             sys.exit(1)
 
         version = args.version.lstrip("v")
 
         self._update_version_file(version,
-                                  os.path.join(config["versionInfo"]["project"], config["versionInfo"]["path"]))
+                                  os.path.join(config["versionInfo"]["project"],
+                                               config["versionInfo"]["path"]))
 
         prepcodeaction = PrepCodeAction()
         prepcodeaction.run(args)
@@ -118,8 +119,8 @@ class BuildReleaseAction:
                     line = f"  \"version\": \"{version}\",\n"
             # TODO: implement other known types
             else:
-                print("WARN: helium-cli does not know how to process this type of file for version file: {path}".format(
-                    path=config["versionInfo"]["path"]))
+                print("WARN: helium-cli does not know how to process this type of file for "
+                      "version file: {path}".format(path=config["versionInfo"]["path"]))
 
                 new_version_file.close()
                 os.remove(version_file_path + ".tmp")

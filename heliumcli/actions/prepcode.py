@@ -15,7 +15,8 @@ __version__ = "1.5.0"
 class PrepCodeAction:
     def __init__(self):
         self.name = "prep-code"
-        self.help = "Prepare code for release build, updating version and copyright information in project files"
+        self.help = ("Prepare code for release build, updating version and copyright information "
+                     "in project files")
 
     def setup(self, subparsers):
         parser = subparsers.add_parser(self.name, help=self.help)
@@ -31,15 +32,15 @@ class PrepCodeAction:
         config = utils.get_config()
         projects_dir = utils.get_projects_dir()
 
-        for line in open(os.path.join(projects_dir, config["versionInfo"]["project"], config["versionInfo"]["path"]),
+        for line in open(os.path.join(projects_dir, config["versionInfo"]["project"],
+                                      config["versionInfo"]["path"]),
                          "r"):
             if config["versionInfo"]["path"].endswith(".py") and line.startswith("__version__ = "):
                 self._current_version = line.strip().split("__version__ = \"")[1].rstrip("\"")
 
         if not self._current_version:
-            print(
-                "WARN: helium-cli does not know how to process this type of file for version information: {path}".format(
-                    path=config["versionInfo"]["path"]))
+            print("WARN: helium-cli does not know how to process this type of file for "
+                  "version information: {path}".format(path=config["versionInfo"]["path"]))
 
             return
 
@@ -65,16 +66,16 @@ class PrepCodeAction:
             latest_tag = version_tags[-1]
             changes = latest_tag.commit.diff(None)
 
-            print(
-                f"Checking the {len(changes)} file(s) in \"{project}\" that have been modified since {latest_tag.tag.tag} was tagged ...")
+            print(f"Checking the {len(changes)} file(s) in \"{project}\" that have been "
+                  f"modified since {latest_tag.tag.tag} was tagged ...")
             print("-------------------------------")
 
             count = 0
             for change in changes:
                 file_path = os.path.join(project_path, change.b_rawpath.decode("utf-8"))
 
-                if os.path.exists(file_path) and not os.path.isdir(file_path) and os.path.splitext(file_path)[1] in \
-                        [".py", ".js", ".jsx", ".css", ".scss"]:
+                if (os.path.exists(file_path) and not os.path.isdir(file_path) and
+                        os.path.splitext(file_path)[1] in [".py", ".js", ".jsx", ".css", ".scss"]):
                     if self._process_file(file_path):
                         count += 1
 
@@ -123,13 +124,16 @@ class PrepCodeAction:
         return updated
 
     def _process_python_line(self, line):
-        if utils.should_update(line, f"__version__ = \"{self._current_version}\"", "__version__ ="):
-
+        if utils.should_update(line,
+                               f"__version__ = \"{self._current_version}\"",
+                               "__version__ ="):
             line = f"__version__ = \"{self._current_version}\"\n"
             return line, True
         elif utils.should_update(line,
-                                 f"__copyright__ = \"Copyright {self._current_year}, {self._copyright_name}\"",
-                                 "__copyright__ = ", f"{self._copyright_name}\""):
+                                 f"__copyright__ = \"Copyright {self._current_year}, "
+                                 f"{self._copyright_name}\"",
+                                 "__copyright__ = ",
+                                 f"{self._copyright_name}\""):
 
             line = f"__copyright__ = \"Copyright {self._current_year}, {self._copyright_name}\"\n"
             return line, True

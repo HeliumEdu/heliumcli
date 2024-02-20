@@ -118,7 +118,7 @@ def sort_tags(tags):
 
     for git_tag in tags:
         cleaned_tag = git_tag.tag.tag.lstrip("v")
-        pattern = re.compile("^[0-9\.]*$")
+        pattern = re.compile("^[0-9\\.]*$")
         if pattern.match(cleaned_tag):
             version_tags.append(git_tag)
 

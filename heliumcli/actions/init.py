@@ -19,7 +19,8 @@ class InitAction:
 
     def setup(self, subparsers):
         parser = subparsers.add_parser(self.name, help=self.help)
-        parser.add_argument("--config-only", action="store_true", help="Only initialize the .heliumcli.yml config file")
+        parser.add_argument("--config-only", action="store_true",
+                            help="Only initialize the .heliumcli.yml config file")
         parser.add_argument("id", help="The ID (no spaces) to give to the new project")
         parser.add_argument("name", help="The friendly name to give to the new project")
         parser.add_argument("host", help="The hostname to give the project")
@@ -29,7 +30,8 @@ class InitAction:
     def run(self, args):
         config_path = os.path.abspath(os.environ.get("HELIUMCLI_CONFIG_PATH", ".heliumcli.yml"))
         if os.path.exists(config_path):
-            print("It looks like a helium-cli project already exists in this directory, not doing anything.")
+            print("It looks like a helium-cli project already exists in this directory, "
+                  "not doing anything.")
 
             sys.exit(1)
 
@@ -41,7 +43,8 @@ class InitAction:
         if not args.config_only:
             self._init_project(config_path, args)
         else:
-            self._replace_in_file(os.path.dirname(config_path), os.path.basename(config_path), args)
+            self._replace_in_file(os.path.dirname(config_path),
+                                  os.path.basename(config_path), args)
 
         print("A new helium-cli project has been initialized.")
 
@@ -59,7 +62,8 @@ class InitAction:
 
         if os.path.exists(os.path.join(project_dir, ".travis.yml.template")):
             os.remove(os.path.join(project_dir, ".travis.yml"))
-            os.rename(os.path.join(project_dir, ".travis.yml.template"), os.path.join(project_dir, ".travis.yml"))
+            os.rename(os.path.join(project_dir, ".travis.yml.template"),
+                      os.path.join(project_dir, ".travis.yml"))
 
         if os.path.exists(os.path.join(project_dir, ".github", "workflows", "build.yml.template")):
             os.remove(os.path.join(project_dir, ".github", "workflows", "build.yml"))
@@ -68,7 +72,8 @@ class InitAction:
 
         if os.path.exists(os.path.join(project_dir, "Makefile.template")):
             os.remove(os.path.join(project_dir, "Makefile"))
-            os.rename(os.path.join(project_dir, "Makefile.template"), os.path.join(project_dir, "Makefile"))
+            os.rename(os.path.join(project_dir, "Makefile.template"),
+                      os.path.join(project_dir, "Makefile"))
 
         repo = git.Repo.init(project_dir)
 
@@ -80,7 +85,8 @@ class InitAction:
 
         repo.git.add(A=True)
 
-        os.rename(os.path.join(project_dir, "project_id"), os.path.join(project_dir, self._lower_slug))
+        os.rename(os.path.join(project_dir, "project_id"),
+                  os.path.join(project_dir, self._lower_slug))
 
         print("Running make ...")
 

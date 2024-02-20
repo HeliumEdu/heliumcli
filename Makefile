@@ -1,4 +1,4 @@
-.PHONY: all nopyc clean virtualenv install test check-style local upload
+.PHONY: all nopyc clean virtualenv install test check local upload
 
 SHELL := /usr/bin/env bash
 PYTHON_BIN ?= python
@@ -24,7 +24,7 @@ test: virtualenv
 		python -m coverage run -m unittest discover -b && python -m coverage xml && python -m coverage html && python -m coverage report; \
 	)
 
-check-style: virtualenv
+check: virtualenv
 	@( \
 		source venv/bin/activate; \
 		python -m pip install ".[dev]"; \

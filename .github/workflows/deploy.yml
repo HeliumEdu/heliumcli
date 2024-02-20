@@ -27,6 +27,8 @@ jobs:
         run: make validate-release VERSION=${{ steps.get_version.outputs.VERSION }}
       - name: Test
         run: make test
+      - name: Check code
+        run: make check
       - name: Validate package
         run: make local
       - name: Publish
