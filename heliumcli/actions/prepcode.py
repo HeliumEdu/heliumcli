@@ -67,7 +67,7 @@ class PrepCodeAction:
             changes = latest_tag.commit.diff(None)
 
             print(f"Checking the {len(changes)} file(s) in \"{project}\" that have been "
-                  f"modified since {latest_tag.tag.tag} was tagged ...")
+                  f"modified since {latest_tag.name} was tagged ...")
             print("-------------------------------")
 
             count = 0

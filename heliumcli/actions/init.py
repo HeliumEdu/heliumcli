@@ -51,12 +51,18 @@ class InitAction:
     def _init_project(self, config_path, args):
         project_dir = os.path.join(os.path.dirname(config_path), args.id)
         template_project_name = "template-project"
-        template_version = os.environ.get("HELIUMCLI_TEMPLATE_PROJECT_VERSION", "1.3.2")
+        template_version = os.environ.get("HELIUMCLI_TEMPLATE_PROJECT_VERSION", "latest")
 
-        print(f"Cloning the template-project {template_version} repo into this directory ...")
-        git.Repo.clone_from(f"https://github.com/HeliumEdu/{template_project_name}.git",
-                            project_dir,
-                            branch=template_version)
+        print(f"Cloning the template-project with \"{template_version}\" into this directory ...")
+        if template_version == "latest":
+            repo = git.Repo.clone_from(f"https://github.com/HeliumEdu/{template_project_name}.git", project_dir)
+            version_tags = utils.sort_tags(repo.tags)
+            latest_tag = version_tags[-1]
+            repo.git.checkout(latest_tag)
+        else:
+            git.Repo.clone_from(f"https://github.com/HeliumEdu/{template_project_name}.git",
+                                project_dir,
+                                branch=template_version)
 
         shutil.rmtree(os.path.join(project_dir, ".git"))
 

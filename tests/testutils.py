@@ -12,20 +12,15 @@ class TestUtilsTestCase(testcase.HeliumCLITestCase):
     def test_sort_tags(self):
         # GIVEN
         tag1 = mock.MagicMock()
-        tag1.tag = mock.MagicMock()
-        tag1.tag.tag = "1.2.2"
+        tag1.name = "1.2.2"
         tag2 = mock.MagicMock()
-        tag2.tag = mock.MagicMock()
-        tag2.tag.tag = "1.2.3"
+        tag2.name = "1.2.3"
         tag3 = mock.MagicMock()
-        tag3.tag = mock.MagicMock()
-        tag3.tag.tag = "1.2.1"
+        tag3.name = "1.2.1"
         tag4 = mock.MagicMock()
-        tag4.tag = mock.MagicMock()
-        tag4.tag.tag = "0.1.5"
+        tag4.name = "0.1.5"
         tag5 = mock.MagicMock()
-        tag5.tag = mock.MagicMock()
-        tag5.tag.tag = "text-1.2.3"
+        tag5.name = "text-1.2.3"
 
         tags = [tag1, tag2, tag3, tag4, tag5]
 

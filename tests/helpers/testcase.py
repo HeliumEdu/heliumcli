@@ -54,14 +54,11 @@ class HeliumCLITestCase(TestCase):
 
         repo_instance.create_tag = mock.MagicMock(return_value=TagReference(repo_instance, "refs/tags/1.2.3"))
         tag1 = mock.MagicMock("git.tag.TagReference")
-        tag1.tag = mock.MagicMock("git.tag.TagObject")
-        tag1.tag.tag = "1.2.0"
+        tag1.name = "1.2.0"
         tag2 = mock.MagicMock("git.tag.TagReference")
-        tag2.tag = mock.MagicMock("git.tag.TagObject")
-        tag2.tag.tag = "1.2.1"
+        tag2.name = "1.2.1"
         tag3 = mock.MagicMock("git.tag.TagReference")
-        tag3.tag = mock.MagicMock("git.tag.TagObject")
-        tag3.tag.tag = "1.2.2"
+        tag3.name = "1.2.2"
         repo_instance.tags = [tag1, tag2, tag3]
 
     def _setup_subprocess_mocks(self):
