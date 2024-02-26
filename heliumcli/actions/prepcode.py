@@ -44,6 +44,8 @@ class PrepCodeAction:
 
             return
 
+        print(f"Prepping code for release with version {self._current_version} ...\n")
+
         for project in utils.get_projects(config):
             if args.roles and project not in args.roles:
                 continue
