@@ -15,6 +15,7 @@ def get_default_settings():
         "ansibleRelativeDir": os.environ.get("HELIUMCLI_ANSIBLE_RELATIVE_DIR", "ansible"),
         "ansibleCopyrightNameVar": os.environ.get("HELIUMCLI_ANSIBLE_COPYRIGHT_NAME_VAR",
                                                   "project_developer"),
+        "updateCopyrightYear": os.environ.get("HELIUMCLI_UPDATE_COPYRIGHT_YEAR", "true") == "true",
         "hostProvisionCommand": os.environ.get("HELIUMCLI_HOST_PROVISION_COMMAND",
                                                "sudo apt-get update && sudo apt-get install -y "
                                                "python && sudo apt-get -y autoremove"),

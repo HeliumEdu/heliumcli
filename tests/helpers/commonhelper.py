@@ -50,11 +50,10 @@ def given_python_version_file_exists(version="1.2.2"):
 Header comments and such.
 ""\"
 
-import os
-
-__author__ = "Alex Laird"
-__copyright__ = "Copyright 2017, Helium Edu"
+__copyright__ = "Copyright (c) 2018 Helium Edu"
 __version__ = "{version}"
+
+import os
 
 # ############################
 # Project configuration
@@ -105,8 +104,7 @@ def given_project_python_versioned_file_exists(project, filename="maths.py"):
 Other header comments and such.
 \"\"\"
 
-__author__ = "Alex Laird"
-__copyright__ = "Copyright 2017, Helium Edu"
+__copyright__ = "Copyright (c) 2018 Helium Edu"
 __version__ = "1.2.2"
 
 def sum(a, b):
@@ -130,7 +128,6 @@ def given_project_js_versioned_file_exists(project, filename="maths.js"):
  *
  * Some functions and stuff.
  *
- * @author Alex Laird
  * @version 1.2.2
  */
 

@@ -130,13 +130,14 @@ class PrepCodeAction:
                                "__version__ ="):
             line = f"__version__ = \"{self._current_version}\"\n"
             return line, True
-        elif utils.should_update(line,
-                                 f"__copyright__ = \"Copyright {self._current_year}, "
-                                 f"{self._copyright_name}\"",
-                                 "__copyright__ = ",
-                                 f"{self._copyright_name}\""):
+        elif utils.get_config()["updateCopyrightYear"] and \
+                utils.should_update(line,
+                                    f"__copyright__ = \"Copyright {self._current_year}, "
+                                    f"{self._copyright_name}\"",
+                                    "__copyright__ = ",
+                                    f"{self._copyright_name}\""):
 
-            line = f"__copyright__ = \"Copyright {self._current_year}, {self._copyright_name}\"\n"
+            line = f"__copyright__ = \"Copyright (c) {self._current_year} {self._copyright_name}\"\n"
             return line, True
         return line, False
 
