@@ -6,14 +6,15 @@
 
 # Helium CLI
 
-## Prerequisites
-
-- Python (>= 3.8)
-
 ## Getting Started
 
-The Helium CLI can easily be used with a compatible project by installing it with `pip install heliumcli`. The utility
-is then available from the command line with `helium-cli`.
+The Helium CLI is available on [PyPI](https://pypi.org/project/heliumcli/) and can be installed using `pip`:
+
+```sh
+pip install heliumcli
+```
+
+The utility is then available from the command line with `helium-cli`.
 
 More details pertaining to project compatibility, installation, and configuration can be found in the [Helium CLI Wiki](https://github.com/HeliumEdu/heliumcli/wiki).
 
