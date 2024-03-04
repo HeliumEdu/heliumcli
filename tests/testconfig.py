@@ -61,6 +61,7 @@ class TestConfigTestCase(testcase.HeliumCLITestCase):
             "projects": ["proj1", "proj2", "project3"],
             "projectsRelativeDir": "some/dir/projects",
             "serverBinFilename": "some/bin/server",
+            'updateCopyrightYear': True,
             "versionInfo": {"path": "some/path/project/version", "project": "proj2"},
             "branchName": "fancy-main",
             "remoteName": "fancy-origin"
