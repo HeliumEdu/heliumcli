@@ -7,6 +7,8 @@ body:
 - type: markdown
   attributes:
     value: |
+      Consider [supporting the project](https://github.com/sponsors/alexdlaird) ❤.
+
       Please we aware that `heliumcli` is not under active development. However, we are still happy to review pull requests submitted by the community to resolve bugs, so submitting a report of your experience may still be helpful to us and others.
 
 - type: checkboxes
