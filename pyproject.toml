@@ -1,6 +1,6 @@
 [project]
 name = "heliumcli"
-version = "1.6.21"
+version = "1.6.22"
 description = "CLI tool that provides a useful set of tools for maintaining, building, and deploying code in compatible projects."
 readme = "README.md"
 license = { file = "LICENSE" }
