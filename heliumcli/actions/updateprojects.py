@@ -1,13 +1,12 @@
+__copyright__ = "Copyright (c) 2018 Helium Edu"
+__license__ = "MIT"
+
 import os
 import subprocess
 
 import git
 
 from .. import utils
-
-__author__ = "Alex Laird"
-__copyright__ = "Copyright 2018, Helium Edu"
-__version__ = "1.5.0"
 
 
 class UpdateProjectsAction:

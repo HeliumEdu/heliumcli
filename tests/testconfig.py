@@ -1,12 +1,11 @@
+__copyright__ = "Copyright (c) 2018 Helium Edu"
+__license__ = "MIT"
+
 import os
 from unittest import mock
 
 from heliumcli import utils, settings
 from .helpers import testcase
-
-__author__ = "Alex Laird"
-__copyright__ = "Copyright 2018, Helium Edu"
-__version__ = "1.6.0"
 
 
 class TestConfigTestCase(testcase.HeliumCLITestCase):

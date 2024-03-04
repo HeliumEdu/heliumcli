@@ -1,8 +1,7 @@
-import subprocess
+__copyright__ = "Copyright (c) 2018 Helium Edu"
+__license__ = "MIT"
 
-__author__ = "Alex Laird"
-__copyright__ = "Copyright 2018, Helium Edu"
-__version__ = "1.5.0"
+import subprocess
 
 
 class UpdateAction:

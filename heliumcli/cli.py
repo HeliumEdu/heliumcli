@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+__copyright__ = "Copyright (c) 2018 Helium Edu"
+__license__ = "MIT"
+
 import argparse
 import sys
 
@@ -14,13 +17,8 @@ from .actions.startservers import StartServersAction
 from .actions.update import UpdateAction
 from .actions.updateprojects import UpdateProjectsAction
 
-__author__ = "Alex Laird"
-__copyright__ = "Copyright 2018, Helium Edu"
-__version__ = "1.6.15"
-
 
 def main():
-
     actions = {
         InitAction(),
         UpdateAction(),

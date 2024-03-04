@@ -1,3 +1,6 @@
+__copyright__ = "Copyright (c) 2018 Helium Edu"
+__license__ = "MIT"
+
 import os
 import shutil
 from unittest import TestCase
@@ -6,10 +9,6 @@ from unittest import mock
 from git import TagReference
 
 from heliumcli import utils
-
-__author__ = "Alex Laird"
-__copyright__ = "Copyright 2018, Helium Edu"
-__version__ = "1.6.15"
 
 TEST_BUILD_DIR = os.path.abspath(os.path.join(__file__, "..", "..", "build"))
 

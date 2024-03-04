@@ -1,3 +1,6 @@
+__copyright__ = "Copyright (c) 2018 Helium Edu"
+__license__ = "MIT"
+
 import os
 import shutil
 import sys
@@ -6,11 +9,6 @@ from unittest.mock import patch
 
 from heliumcli import utils
 from heliumcli.cli import main
-
-__author__ = "Alex Laird"
-__copyright__ = "Copyright 2024, Helium Edu"
-__version__ = "1.6.15"
-
 from tests.helpers.testcase import TEST_BUILD_DIR
 
 

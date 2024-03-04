@@ -1,11 +1,8 @@
+__copyright__ = "Copyright (c) 2018 Helium Edu"
+__license__ = "MIT"
+
 import json
 import os
-
-__author__ = "Alex Laird"
-__copyright__ = "Copyright 2024, Helium Edu"
-__version__ = "1.6.20"
-
-VERSION = __version__
 
 
 def get_default_settings():

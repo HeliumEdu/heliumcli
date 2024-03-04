@@ -1,3 +1,6 @@
+__copyright__ = "Copyright (c) 2018 Helium Edu"
+__license__ = "MIT"
+
 import os
 import shutil
 import subprocess
@@ -6,10 +9,6 @@ import sys
 import git
 
 from .. import utils
-
-__author__ = "Alex Laird"
-__copyright__ = "Copyright 2024, Helium Edu"
-__version__ = "1.6.15"
 
 
 class InitAction:

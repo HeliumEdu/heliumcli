@@ -1,3 +1,6 @@
+__copyright__ = "Copyright (c) 2018 Helium Edu"
+__license__ = "MIT"
+
 import os
 import re
 import subprocess
@@ -6,11 +9,8 @@ from builtins import input
 
 import yaml
 
-from .settings import VERSION, get_default_settings
-
-__author__ = "Alex Laird"
-__copyright__ = "Copyright 2018, Helium Edu"
-__version__ = "1.5.0"
+from . import __version__
+from .settings import get_default_settings
 
 _config_cache = None
 
@@ -21,7 +21,7 @@ def get_title():
   / __ \\/ _ \\/ / / / / / __ `__ \\______/ ___/ / /
  / / / /  __/ / / /_/ / / / / / /_____/ /__/ / /
 /_/ /_/\\___/_/_/\\__,_/_/ /_/ /_/      \\___/_/_/
-                                              v{VERSION}
+                                              v{__version__}
 """
 
 
