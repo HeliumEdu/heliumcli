@@ -50,7 +50,6 @@ local:
 validate-release:
 	@if [[ "${VERSION}" == "" ]]; then echo "VERSION is not set" & exit 1 ; fi
 
-	@if [[ $$(grep "version = \"${VERSION}\"" pyproject.toml) == "" ]] ; then echo "Version not bumped in pyproject.toml" & exit 1 ; fi
 	@if [[ $$(grep "__version__ = \"${VERSION}\"" heliumcli/__init__.py) == "" ]] ; then echo "Version not bumped in heliumcli/__init__.py" & exit 1 ; fi
 
 upload: local

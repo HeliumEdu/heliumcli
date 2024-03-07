@@ -1,6 +1,6 @@
 [project]
 name = "heliumcli"
-version = "1.6.22"
+dynamic = ["version"]
 description = "CLI tool that provides a useful set of tools for maintaining, building, and deploying code in compatible projects."
 readme = "README.md"
 license = { file = "LICENSE" }
@@ -42,6 +42,9 @@ helium-cli = "heliumcli.cli:main"
 [project.urls]
 Sponsor = "https://github.com/sponsors/alexdlaird"
 "Source Code" = "https://github.com/HeliumEdu/heliumcli"
+
+[tool.setuptools.dynamic]
+version = { attr = "heliumcli.__version__" }
 
 [tool.coverage.run]
 omit = [
