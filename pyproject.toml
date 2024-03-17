@@ -43,6 +43,9 @@ helium-cli = "heliumcli.cli:main"
 Sponsor = "https://github.com/sponsors/alexdlaird"
 "Source Code" = "https://github.com/HeliumEdu/heliumcli"
 
+[tool.setuptools]
+package-dir = {"" = "heliumcli"}
+
 [tool.setuptools.dynamic]
 version = { attr = "heliumcli.__version__" }
 
