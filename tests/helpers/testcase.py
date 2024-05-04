@@ -3,8 +3,7 @@ __license__ = "MIT"
 
 import os
 import shutil
-from unittest import TestCase
-from unittest import mock
+from unittest import TestCase, mock
 
 from git import TagReference
 

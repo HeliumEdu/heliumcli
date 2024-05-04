@@ -6,10 +6,10 @@ import sys
 from unittest import mock
 from unittest.mock import patch
 
-from heliumcli import utils, settings
+from heliumcli import settings, utils
 from heliumcli.cli import main
 from tests.helpers.commonhelper import given_config_exists
-from .helpers import testcase, commonhelper
+from .helpers import commonhelper, testcase
 
 
 class TestActionsTestCase(testcase.HeliumCLITestCase):

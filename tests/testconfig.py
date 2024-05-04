@@ -4,7 +4,7 @@ __license__ = "MIT"
 import os
 from unittest import mock
 
-from heliumcli import utils, settings
+from heliumcli import settings, utils
 from .helpers import testcase
 
 
