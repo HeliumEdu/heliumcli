@@ -75,6 +75,11 @@ class InitAction:
             os.rename(os.path.join(project_dir, ".github", "workflows", "build.yml.template"),
                       os.path.join(project_dir, ".github", "workflows", "build.yml"))
 
+        if os.path.exists(os.path.join(project_dir, ".github", "workflows", "deploy.yml.template")):
+            os.remove(os.path.join(project_dir, ".github", "workflows", "deploy.yml"))
+            os.rename(os.path.join(project_dir, ".github", "workflows", "deploy.yml.template"),
+                      os.path.join(project_dir, ".github", "workflows", "deploy.yml"))
+
         if os.path.exists(os.path.join(project_dir, "Makefile.template")):
             os.remove(os.path.join(project_dir, "Makefile"))
             os.rename(os.path.join(project_dir, "Makefile.template"),
