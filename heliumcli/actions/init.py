@@ -84,6 +84,11 @@ class InitAction:
             os.rename(os.path.join(project_dir, "Makefile.template"),
                       os.path.join(project_dir, "Makefile"))
 
+        if os.path.exists(os.path.join(project_dir, "README.md.template")):
+            os.remove(os.path.join(project_dir, "README.md"))
+            os.rename(os.path.join(project_dir, "README.md.template"),
+                      os.path.join(project_dir, "README.md"))
+
         repo = git.Repo.init(project_dir)
 
         print("Updating template variables ...")
