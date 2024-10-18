@@ -77,7 +77,7 @@ class BuildReleaseAction:
 
             self._commit_and_tag(project_path, version, config["remoteName"], config["branchName"])
 
-        if config["projectsRelativeDir"] != ".":
+        if config["projectsRelativeDir"] != "." and config["tagRootRelease"]:
             root_dir = os.path.abspath(os.path.join(projects_dir, ".."))
             if os.path.exists(os.path.join(root_dir, ".git")):
                 print(utils.get_repo_name(root_dir, config["remoteName"]))

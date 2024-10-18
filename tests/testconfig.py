@@ -64,5 +64,7 @@ class TestConfigTestCase(testcase.HeliumCLITestCase):
             'updateCopyrightYear': True,
             "versionInfo": {"path": "some/path/project/version", "project": "proj2"},
             "branchName": "fancy-main",
-            "remoteName": "fancy-origin"
+            "remoteName": "fancy-origin",
+            "copyrightName": None,
+            "tagRootRelease": True
         })
