@@ -97,7 +97,7 @@ def should_update(line, verification, start_needle, end_needle=""):
 
 def get_copyright_name():  # pragma: no cover
     if get_config()["copyrightName"]:
-        return get_config("copyrightName")
+        return get_config()["copyrightName"]
     else:
         with open(os.path.join(get_ansible_dir(), "group_vars", "all.yml"), "r") as lines:
             data = yaml.safe_load(lines)
