@@ -132,7 +132,7 @@ class PrepCodeAction:
             return line, True
         elif utils.get_config()["updateCopyrightYear"] and \
                 utils.should_update(line,
-                                    f"__copyright__ = \"Copyright {self._current_year}, "
+                                    f"__copyright__ = \"Copyright (c) {self._current_year}, "
                                     f"{self._copyright_name}\"",
                                     "__copyright__ = ",
                                     f"{self._copyright_name}\""):

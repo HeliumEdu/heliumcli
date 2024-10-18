@@ -2,11 +2,10 @@ __copyright__ = "Copyright (c) 2018 Helium Edu"
 __license__ = "MIT"
 
 import datetime
+import git
 import os
 import shutil
 import sys
-
-import git
 
 from .prepcode import PrepCodeAction
 from .. import utils
@@ -110,8 +109,9 @@ class BuildReleaseAction:
             if version_file_path.endswith(".py"):
                 if line.strip().startswith("__version__ ="):
                     line = f"__version__ = \"{version}\"\n"
-                elif line.strip().startswith("__copyright__ = "):
-                    line = "__copyright__ = \"Copyright {year}, {name}\"\n".format(
+                elif utils.get_config()["updateCopyrightYear"] and \
+                        line.strip().startswith("__copyright__ = "):
+                    line = "__copyright__ = \"Copyright (c) {year}, {name}\"\n".format(
                         year=str(datetime.date.today().year), name=utils.get_copyright_name())
             elif version_file.name == "package.json":
                 if line.strip().startswith("\"version\":"):
