@@ -1,32 +1,31 @@
-.PHONY: all nopyc clean virtualenv install test check local upload
+.PHONY: all install nopyc clean test check local validate-release upload
 
 SHELL := /usr/bin/env bash
 PYTHON_BIN ?= python
+PROJECT_VENV ?= venv
 
-all: virtualenv install
+all: local check test
 
-virtualenv:
-	@if [ ! -d "venv" ]; then \
-		$(PYTHON_BIN) -m pip install virtualenv --user; \
-		$(PYTHON_BIN) -m virtualenv venv; \
-	fi
+venv:
+	$(PYTHON_BIN) -m pip install virtualenv --user
+	$(PYTHON_BIN) -m virtualenv $(PROJECT_VENV)
 
-install: virtualenv
+install: venv
 	@( \
-		source venv/bin/activate; \
+		source $(PROJECT_VENV)/bin/activate; \
 		python -m pip install .; \
 	)
 
-test: virtualenv
+test: install
 	@( \
-		source venv/bin/activate; \
+		source $(PROJECT_VENV)/bin/activate; \
 		python -m pip install ".[dev]"; \
 		coverage run -m unittest discover -v -b && coverage report && coverage xml && coverage html; \
 	)
 
-check: virtualenv
+check: install
 	@( \
-		source venv/bin/activate; \
+		source $(PROJECT_VENV)/bin/activate; \
 		python -m pip install ".[dev]"; \
 		flake8; \
 	)
@@ -36,7 +35,7 @@ nopyc:
 	find . -name __pycache__ | xargs rm -rf || true
 
 clean: nopyc
-	rm -rf build dist *.egg-info venv
+	rm -rf build dist *.egg-info $(PROJECT_VENV)
 
 local:
 	@rm -rf *.egg-info dist
