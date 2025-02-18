@@ -7,10 +7,10 @@ license = { file = "LICENSE" }
 maintainers = [{ name = "Alex Laird", email = "contact@alexlaird.com" }]
 requires-python = ">=3.8"
 dependencies = [
-    "GitPython>=2.1.15",
+    "GitPython>=3.0",
     "PyYAML>=5.1",
     "ansible>=2.10",
-    "pyngrok>=7.0.4",
+    "pyngrok>=7.2",
 ]
 classifiers = [
     "Environment :: Console",
