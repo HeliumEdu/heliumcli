@@ -1,7 +1,7 @@
 [project]
 name = "heliumcli"
 dynamic = ["version"]
-description = "CLI tool that provides a useful set of tools for maintaining, building, and deploying code in compatible projects."
+description = "A CLI tool that provides a useful set of tools for maintaining, building, and deploying code in compatible projects"
 readme = "README.md"
 license = { file = "LICENSE" }
 maintainers = [{ name = "Alex Laird", email = "contact@alexlaird.com" }]

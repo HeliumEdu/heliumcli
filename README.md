@@ -6,6 +6,8 @@
 
 # Helium CLI
 
+`helium-cli` provides a useful set of tools for maintaining, building, and deploying code in compatible projects.
+
 ## Getting Started
 
 The Helium CLI is available on [PyPI](https://pypi.org/project/heliumcli/) and can be installed using `pip`:
