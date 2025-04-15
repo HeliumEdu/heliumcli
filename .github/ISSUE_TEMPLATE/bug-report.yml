@@ -7,9 +7,9 @@ body:
 - type: markdown
   attributes:
     value: |
-      Consider [supporting the project](https://github.com/sponsors/alexdlaird) ❤.
+      Please we aware that Helium is free and is not under active development. Though [supporting the project financially](https://github.com/sponsors/alexdlaird) is appreciated ❤️ (since Helium has operating costs, even though it is free to use), we make no guarantees bug reports will be looked at or considered.
 
-      Please we aware that `heliumcli` is not under active development. However, we are still happy to review pull requests submitted by the community to resolve bugs, so submitting a report of your experience may still be helpful to us and others.
+      Though this project is not under active development, we are still happy to review pull requests submitted by the community to resolve bugs, so submitting a report of your experience may still be helpful to us and others.
 
 - type: checkboxes
   id: ack
@@ -21,7 +21,6 @@ body:
     - label: I have searched [Issues](issues?q=is%3Aissue) to see if the bug has already been reported
       required: true
     - label: I have searched [Stack Overflow](https://stackoverflow.com/questions/) to ensure the issue I'm experiencing has not already been discussed
-      required: true
 
 - type: input
   id: os-version
@@ -32,20 +31,16 @@ body:
     required: true
 
 - type: input
-  id: python-version
+  id: sdk-version
   attributes:
-    label: Python Version
-    placeholder: 3.9.2
-  validations:
-    required: true
+    label: SDK Version
+    placeholder: Python 3.9.2
 
 - type: input
   id: library-version
   attributes:
-    label: heliumcli Version
-    placeholder: 1.0.3
-  validations:
-    required: true
+    label: Library Version
+    placeholder: pyngrok 1.0.3
 
 - type: textarea
   id: describe-the-bug
