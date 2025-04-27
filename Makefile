@@ -20,7 +20,7 @@ test: install
 	@( \
 		source $(PROJECT_VENV)/bin/activate; \
 		python -m pip install ".[dev]"; \
-		coverage run -m unittest discover -v -b && coverage report && coverage xml && coverage html; \
+		coverage run -m pytest -v && coverage report && coverage xml && coverage html; \
 	)
 
 check: install
