@@ -1,12 +1,14 @@
-name: "Build"
+name: Build
 
-run-name: "Build ${{ github.ref_name }}"
+run-name: Build ${{ github.ref_name }}
 
 on:
   push:
     branches: [ main, develop ]
   pull_request:
     branches: [ main, develop ]
+  workflow_dispatch:
+  workflow_call:
 
 
 jobs:
@@ -34,12 +36,8 @@ jobs:
         run: make install
       - name: Test
         run: make test
-      - name: Check code
-        run: make check
-      - name: Validate package
-        run: make local
-      - name: Upload coverage
-        if: matrix.python-version == '3.11'
-        uses: codecov/codecov-action@v3
-        with:
-          directory: ./build/coverage
+
+  validate:
+    name: Validate
+    uses: ./.github/workflows/validate.yml
+    secrets: inherit
