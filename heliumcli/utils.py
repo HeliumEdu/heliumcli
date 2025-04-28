@@ -5,6 +5,7 @@ import os
 import re
 import subprocess
 import sys
+import threading
 from builtins import input
 
 import yaml
@@ -14,6 +15,7 @@ from .settings import get_default_settings
 
 _config_cache = None
 
+config_file_lock = threading.Lock()
 
 def get_title():
     return f"""    __         ___                            ___
@@ -26,8 +28,9 @@ def get_title():
 
 
 def _save_config(config_path, config):
-    with open(config_path, "w") as config_file:
-        yaml.safe_dump(config, config_file)
+    with config_file_lock:
+        with open(config_path, "w") as config_file:
+            yaml.safe_dump(config, config_file)
 
 
 def get_config(init=False):
@@ -47,8 +50,9 @@ def get_config(init=False):
 
             _save_config(config_path, get_default_settings())
 
-        with open(config_path, "r") as lines:
-            _config_cache = yaml.safe_load(lines)
+        with config_file_lock:
+            with open(config_path, "r") as lines:
+                _config_cache = yaml.safe_load(lines)
     else:
         # Ensure cache is up to date
         updated = False
