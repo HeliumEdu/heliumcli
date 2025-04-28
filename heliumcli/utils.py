@@ -17,6 +17,7 @@ _config_cache = None
 
 config_file_lock = threading.Lock()
 
+
 def get_title():
     return f"""    __         ___                            ___
    / /_  ___  / (_)_  ______ ___        _____/ (_)
