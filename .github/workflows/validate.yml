@@ -33,6 +33,7 @@ jobs:
       - name: Validate package
         run: make local
       - name: Upload test coverage
+        if: ${{ !cancelled() }}
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
