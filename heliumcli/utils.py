@@ -80,7 +80,7 @@ def get_projects_dir():
 def parse_hosts_file(env):
     hosts_str = subprocess.Popen(["ansible", "all", "-i", os.path.join("hosts", env), "--list-hosts"],
                                  cwd=get_ansible_dir(), stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-                                 bufsize=1).stdout.read().decode("utf-8")
+                                 bufsize=0).stdout.read().decode("utf-8")
 
     hosts = []
     for line in hosts_str.split("\n")[1:]:
@@ -112,7 +112,7 @@ def get_copyright_name():  # pragma: no cover
 def get_repo_name(repo_dir, remote_name):  # pragma: no cover
     remote_url_str = subprocess.Popen(["git", "config", "--get", f"remote.{remote_name}.url"], cwd=repo_dir,
                                       stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-                                      bufsize=1).stdout.read().decode("utf-8")
+                                      bufsize=0).stdout.read().decode("utf-8")
     return os.path.basename(remote_url_str.strip()).rstrip(".git")
 
 
