@@ -12,7 +12,7 @@ jobs:
       FORCE_COLOR: 1
       PYTHONDONTWRITEBYTECODE: 1
 
-    runs-on: ubuntu-latestl
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
