@@ -92,7 +92,7 @@ class BuildReleaseAction:
         else:
             if repo.is_dirty():
                 repo.git.add(u=True)
-                repo.git.commit(m=f"[heliumcli] Release {version}")
+                repo.git.commit(m=f"[heliumcli] Release {version} [skip ci]")
                 repo.remotes[remote_name].push(branch_name)
             tag = repo.create_tag(version, m="")
             repo.remotes[remote_name].push(tag)
