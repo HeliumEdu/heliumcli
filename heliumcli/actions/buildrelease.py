@@ -115,7 +115,7 @@ class BuildReleaseAction:
                         year=str(datetime.date.today().year), name=utils.get_copyright_name())
             elif version_file.name == "package.json":
                 if line.strip().startswith("\"version\":"):
-                    line = f"  \"version\": \"{version}\",\n"
+                    line = f"    \"version\": \"{version}\",\n"
             # TODO: implement other known types
             else:
                 print("WARN: helium-cli does not know how to process this type of file for "
