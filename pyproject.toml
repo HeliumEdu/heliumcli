@@ -8,7 +8,7 @@ authors = [{ name = "Alex Laird", email = "contact@alexlaird.com" }]
 maintainers = [{ name = "Alex Laird", email = "contact@alexlaird.com" }]
 requires-python = ">=3.9"
 dependencies = [
-    "GitPython>=3.0",
+    "GitPython>=3.1.25",
     "PyYAML>=5.1",
     "ansible>=2.10",
     "pyngrok>=7.2",
