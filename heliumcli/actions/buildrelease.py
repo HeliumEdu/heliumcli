@@ -93,9 +93,9 @@ class BuildReleaseAction:
             if repo.is_dirty():
                 repo.git.add(u=True)
                 repo.git.commit(m=f"[heliumcli] Release {version} [skip ci]")
-                repo.remotes[remote_name].push(branch_name)
+                repo.remotes[remote_name].push(branch_name).raise_if_error()
             tag = repo.create_tag(version, m="")
-            repo.remotes[remote_name].push(tag)
+            repo.remotes[remote_name].push(tag).raise_if_error()
 
     def _update_version_file(self, version, path):
         config = utils.get_config()
