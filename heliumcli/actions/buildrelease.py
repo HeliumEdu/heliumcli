@@ -42,6 +42,7 @@ class BuildReleaseAction:
 
             if repo.untracked_files or repo.is_dirty():
                 print(f"Untracked files in {project}: {repo.untracked_files}")
+                print(f"Diff in {project}: {repo.git.diff(None)}")
 
                 dirty_repos.append(project)
             else:
