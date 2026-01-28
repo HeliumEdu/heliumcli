@@ -66,5 +66,17 @@ class TestConfigTestCase(testcase.HeliumCLITestCase):
             "branchName": "fancy-main",
             "remoteName": "fancy-origin",
             "copyrightName": None,
-            "tagRootRelease": True
+            "tagRootRelease": True,
+            "releaseProjects": None
         })
+
+    def test_release_projects_env_var(self):
+        # GIVEN
+        self.assertFalse(os.path.exists(os.environ.get("HELIUMCLI_CONFIG_PATH")))
+        os.environ["HELIUMCLI_RELEASE_PROJECTS"] = "[\"platform\"]"
+
+        # WHEN
+        config = utils.get_config(True)
+
+        # THEN
+        self.assertEqual(config["releaseProjects"], ["platform"])

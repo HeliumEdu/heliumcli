@@ -19,6 +19,11 @@ class HeliumCLITestCase(TestCase):
             utils._config_cache = None
         os.mkdir(TEST_BUILD_DIR)
 
+        # Clean up any HELIUMCLI_ env vars from previous tests
+        for key in list(os.environ.keys()):
+            if key.startswith("HELIUMCLI_"):
+                del os.environ[key]
+
         os.environ["HELIUMCLI_CONFIG_PATH"] = os.path.join(TEST_BUILD_DIR, ".heliumcli.test.yml")
         os.environ["HELIUMCLI_PROJECTS_RELATIVE_DIR"] = os.path.join("tests", "build", "projects")
         os.environ["HELIUMCLI_ANSIBLE_RELATIVE_DIR"] = os.path.join("tests", "build", "ansible")

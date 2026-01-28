@@ -21,15 +21,26 @@ class BuildReleaseAction:
         parser.add_argument("version", help="The version number to be tagged")
         parser.add_argument("--roles", action="store", type=str, nargs="*",
                             help="Limit the project roles to be built/tagged")
+        parser.add_argument("--projects", action="store", type=str, nargs="*",
+                            help="Limit which projects to build/tag (overrides config)")
         parser.set_defaults(action=self)
 
     def run(self, args):
         config = utils.get_config()
         projects_dir = utils.get_projects_dir()
 
+        # Determine which projects to release: CLI arg > config > all projects
+        all_projects = utils.get_projects(config)
+        if args.projects:
+            release_projects = args.projects
+        elif config.get("releaseProjects"):
+            release_projects = config["releaseProjects"]
+        else:
+            release_projects = all_projects
+
         # First ensure all repos are in a clean state with all changes committed
         dirty_repos = []
-        for project in utils.get_projects(config):
+        for project in release_projects:
             if args.roles and project not in args.roles:
                 continue
 
@@ -67,7 +78,7 @@ class BuildReleaseAction:
 
         print("Committing changes and creating release tags ...")
 
-        for project in utils.get_projects(config):
+        for project in release_projects:
             print(project)
 
             if config["projectsRelativeDir"] != ".":

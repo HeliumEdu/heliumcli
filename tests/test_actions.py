@@ -213,3 +213,50 @@ class TestActionsTestCase(testcase.HeliumCLITestCase):
         # THEN
         self.mock_git_repo.return_value.create_tag.assert_not_called()
         self.mock_git_repo.return_value.git.commit.assert_not_called()
+
+    def test_build_release_with_projects_arg(self):
+        # GIVEN
+        version_file_path = commonhelper.given_python_version_file_exists()
+        versioned_file_path = commonhelper.given_project_python_versioned_file_exists("platform")
+        repo_instance = self.mock_git_repo.return_value
+        repo_instance.untracked_files = []
+        repo_instance.is_dirty = mock.MagicMock(side_effect=[False, True])
+        latest_tag = repo_instance.tags[-1]
+        latest_tag.commit = mock.MagicMock("git.commit.Commit")
+        diff1 = mock.MagicMock("git.diff.Diff")
+        diff1.b_rawpath = versioned_file_path.encode("utf-8")
+        latest_tag.commit.diff = mock.MagicMock(side_effect=[[diff1], []])
+
+        # WHEN
+        with patch.object(sys, "argv", ["cli.py", "build-release", "1.2.3", "--projects", "platform"]):
+            main()
+
+        # THEN
+        # Only 1 project should be tagged (platform only, not frontend)
+        self.assertEqual(self.mock_git_repo.return_value.create_tag.call_count, 1)
+        commonhelper.verify_versioned_file_updated(self, version_file_path, "1.2.3")
+        commonhelper.verify_versioned_file_updated(self, versioned_file_path, "1.2.3")
+
+    def test_build_release_with_release_projects_config(self):
+        # GIVEN
+        os.environ["HELIUMCLI_RELEASE_PROJECTS"] = "[\"platform\"]"
+        version_file_path = commonhelper.given_python_version_file_exists()
+        versioned_file_path = commonhelper.given_project_python_versioned_file_exists("platform")
+        repo_instance = self.mock_git_repo.return_value
+        repo_instance.untracked_files = []
+        repo_instance.is_dirty = mock.MagicMock(side_effect=[False, True])
+        latest_tag = repo_instance.tags[-1]
+        latest_tag.commit = mock.MagicMock("git.commit.Commit")
+        diff1 = mock.MagicMock("git.diff.Diff")
+        diff1.b_rawpath = versioned_file_path.encode("utf-8")
+        latest_tag.commit.diff = mock.MagicMock(side_effect=[[diff1], []])
+
+        # WHEN
+        with patch.object(sys, "argv", ["cli.py", "build-release", "1.2.3"]):
+            main()
+
+        # THEN
+        # Only 1 project should be tagged (platform only, from config)
+        self.assertEqual(self.mock_git_repo.return_value.create_tag.call_count, 1)
+        commonhelper.verify_versioned_file_updated(self, version_file_path, "1.2.3")
+        commonhelper.verify_versioned_file_updated(self, versioned_file_path, "1.2.3")

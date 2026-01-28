@@ -26,5 +26,6 @@ def get_default_settings():
         "remoteName": os.environ.get("HELIUMCLI_REMOTE_NAME", "origin"),
         "branchName": os.environ.get("HELIUMCLI_BRANCH_NAME", "main"),
         "copyrightName": os.environ.get("HELIUMCLI_COPYRIGHT_NAME", None),
-        "tagRootRelease": os.environ.get("HELIUMCLI_TAG_ROOT_RELEASE", "true") == "true"
+        "tagRootRelease": os.environ.get("HELIUMCLI_TAG_ROOT_RELEASE", "true") == "true",
+        "releaseProjects": json.loads(os.environ.get("HELIUMCLI_RELEASE_PROJECTS", "null")),
     }
